@@ -1,6 +1,5 @@
 package com.kongur.monolith.weixin.core.service.impl;
 
-import java.text.MessageFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +34,7 @@ import com.kongur.monolith.weixin.core.utils.WeixinApiHelper;
 @Service("defaultAccessTokenService")
 public class DefaultAccessTokenService implements AccessTokenService {
 
-    private final Logger             log                = Logger.getLogger(getClass());
+    private final Logger             log            = Logger.getLogger(getClass());
 
     /**
      * 主动调用微信平台接口时需要用到
@@ -48,13 +47,11 @@ public class DefaultAccessTokenService implements AccessTokenService {
     @Value("${weixin.appSecret}")
     private String                   appSecret;
 
-    @Value("${weixin.api.token.url.pattern}")
-    private String                   apiTokenUrlPattern = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
-
+    @Value("${weixin.api.token.url}")
     private String                   apiTokenUrl;
 
     @Resource(name = "defaultWeixinApiService")
-    private WeixinApiService               apiService;
+    private WeixinApiService         apiService;
 
     private ScheduledExecutorService executor;
 
@@ -62,19 +59,19 @@ public class DefaultAccessTokenService implements AccessTokenService {
      * 刷新时段，默认没5400秒(一个半小时)刷新一次
      */
     @Value("${weixin.api.token.refresh.period}")
-    private int                      refreshPeriod      = 5400;
+    private int                      refreshPeriod  = 5400;
 
     @Value("${weixin.api.token.refresh.disable}")
-    private boolean                  disableRefresh     = false;
+    private boolean                  disableRefresh = false;
 
     @PostConstruct
     public void init() {
 
         Assert.notNull(this.appId, "the appId can not be blank.");
         Assert.notNull(this.appSecret, "the appSecret can not be blank.");
-        Assert.notNull(this.apiTokenUrlPattern, "the apiTokenPattern can not be blank.");
+        Assert.notNull(this.apiTokenUrl, "the apiTokenUrl can not be blank.");
 
-        this.apiTokenUrl = MessageFormat.format(this.apiTokenUrlPattern, this.appId, this.appSecret);
+        // this.apiTokenUrl = MessageFormat.format(this.apiTokenUrlPattern, this.appId, this.appSecret);
 
         if (log.isInfoEnabled()) {
             log.info("the appId->" + this.appId);

@@ -10,5 +10,10 @@
     	<property name="service" ref="remoteSubscribeReplyService"/>
     	<property name="serviceInterface" value="com.kongur.monolith.weixin.common.service.RemoteSubscribeReplyService"/>
 	</bean>
+	
+	<bean id="userService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
+    	<property name="service" ref="userService"/>
+    	<property name="serviceInterface" value="com.kongur.monolith.weixin.common.service.RemoteUserService"/>
+	</bean>
    
 </beans>

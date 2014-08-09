@@ -148,6 +148,7 @@
 			<map>
                 <entry key="/remoting/hessian/menuService.htm" value-ref="menuService-hessian" />
                 <entry key="/remoting/hessian/subscribeReplyService.htm" value-ref="subscribeReplyService-hessian" />
+                <entry key="/remoting/hessian/userService.htm" value-ref="userService-hessian" />
 			</map>
 		</property>
 	</bean>
