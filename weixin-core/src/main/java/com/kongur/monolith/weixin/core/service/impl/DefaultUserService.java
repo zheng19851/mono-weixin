@@ -60,19 +60,19 @@ public class DefaultUserService implements RemoteUserService {
             return result;
         }
 
-        // Ìæ»»³Écode
-        String urlPattern = this.getOauth2AccessTokenUrl;
-        urlPattern = MessageFormat.format(urlPattern, code);
+        // Ìæ»»code²ÎÊý
+        String apiUrl = this.getOauth2AccessTokenUrl;
+        apiUrl = MessageFormat.format(apiUrl, code);
 
-        Result<JSONObject> apiResult = weixinApiService.doGet(urlPattern, false);
+        Result<JSONObject> apiResult = weixinApiService.doGet(apiUrl, false);
 
         if (!apiResult.isSuccess()) {
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
 
-        String accessToken = apiResult.getResult().getString("openid");
-        result.setResult(accessToken);
+        String openId = apiResult.getResult().getString("openid");
+        result.setResult(openId);
 
         result.setSuccess(true);
         return result;
