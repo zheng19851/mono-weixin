@@ -9,8 +9,18 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<log.path>d:/temp/logs</log.path>
 		<system.devMode>true</system.devMode>
+		<log.level>debug</log.level>
+		<log.path>d:/temp/logs</log.path>
+		<app.server.host>localhost</app.server.host>
+		<app.server.port>8080</app.server.port>
+		
+		<weixin.appId>wxe58afcd99f7a997e</weixin.appId>
+		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
+		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
+		
+		<weixin.menus.conf>D:/conf/weixin/menus.xml</weixin.menus.conf>
+		<weixin.subscribe.reply.conf>D:/conf/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf>
 	</properties>
 
 	<build>
