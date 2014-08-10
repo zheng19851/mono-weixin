@@ -1,1 +1,1 @@
-操作成功!~
+操作成功!~#if($message)${message}#end

@@ -31,7 +31,7 @@ public class DefaultUserService implements RemoteUserService {
     /**
      * 获取用户oauth2.0授权时AccessToken的url
      */
-    @Value("weixin.get_oauth2_access_token.url")
+    @Value("${weixin.get_oauth2_access_token.url}")
     private String           getOauth2AccessTokenUrl;
 
     @PostConstruct
@@ -53,6 +53,10 @@ public class DefaultUserService implements RemoteUserService {
 
     @Override
     public Result<String> getOpenIdByCode(String code) {
+        if (log.isDebugEnabled()) {
+            log.debug("invoke getOpenIdByCode method, code=" + code);
+        }
+
         Result<String> result = new Result<String>();
 
         if (StringUtil.isBlank(code)) {
@@ -74,6 +78,9 @@ public class DefaultUserService implements RemoteUserService {
         String openId = apiResult.getResult().getString("openid");
         result.setResult(openId);
 
+        if (log.isDebugEnabled()) {
+            log.debug("invoke getOpenIdByCode method successfully, openId=" + openId);
+        }
         result.setSuccess(true);
         return result;
     }
