@@ -13,11 +13,10 @@ public interface RemoteUserService {
     /**
      * OAuth2.0 获取用户基本信息
      * 
-     * @param openId 微信用户id
-     * @param accessToken OAuth2.0中的accessToken
+     * @param code OAuth2.0授权时的CODE
      * @return
      */
-    Result<User> getOAuth2UserById(String openId, String accessToken);
+    Result<User> getUserByOAuth2Code(String code);
 
     /**
      * 网页授权获取用户id
@@ -25,6 +24,6 @@ public interface RemoteUserService {
      * @param code OAuth2.0授权时的CODE
      * @return
      */
-    Result<String> getOpenIdByCode(String code);
+    Result<String> getOpenIdByOAuth2Code(String code);
 
 }

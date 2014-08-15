@@ -29,7 +29,7 @@ public class OAuth2TestAction {
         message.append("code=").append(code);
 
         if (StringUtil.isNotBlank(code)) {
-            Result<String> result = userSerivce.getOpenIdByCode(code);
+            Result<String> result = userSerivce.getOpenIdByOAuth2Code(code);
             if (result.isSuccess()) {
                 message.append(", openidFromWeixin=").append(result.getResult());
             } else {

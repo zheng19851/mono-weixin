@@ -102,6 +102,28 @@ public class MenuDO extends DomainBase {
      */
     private int               locked           = 0;
 
+    /**
+     * 网页授权类型, snsapi_base 或 snsapi_userinfo
+     */
+    private String            userOAuthType;
+
+    /**
+     * 当选择菜单类型为链接时，是否需要对url进行oauth2.0授权
+     * 
+     * @return
+     */
+    public boolean isNeedUserOAuth() {
+        return StringUtil.isNotBlank(this.userOAuthType);
+    }
+
+    public String getUserOAuthType() {
+        return userOAuthType;
+    }
+
+    public void setUserOAuthType(String userOAuthType) {
+        this.userOAuthType = userOAuthType;
+    }
+
     public boolean hasErrors() {
         return this.reply.hasErrors();
     }

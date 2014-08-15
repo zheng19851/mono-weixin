@@ -236,7 +236,7 @@ public class XmlMenuManager implements MenuManager {
         xstream.addImplicitCollection(MenusDO.class, "menus");
 
         // String conf = "D:/git_repo/monolith/monolith-im/src/main/resources/menus.xml";
-        String conf = "D:/doc/skyjoo/forall/trunk/weixin/testsrc/menus.xml";
+        String conf = "D:/temp/weixin/menus.xml";
 
         File f = new File(conf);
 
