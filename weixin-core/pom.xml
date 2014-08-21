@@ -11,16 +11,17 @@
 	<properties>
 		<system.devMode>true</system.devMode>
 		<log.level>debug</log.level>
-		<log.path>d:/temp/logs</log.path>
-		<app.server.host>localhost</app.server.host>
+		<log.path>d:/temp/logs/weixin-core</log.path><!--  --><!-- /home/weixin/work/logs/weixin-core -->
+		<app.server.host>localhost</app.server.host><!-- 183.129.158.42 -->
 		<app.server.port>8080</app.server.port>
 		
 		<weixin.appId>wxe58afcd99f7a997e</weixin.appId>
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
 		
-		<weixin.menus.conf>D:/conf/weixin/menus.xml</weixin.menus.conf>
-		<weixin.subscribe.reply.conf>D:/conf/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf>
+		<weixin.menus.conf>D:/temp/weixin/menus.xml</weixin.menus.conf><!--  --><!-- /home/weixin/work/conf/menus.xml -->
+		<weixin.subscribe.reply.conf>D:/temp/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf><!--  --><!-- /home/weixin/work/conf/subscribe_reply.xml -->
+		<weixin.reply.error.conf>D:/temp/weixin/default_reply.xml</weixin.reply.error.conf><!-- /home/weixin/work/conf/default_reply.xml -->
 	</properties>
 
 	<build>

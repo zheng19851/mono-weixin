@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.core.domain.message.Message;
-import com.kongur.monolith.weixin.core.service.SignatureValidator;
-import com.kongur.monolith.weixin.core.service.message.MessageBuilder;
-import com.kongur.monolith.weixin.core.service.message.MessageProcessService;
-import com.kongur.monolith.weixin.core.service.message.MessageProcessServiceResolver;
+import com.kongur.monolith.weixin.core.base.service.SignatureValidator;
+import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.message.service.MessageBuilder;
+import com.kongur.monolith.weixin.core.message.service.MessageProcessService;
+import com.kongur.monolith.weixin.core.message.service.MessageProcessServiceResolver;
 
 /**
  * 微信消息接收服务

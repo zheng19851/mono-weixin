@@ -6,8 +6,10 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<context:component-scan base-package="com.kongur.monolith.weixin.core.service" />
-	<context:component-scan base-package="com.kongur.monolith.weixin.core.manager" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.base.service,com.kongur.monolith.weixin.core.event.service" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.custom.service,com.kongur.monolith.weixin.core.menu.service" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.service,com.kongur.monolith.weixin.core.user.service" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.support.service,com.kongur.monolith.weixin.core.message.service" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -30,7 +32,7 @@
 	</bean>
 	
 	
-	<bean id="defaultMessageProcessServiceResolver" class="com.kongur.monolith.weixin.core.service.message.impl.DefaultMessageProcessServiceResolver" init-method="init">
+	<bean id="defaultMessageProcessServiceResolver" class="com.kongur.monolith.weixin.core.message.service.DefaultMessageProcessServiceResolver" init-method="init">
 	    <property name="messageProcessServices">
 	        <list>
 	        	<ref bean="menuClickEventMessageProcessService"/>
@@ -45,29 +47,29 @@
 	</bean>
 	
 	
-	<bean id="textMessageProcessService" class="com.kongur.monolith.weixin.core.service.message.normal.TextMessageProcessService">
+	<bean id="textMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.normal.TextMessageProcessService">
 		<property name="order" value="1"></property>
 	</bean>
 	
-	<bean id="scanQRCodeScanMessageProcessService" class="com.kongur.monolith.weixin.core.service.message.event.ScanQRCodeScanMessageProcessService">
+	<bean id="scanQRCodeScanMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.ScanQRCodeScanMessageProcessService">
 		<property name="order" value="21"></property>
 	</bean>
 	
 	<!-- 扫描订阅配置在普通订阅服务之前  -->
-	<bean id="scanQRCodeSubscribeMessageProcessService" class="com.kongur.monolith.weixin.core.service.message.event.ScanQRCodeSubscribeMessageProcessService">
+	<bean id="scanQRCodeSubscribeMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.ScanQRCodeSubscribeMessageProcessService">
 		<property name="order" value="23"></property>
 	</bean>
 	
 	<!-- 普通订阅 -->
-	<bean id="subscribeMessageProcessService" class="com.kongur.monolith.weixin.core.service.message.event.SubscribeMessageProcessService">
+	<bean id="subscribeMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.SubscribeMessageProcessService">
 		<property name="order" value="25"></property>
 	</bean>
 	
-	<bean id="menuClickEventMessageProcessService" class="com.kongur.monolith.weixin.core.service.message.event.MenuClickEventMessageProcessService">
+	<bean id="menuClickEventMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.MenuClickEventMessageProcessService">
 		<property name="order" value="27"></property>
 	</bean>
 	
-	<bean id="discardMessageProcessService" class="com.kongur.monolith.weixin.core.service.message.impl.DiscardMessageProcessService">
+	<bean id="discardMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.DiscardMessageProcessService">
 		<property name="order" value="999999"></property><!-- 最低优先级 -->
 	</bean>
 	
@@ -94,23 +96,23 @@
 	 -->
 	 
 	 <!-- 创建文本被动回复消息 -->
-	 <bean id="textReplyMessageBuilder" class="com.kongur.monolith.weixin.core.service.reply.unactive.TextReplyMessageBuilder">
+	 <bean id="textReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.TextReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/text.vm"></property>
 	 </bean>
 	 
-	  <bean id="newsReplyMessageBuilder" class="com.kongur.monolith.weixin.core.service.reply.unactive.NewsReplyMessageBuilder">
+	  <bean id="newsReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.NewsReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/news.vm"></property>
 	 </bean>
 	 
 	 
-	 <bean id="imageResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.service.reply.unactive.ImageResourceReplyMessageBuilder">
+	 <bean id="imageResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.ImageResourceReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/image.vm"></property>
 	 </bean>
 	 
-	 <bean id="voiceResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.service.reply.unactive.VoiceResourceReplyMessageBuilder">
+	 <bean id="voiceResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.VoiceResourceReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/voice.vm"></property>
 	 </bean>

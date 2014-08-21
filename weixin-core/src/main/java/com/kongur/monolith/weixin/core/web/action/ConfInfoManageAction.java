@@ -8,11 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.core.domain.MenusDO;
-import com.kongur.monolith.weixin.core.domain.SubscribeReplyDO;
-import com.kongur.monolith.weixin.core.manager.MenuManager;
-import com.kongur.monolith.weixin.core.manager.SubscribeReplyManager;
-import com.kongur.monolith.weixin.core.service.AccessTokenService;
+import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
+import com.kongur.monolith.weixin.core.event.domain.SubscribeReplyDO;
+import com.kongur.monolith.weixin.core.event.service.SubscribeReplyManager;
+import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
+import com.kongur.monolith.weixin.core.menu.service.MenuManager;
 
 /**
  * 管理当前微信平台公众帐号信息
