@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.common.domain.dto.User;
-import com.kongur.monolith.weixin.common.service.RemoteUserService;
+import com.kongur.monolith.weixin.client.domain.dto.User;
+import com.kongur.monolith.weixin.client.service.RemoteUserService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 
 /**

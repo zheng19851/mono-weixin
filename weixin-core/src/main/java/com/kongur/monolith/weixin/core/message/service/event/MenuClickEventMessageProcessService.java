@@ -2,12 +2,12 @@ package com.kongur.monolith.weixin.core.message.service.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
-import com.kongur.monolith.weixin.core.event.domain.ReplyDO;
 import com.kongur.monolith.weixin.core.menu.service.MenuManager;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.message.domain.event.ClickEventMessage;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 
 /**
  * 菜单单击事件处理服务

@@ -3,9 +3,9 @@ package com.kongur.monolith.weixin.core.reply.service.unactive;
 import java.util.Map;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.common.domain.enums.EnumReplyType;
-import com.kongur.monolith.weixin.core.event.domain.ReplyDO;
+import com.kongur.monolith.weixin.client.domain.enums.EnumReplyType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 
 /**
  * 图文消息回复内容组装器

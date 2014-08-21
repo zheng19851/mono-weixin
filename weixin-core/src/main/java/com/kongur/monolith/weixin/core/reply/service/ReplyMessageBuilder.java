@@ -2,8 +2,8 @@ package com.kongur.monolith.weixin.core.reply.service;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.common.Ordered;
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
  * 创建回复消息，也可以创建主动发送的消息

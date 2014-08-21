@@ -10,6 +10,7 @@
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.custom.service,com.kongur.monolith.weixin.core.menu.service" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.service,com.kongur.monolith.weixin.core.user.service" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.support.service,com.kongur.monolith.weixin.core.message.service" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.manager" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

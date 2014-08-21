@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.common.Ordered;
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
  * @author zhengwei

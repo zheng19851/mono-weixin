@@ -8,8 +8,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
  * 用Velocity实现的回复消息创建器

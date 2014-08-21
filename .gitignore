@@ -215,4 +215,4 @@ pip-log.txt
 .mr.developer.cfg
 *.class
 weixin-core/target
-weixin-common/target
+weixin-client/target

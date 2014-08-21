@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.kongur.monolith.weixin.common.OrderComparator;
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
  * 默认的 回复消息处理服务 查找服务

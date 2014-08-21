@@ -2,9 +2,9 @@ package com.kongur.monolith.weixin.core.reply.service.unactive;
 
 import java.util.Map;
 
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
-import com.kongur.monolith.weixin.common.domain.enums.EnumReplyType;
+import com.kongur.monolith.weixin.client.domain.enums.EnumReplyType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
  * 语音消息类型

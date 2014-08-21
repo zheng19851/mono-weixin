@@ -2,12 +2,12 @@ package com.kongur.monolith.weixin.core.message.service.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
-import com.kongur.monolith.weixin.core.event.domain.SubscribeReplyDO;
-import com.kongur.monolith.weixin.core.event.service.SubscribeReplyManager;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.message.domain.event.ScanQRCodeEventMessage;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
+import com.kongur.monolith.weixin.core.reply.domain.SubscribeReplyDO;
+import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
 /**
  * 扫描带参数二维码事件处理服务，用户尚未关注

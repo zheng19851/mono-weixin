@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.core.event.domain.ReplyDO;
 import com.kongur.monolith.weixin.core.menu.domain.ItemDO;
 import com.kongur.monolith.weixin.core.menu.domain.MenuDO;
 import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 import com.thoughtworks.xstream.XStream;
 
 /**

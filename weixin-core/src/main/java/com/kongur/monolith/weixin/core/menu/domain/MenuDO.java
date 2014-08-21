@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.kongur.monolith.common.DomainBase;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.common.domain.enums.EnumMenuType;
-import com.kongur.monolith.weixin.core.event.domain.ReplyDO;
+import com.kongur.monolith.weixin.client.domain.enums.EnumMenuType;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 
 /**
  * ≤Àµ•∂‘œÛ

@@ -49,7 +49,7 @@
 
 		<dependency>
 			<groupId>com.kongur.monolith.weixin</groupId>
-			<artifactId>weixin-common</artifactId>
+			<artifactId>weixin-client</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 

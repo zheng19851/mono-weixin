@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
-import com.kongur.monolith.weixin.core.event.domain.SubscribeReplyDO;
-import com.kongur.monolith.weixin.core.event.service.SubscribeReplyManager;
 import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
 import com.kongur.monolith.weixin.core.menu.service.MenuManager;
+import com.kongur.monolith.weixin.core.reply.domain.SubscribeReplyDO;
+import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
 /**
  * 管理当前微信平台公众帐号信息

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.common.domain.dto.custom.CustomMessage;
-import com.kongur.monolith.weixin.common.service.RemoteCustomMessageSendService;
+import com.kongur.monolith.weixin.client.domain.dto.custom.CustomMessage;
+import com.kongur.monolith.weixin.client.service.RemoteCustomMessageSendService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 
 /**

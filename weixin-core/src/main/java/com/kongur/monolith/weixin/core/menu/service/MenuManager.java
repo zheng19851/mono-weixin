@@ -1,8 +1,8 @@
 package com.kongur.monolith.weixin.core.menu.service;
 
-import com.kongur.monolith.weixin.core.event.domain.ReplyDO;
 import com.kongur.monolith.weixin.core.menu.domain.MenuDO;
 import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 
 /**
  * 菜单管理服务

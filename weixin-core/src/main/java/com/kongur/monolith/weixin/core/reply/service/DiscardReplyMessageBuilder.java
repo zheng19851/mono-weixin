@@ -3,8 +3,8 @@ package com.kongur.monolith.weixin.core.reply.service;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
  * 不回复任何消息

@@ -1,6 +1,6 @@
 package com.kongur.monolith.weixin.core.reply.service.active;
 
-import com.kongur.monolith.weixin.common.domain.dto.Reply;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 import com.kongur.monolith.weixin.core.reply.service.VelocityReplyMessageBuilder;
 
 /**
@@ -9,6 +9,7 @@ import com.kongur.monolith.weixin.core.reply.service.VelocityReplyMessageBuilder
  * @author zhengwei
  * @date 2014Äê2ÔÂ21ÈÕ
  */
+@Deprecated
 public abstract class ActiveVelocityReplyMessageBuilder<R extends Reply> extends VelocityReplyMessageBuilder<R> {
 
     @Override

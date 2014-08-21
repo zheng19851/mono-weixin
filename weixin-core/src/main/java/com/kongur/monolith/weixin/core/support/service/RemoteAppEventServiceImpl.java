@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.common.domain.enums.EnumAppEventType;
-import com.kongur.monolith.weixin.common.service.RemoteAppEventService;
-import com.kongur.monolith.weixin.core.event.service.ErrorReplyManager;
-import com.kongur.monolith.weixin.core.event.service.SubscribeReplyManager;
+import com.kongur.monolith.weixin.client.domain.enums.EnumAppEventType;
+import com.kongur.monolith.weixin.client.service.RemoteAppEventService;
+import com.kongur.monolith.weixin.core.reply.manager.ErrorReplyManager;
+import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
 /**
  * @author zhengwei
