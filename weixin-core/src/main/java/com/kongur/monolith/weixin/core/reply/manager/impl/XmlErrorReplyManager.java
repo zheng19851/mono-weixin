@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.client.service.RemoteAppEventService;
+import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.reply.domain.ErrorReplyDO;
 import com.kongur.monolith.weixin.core.reply.manager.ErrorReplyManager;
 import com.thoughtworks.xstream.XStream;

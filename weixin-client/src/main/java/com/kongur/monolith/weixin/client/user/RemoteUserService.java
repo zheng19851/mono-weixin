@@ -1,7 +1,6 @@
-package com.kongur.monolith.weixin.client.service;
+package com.kongur.monolith.weixin.client.user;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.domain.dto.User;
 
 /**
  * 获取微信用户信息服务

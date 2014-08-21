@@ -11,7 +11,7 @@ import org.dom4j.DocumentException;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.common.utils.XmlTools;
+import com.kongur.monolith.weixin.core.common.utils.XmlTools;
 import com.kongur.monolith.weixin.core.message.domain.DefaultMessage;
 import com.kongur.monolith.weixin.core.message.domain.DeveloperValidateMessage;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;

@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.client.service;
+package com.kongur.monolith.weixin.client.support;
 
 import com.kongur.monolith.common.result.Result;
 

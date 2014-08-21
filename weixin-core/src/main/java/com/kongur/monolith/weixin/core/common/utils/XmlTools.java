@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.common.utils;
+package com.kongur.monolith.weixin.core.common.utils;
 
 import java.io.StringReader;
 import java.util.ArrayList;

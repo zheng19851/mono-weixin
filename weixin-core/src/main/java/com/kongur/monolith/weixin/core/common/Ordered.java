@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.common;
+package com.kongur.monolith.weixin.core.common;
 
 /**
  * 需要被排序的对象可以实现此接口

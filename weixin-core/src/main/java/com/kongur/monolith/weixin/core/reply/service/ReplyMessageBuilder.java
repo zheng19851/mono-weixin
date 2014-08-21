@@ -1,7 +1,7 @@
 package com.kongur.monolith.weixin.core.reply.service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.common.Ordered;
+import com.kongur.monolith.weixin.core.common.Ordered;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
 

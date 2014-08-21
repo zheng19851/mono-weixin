@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.client.domain.enums;
+package com.kongur.monolith.weixin.client.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,14 +11,14 @@ import java.util.Map;
  * @author zhengwei
  * @date 2014年2月21日
  */
-public enum EnumReplyType {
+public enum EnumMessageType {
 
     TEXT("text", "文本消息"), IMAGE("image", "图片消息"), VOICE("voice", "语音消息"), VEDIO("vedio", "视频消息"),
     MUSIC("music", "音乐消息"), NEWS("news", "图文消息")
 
     ;
 
-    private EnumReplyType(String value, String desc) {
+    private EnumMessageType(String value, String desc) {
         this.value = value;
         this.desc = desc;
     }
@@ -26,9 +26,9 @@ public enum EnumReplyType {
     private String                                  value;
     private String                                  desc;
 
-    private static final Map<String, EnumReplyType> CACHE        = new HashMap<String, EnumReplyType>(values().length);
+    private static final Map<String, EnumMessageType> CACHE        = new HashMap<String, EnumMessageType>(values().length);
     // 目前可用的类型
-    private static final List<EnumReplyType>        USABLE_TYPES = new ArrayList<EnumReplyType>(values().length);
+    private static final List<EnumMessageType>        USABLE_TYPES = new ArrayList<EnumMessageType>(values().length);
 
     static {
         USABLE_TYPES.add(TEXT);
@@ -36,7 +36,7 @@ public enum EnumReplyType {
         // USABLE_TYPES.add(VOICE);
         USABLE_TYPES.add(NEWS); // 图文
 
-        for (EnumReplyType entry : values()) {
+        for (EnumMessageType entry : values()) {
             CACHE.put(entry.getValue(), entry);
         }
 
@@ -83,17 +83,17 @@ public enum EnumReplyType {
      * 
      * @return
      */
-    public static List<EnumReplyType> getUsableTypes() {
+    public static List<EnumMessageType> getUsableTypes() {
         return USABLE_TYPES;
     }
 
     public static String getDescByValue(String type) {
-        EnumReplyType reply = getByValue(type);
+        EnumMessageType reply = getByValue(type);
 
         return reply != null ? reply.getDesc() : null;
     }
 
-    private static EnumReplyType getByValue(String type) {
+    private static EnumMessageType getByValue(String type) {
         return CACHE.get(type);
     }
 }

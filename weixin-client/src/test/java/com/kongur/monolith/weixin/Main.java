@@ -1,11 +1,11 @@
 package com.kongur.monolith.weixin;
 
-import com.kongur.monolith.weixin.client.domain.enums.EnumReplyType;
+import com.kongur.monolith.weixin.client.common.EnumMessageType;
 
 
 public class Main {
     public static void main(String[] args) {
         
-        System.out.println(EnumReplyType.TEXT.getDesc());
+        System.out.println(EnumMessageType.TEXT.getDesc());
     }
 }

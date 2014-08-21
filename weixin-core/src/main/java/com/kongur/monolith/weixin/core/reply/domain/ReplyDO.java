@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.kongur.monolith.common.DomainBase;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.client.domain.enums.EnumReplyType;
+import com.kongur.monolith.weixin.client.common.EnumMessageType;
 import com.kongur.monolith.weixin.core.menu.domain.ItemDO;
 
 /**
@@ -150,27 +150,27 @@ public class ReplyDO extends DomainBase implements Reply {
     }
 
     public boolean isText() {
-        return EnumReplyType.isText(this.type);
+        return EnumMessageType.isText(this.type);
     }
 
     public boolean isImage() {
-        return EnumReplyType.isImage(this.type);
+        return EnumMessageType.isImage(this.type);
     }
 
     public boolean isVoice() {
-        return EnumReplyType.isVoice(this.type);
+        return EnumMessageType.isVoice(this.type);
     }
 
     public boolean isVedio() {
-        return EnumReplyType.isVedio(this.type);
+        return EnumMessageType.isVedio(this.type);
     }
 
     public boolean isMusic() {
-        return EnumReplyType.isMusic(this.type);
+        return EnumMessageType.isMusic(this.type);
     }
 
     public boolean isNews() {
-        return EnumReplyType.isNews(this.type);
+        return EnumMessageType.isNews(this.type);
     }
 
     /**
@@ -183,7 +183,7 @@ public class ReplyDO extends DomainBase implements Reply {
     }
 
     public String getTypeDesc() {
-        return EnumReplyType.getDescByValue(this.type);
+        return EnumMessageType.getDescByValue(this.type);
     }
 
     public boolean hasErrors() {

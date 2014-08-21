@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.common.OrderComparator;
+import com.kongur.monolith.weixin.core.common.OrderComparator;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**

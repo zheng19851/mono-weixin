@@ -1,7 +1,7 @@
-package com.kongur.monolith.weixin.client.service;
+package com.kongur.monolith.weixin.client.custom;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.domain.dto.custom.CustomMessage;
+import com.kongur.monolith.weixin.client.custom.message.CustomMessage;
 
 /**
  * 向订阅的用户发送消息

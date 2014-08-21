@@ -3,17 +3,17 @@
 <beans>
 	<bean id="menuService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
     	<property name="service" ref="remoteMenuService"/>
-    	<property name="serviceInterface" value="com.kongur.monolith.weixin.common.service.RemoteMenuService"/>
+    	<property name="serviceInterface" value="com.kongur.monolith.weixin.client.menu.RemoteMenuService"/>
 	</bean>
    
   <bean id="appEventService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
     	<property name="service" ref="remoteAppEventService"/>
-    	<property name="serviceInterface" value="com.kongur.monolith.weixin.common.service.RemoteAppEventService"/>
+    	<property name="serviceInterface" value="com.kongur.monolith.weixin.client.support.RemoteAppEventService"/>
 	</bean>
 	
 	<bean id="userService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
     	<property name="service" ref="userService"/>
-    	<property name="serviceInterface" value="com.kongur.monolith.weixin.common.service.RemoteUserService"/>
+    	<property name="serviceInterface" value="com.kongur.monolith.weixin.client.user.RemoteUserService"/>
 	</bean>
    
 </beans>

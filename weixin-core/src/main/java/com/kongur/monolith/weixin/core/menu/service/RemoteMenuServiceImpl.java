@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.domain.dto.Menu;
-import com.kongur.monolith.weixin.client.service.RemoteMenuService;
+import com.kongur.monolith.weixin.client.menu.Menu;
+import com.kongur.monolith.weixin.client.menu.RemoteMenuService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 
 /**

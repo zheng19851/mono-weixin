@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.common.OrderComparator;
+import com.kongur.monolith.weixin.core.common.OrderComparator;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 
 /**

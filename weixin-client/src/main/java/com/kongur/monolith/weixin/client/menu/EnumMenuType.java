@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.client.domain.enums;
+package com.kongur.monolith.weixin.client.menu;
 
 /**
  * ≤Àµ•¿‡–Õ

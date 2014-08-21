@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.common;
+package com.kongur.monolith.weixin.core.common;
 
 import java.util.Arrays;
 import java.util.Collections;

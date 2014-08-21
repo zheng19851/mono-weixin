@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.client.domain.dto.custom;
+package com.kongur.monolith.weixin.client.custom.message;
 
 /**
  * 文本消息

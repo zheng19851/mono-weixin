@@ -2,7 +2,7 @@ package com.kongur.monolith.weixin.core.reply.service.unactive;
 
 import java.util.Map;
 
-import com.kongur.monolith.weixin.client.domain.enums.EnumReplyType;
+import com.kongur.monolith.weixin.client.common.EnumMessageType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
@@ -16,7 +16,7 @@ public class VoiceResourceReplyMessageBuilder extends UnactiveResourceReplyMessa
 
     @Override
     public boolean supports(Reply reply) {
-        return super.supports(reply) && EnumReplyType.isVoice(reply.getType());
+        return super.supports(reply) && EnumMessageType.isVoice(reply.getType());
     }
 
     @Override

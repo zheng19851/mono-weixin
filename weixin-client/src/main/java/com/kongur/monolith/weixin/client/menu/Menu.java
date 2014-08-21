@@ -1,10 +1,9 @@
-package com.kongur.monolith.weixin.client.domain.dto;
+package com.kongur.monolith.weixin.client.menu;
 
 import java.util.List;
 
 import com.kongur.monolith.common.DomainBase;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.client.domain.enums.EnumMenuType;
 
 /**
  * 菜单对象，内部接口调用用到

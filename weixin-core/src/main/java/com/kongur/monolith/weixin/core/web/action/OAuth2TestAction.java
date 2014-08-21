@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eyeieye.skyjoo.util.StringUtil;
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.service.RemoteUserService;
+import com.kongur.monolith.weixin.client.user.RemoteUserService;
 
 /**
  * ≤‚ ‘Õ¯“≥ ⁄»®

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.UUIDGenerator;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.common.LRUCache;
+import com.kongur.monolith.weixin.core.common.LRUCache;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.message.domain.WrappedMessage;
 

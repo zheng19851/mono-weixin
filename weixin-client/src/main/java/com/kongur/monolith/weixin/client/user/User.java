@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.client.domain.dto;
+package com.kongur.monolith.weixin.client.user;
 
 import com.kongur.monolith.common.DomainBase;
 

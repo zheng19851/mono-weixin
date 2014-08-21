@@ -1,9 +1,8 @@
-package com.kongur.monolith.weixin.client.service;
+package com.kongur.monolith.weixin.client.menu;
 
 import java.util.List;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.domain.dto.Menu;
 
 /**
  * 菜单服务，给内部系统调用

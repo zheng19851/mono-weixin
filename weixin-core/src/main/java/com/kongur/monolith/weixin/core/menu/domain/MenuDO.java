@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.kongur.monolith.common.DomainBase;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.client.domain.enums.EnumMenuType;
+import com.kongur.monolith.weixin.client.menu.EnumMenuType;
 import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 
 /**
