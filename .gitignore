@@ -216,3 +216,4 @@ pip-log.txt
 *.class
 weixin-core/target
 weixin-client/target
+weixin-pay-demo/target
