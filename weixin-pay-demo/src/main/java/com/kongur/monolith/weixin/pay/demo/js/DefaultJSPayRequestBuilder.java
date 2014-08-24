@@ -6,10 +6,11 @@ import java.util.TreeMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
+import com.kongur.monolith.weixin.pay.demo.common.DefaultWeixinConfigService;
 import com.kongur.monolith.weixin.pay.demo.common.DefaultWeixinPaymentHelper;
 import com.kongur.monolith.weixin.pay.demo.common.TradeDO;
+import com.kongur.monolith.weixin.pay.demo.common.WeixinConfigService;
 import com.kongur.monolith.weixin.pay.demo.common.WeixinPaymentHelper;
 
 /**
@@ -18,25 +19,16 @@ import com.kongur.monolith.weixin.pay.demo.common.WeixinPaymentHelper;
 @Service("jsPayRequestBuilder")
 public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
 
-    private final Logger        log     = Logger.getLogger(getClass());
+    private final Logger        log = Logger.getLogger(getClass());
 
-    private final String        charset = "GBK";
-
-    private String              appId;
-
-    /**
-     * 付款密钥
-     */
-    private String              paySignkey;
+    @Autowired
+    private WeixinConfigService weixinConfigService;
 
     @Autowired
     private WeixinPaymentHelper weixinPaymentHelper;
 
     public void init() {
-        Assert.notNull(this.appId, "请设置appId");
-        Assert.notNull(this.paySignkey, "请设置paySignkey");
 
-        Assert.notNull(this.charset, "请设置charset");
     }
 
     public JSPayRequestDTO buildPayRequest(TradeDO trade) {
@@ -47,9 +39,9 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
         // 校验数据 trade
 
         if (isBlank(trade.getInputCharset())) {
-            trade.setInputCharset(this.charset);
+            trade.setInputCharset(weixinConfigService.getCharset());
         }
-        String appId = this.appId;
+        String appId = weixinConfigService.getAppId();
         String nonceStr = weixinPaymentHelper.buildNonceStr(trade.getInputCharset());
         System.out.println("nonceStr=" + nonceStr);
         String timestamp = String.valueOf(System.currentTimeMillis());
@@ -86,15 +78,31 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
 
         // 设置支付参数
         SortedMap<String, String> signParams = new TreeMap<String, String>();
-        signParams.put("appid", this.appId);
+        signParams.put("appid", weixinConfigService.getAppId());
         signParams.put("nonceStr", nonceStr);
         signParams.put("package", packageStr);
         signParams.put("timestamp", timestamp);
-        signParams.put("appkey", this.paySignkey);
+        signParams.put("appkey", weixinConfigService.getPaySignkey());
 
         String sign = weixinPaymentHelper.buildPaySign(signParams);
 
         return sign;
+    }
+
+    public WeixinConfigService getWeixinConfigService() {
+        return weixinConfigService;
+    }
+
+    public void setWeixinConfigService(WeixinConfigService weixinConfigService) {
+        this.weixinConfigService = weixinConfigService;
+    }
+
+    public WeixinPaymentHelper getWeixinPaymentHelper() {
+        return weixinPaymentHelper;
+    }
+
+    public void setWeixinPaymentHelper(WeixinPaymentHelper weixinPaymentHelper) {
+        this.weixinPaymentHelper = weixinPaymentHelper;
     }
 
     public static void main(String[] args) {
@@ -105,15 +113,20 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
         trade.setTotalFee(1L);
         trade.setUserIp("196.168.1.1");
 
+        DefaultWeixinConfigService configService = new DefaultWeixinConfigService();
+
+        configService.setPaternerKey("8934e7d15453e97507ef794cf7b0519d");
+        configService.setPartnerId("1900000109");
+        configService.setNotifyUrl("http://weixin.qq.com");
+
         DefaultJSPayRequestBuilder builder = new DefaultJSPayRequestBuilder();
+        builder.setWeixinConfigService(configService);
 
         DefaultWeixinPaymentHelper helper = new DefaultWeixinPaymentHelper();
-        helper.setPaternerKey("8934e7d15453e97507ef794cf7b0519d");
+        helper.setWeixinConfigService(configService);
 
         builder.weixinPaymentHelper = helper;
 
-        helper.setPartnerId("1900000109");
-        helper.setNotifyUrl("http://weixin.qq.com");
         // String packageStr = builder.genPackage(trade);
         // builder.genPaySign(nonceStr, timestamp, packageStr);
         builder.buildPayRequest(trade);

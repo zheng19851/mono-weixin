@@ -1,7 +1,7 @@
 package com.kongur.monolith.weixin.pay.demo.local;
 
 /**
- * 原生
+ * 原生支付url生成器
  * 
  * @author zhengwei
  *

@@ -18,13 +18,30 @@ public interface WeixinPaymentHelper {
     String buildPackage(TradeDO trade);
 
     /**
+     * 生成package签名，默认md5加密
+     * 
+     * @param packageParams 参数
+     * @return
+     */
+    String buildPackageSign(SortedMap<String, String> packageParams);
+
+    /**
+     * 生成package签名
+     * 
+     * @param packageParams 参数
+     * @param signType 签名方式
+     * @return
+     */
+    String buildPackageSign(SortedMap<String, String> packageParams, EnumSignType signType);
+
+    /**
      * 生成url参数形式的字符串(key=value&key2=value2)
      * 
      * @param paramMap 参数
-     * @param charset 字符集
+     * @param charset 字符集，需要对value进行url encode，那么设置
      * @return
      */
-    String buildUrlParamStr(SortedMap<String, String> paramMap, String charset);
+    String buildUrlParamsStr(SortedMap<String, String> paramsMap, String charset);
 
     /**
      * 生成随机字符串
@@ -33,12 +50,21 @@ public interface WeixinPaymentHelper {
      * @return
      */
     String buildNonceStr(String charset);
-    
+
     /**
-     * 生成付款签名
+     * 生成付款签名，默认sha1签名方式
      * 
      * @param paramMap
      * @return
      */
     String buildPaySign(SortedMap<String, String> paramMap);
+
+    /**
+     * 生成付款签名
+     * 
+     * @param paramMap
+     * @param signType 签名方式
+     * @return
+     */
+    String buildPaySign(SortedMap<String, String> paramMap, String signType);
 }

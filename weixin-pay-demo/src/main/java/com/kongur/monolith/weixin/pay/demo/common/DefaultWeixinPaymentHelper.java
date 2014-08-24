@@ -8,12 +8,10 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.wxap.util.MD5Util;
 
@@ -25,30 +23,10 @@ import com.wxap.util.MD5Util;
 @Service("weixinPaymentHelper")
 public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger        log = Logger.getLogger(getClass());
 
-    /**
-     * 财付通商户权限密钥Key
-     */
-    private String       paternerKey;
-
-    /**
-     * 财付通商户身份的标识
-     */
-    private String       partnerId;
-
-    /**
-     * 接收微信通知的url
-     */
-    private String       notifyUrl;
-
-    @PostConstruct
-    public void init() {
-        Assert.notNull(this.paternerKey, "请设置paternerKey");
-        Assert.notNull(this.partnerId, "请设置partnerId");
-
-        Assert.notNull(this.notifyUrl, "请设置notifyUrl");
-    }
+    @Autowired
+    private WeixinConfigService weixinConfigService;
 
     /**
      * 生成package
@@ -58,11 +36,11 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
      * @return
      */
     private String buildPackage(SortedMap<String, String> packageParams, String charset) {
-        String sign = genPackageSign(packageParams);
+        String sign = buildPackageSign(packageParams);
 
         StringBuilder sb = new StringBuilder();
 
-        String params = this.buildUrlParamStr(packageParams, charset);
+        String params = this.buildUrlParamsStr(packageParams, charset);
         sb.append(params).append("&");
         String packageValue = sb.append("sign=" + sign).toString();
         System.out.println("packageValue=" + packageValue);
@@ -81,7 +59,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
      * @param encodeValue 是否对value进行url encode
      * @return
      */
-    public String buildUrlParamStr(SortedMap<String, String> paramMap, String charset) {
+    public String buildUrlParamsStr(SortedMap<String, String> paramMap, String charset) {
         StringBuilder sb = new StringBuilder();
         Set<Entry<String, String>> es = paramMap.entrySet();
         for (Entry<String, String> entry : es) {
@@ -96,10 +74,6 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         String params = sb.substring(0, sb.lastIndexOf("&"));
 
         return params;
-    }
-
-    private boolean isBlank(String str) {
-        return !isNotBlank(str);
     }
 
     private boolean isNotBlank(String str) {
@@ -121,36 +95,39 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     /**
      * 创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
      */
-    private String genPackageSign(SortedMap<String, String> packageParams) {
-
+    public String buildPackageSign(SortedMap<String, String> packageParams) {
+        return this.buildPackageSign(packageParams, EnumSignType.MD5);
+    }
+    
+    @Override
+    public String buildPackageSign(SortedMap<String, String> packageParams, EnumSignType signType) {
         if (log.isDebugEnabled()) {
-            log.debug("genPackageSign, packageParams=" + packageParams);
+            log.debug("genPackageSign, packageParams=" + packageParams + ", signType=" + signType);
         }
 
         StringBuffer sb = new StringBuffer();
 
-        String params = buildUrlParamStr(packageParams, null);
+        String params = buildUrlParamsStr(packageParams, null);
         sb.append(params).append("&");
-        sb.append("key=" + this.paternerKey);
+        sb.append("key=" + weixinConfigService.getPaternerKey());
         // System.out.println("genPackageSign params string=" + sb.toString());
         // String sign = MD5Util.MD5Encode(sb.toString(), charset)
         // .toUpperCase();
-        String sign = DigestUtils.md5Hex(sb.toString()).toUpperCase();
+        String sign = null;
+        if(signType.isMd5()) {
+            sign = DigestUtils.md5Hex(sb.toString()).toUpperCase();
+        } else if(signType.isSHA1()) {
+            sign = DigestUtils.sha1Hex(sb.toString()).toUpperCase();
+        } else if(signType.isRsa()) {
+            //
+            throw new UnsupportedOperationException("unsupport current sign type, signType=" + signType);
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("genPackageSign, packageSign=" + sign);
         }
 
         return sign;
-
-    }
-
-    public String getPaternerKey() {
-        return paternerKey;
-    }
-
-    public void setPaternerKey(String paternerKey) {
-        this.paternerKey = paternerKey;
     }
 
     @Override
@@ -173,9 +150,9 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         packageParams.put("body", trade.getProductDesc()); // 商品描述
         packageParams.put("fee_type", trade.getFeeType()); // 银行币种
         packageParams.put("input_charset", trade.getInputCharset()); // 字符集
-        packageParams.put("notify_url", this.notifyUrl); // 通知地址
+        packageParams.put("notify_url", weixinConfigService.getNotifyUrl()); // 通知地址
         packageParams.put("out_trade_no", trade.getTradeId()); // 商户订单号
-        packageParams.put("partner", this.partnerId); // 设置商户号
+        packageParams.put("partner", weixinConfigService.getPartnerId()); // 设置商户号
         packageParams.put("total_fee", String.valueOf(trade.getTotalFee())); // 商品总金额,以分为单位
         packageParams.put("spbill_create_ip", trade.getUserIp()); // 订单生成的机器IP，指用户浏览器端IP
 
@@ -208,11 +185,20 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
 
     @Override
     public String buildPaySign(SortedMap<String, String> paramsMap) {
+        return this.buildPaySign(paramsMap, "sha1");
+    }
+
+    @Override
+    public String buildPaySign(SortedMap<String, String> paramsMap, String signType) {
         if (log.isDebugEnabled()) {
             log.debug("buildPaySign, paySign params=" + paramsMap);
         }
-        
-        String params = this.buildUrlParamStr(paramsMap, null);
+
+        if (!"sha1".equalsIgnoreCase(signType)) {
+            throw new IllegalArgumentException("unsupport the signType, signType=" + signType + ", please use sha1.");
+        }
+
+        String params = this.buildUrlParamsStr(paramsMap, null);
 
         // 生成支付签名，要采用URLENCODER的原始值进行SHA1算法！
         String sign = DigestUtils.sha1Hex(params);
@@ -225,20 +211,14 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         return sign;
     }
 
-    public String getPartnerId() {
-        return partnerId;
+    public WeixinConfigService getWeixinConfigService() {
+        return weixinConfigService;
     }
 
-    public void setPartnerId(String partnerId) {
-        this.partnerId = partnerId;
+    public void setWeixinConfigService(WeixinConfigService weixinConfigService) {
+        this.weixinConfigService = weixinConfigService;
     }
 
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
+  
 
 }
