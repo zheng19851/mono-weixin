@@ -1,0 +1,11 @@
+{
+"appid" : "$!{appid}",
+"openid" : "$!{openid}",
+"transid" : "$!{transid}",
+"out_trade_no" : "$!{out_trade_no}",
+"deliver_timestamp" : "$!{deliver_timestamp}",
+"deliver_status" : "$!{deliver_status}",
+"deliver_msg" : "$!{deliver_msg}",
+"app_signature" : "$!{app_signature}",
+"sign_method" : "$!{sign_method}"
+}

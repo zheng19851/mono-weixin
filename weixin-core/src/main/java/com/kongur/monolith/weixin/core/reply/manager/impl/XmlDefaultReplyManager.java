@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
-import com.kongur.monolith.weixin.core.reply.domain.ErrorReplyDO;
-import com.kongur.monolith.weixin.core.reply.manager.ErrorReplyManager;
+import com.kongur.monolith.weixin.core.reply.domain.DefaultReplyDO;
+import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.thoughtworks.xstream.XStream;
 
 /**
  * @author zhengwei
  */
-@Service("errorReplyManager")
-public class XmlErrorReplyManager implements ErrorReplyManager {
+@Service("defaultReplyManager")
+public class XmlDefaultReplyManager implements DefaultReplyManager {
 
     private final Logger          log  = Logger.getLogger(getClass());
 
@@ -39,7 +39,7 @@ public class XmlErrorReplyManager implements ErrorReplyManager {
     /**
      * »º´æ
      */
-    private ErrorReplyDO          errorReply;
+    private DefaultReplyDO          errorReply;
 
     @Autowired
     private RemoteAppEventService remoteAppEventService;
@@ -60,7 +60,7 @@ public class XmlErrorReplyManager implements ErrorReplyManager {
 
         if (xStream == null) {
             xStream = new XStream();
-            xStream.alias("errorReply", ErrorReplyDO.class);
+            xStream.alias("errorReply", DefaultReplyDO.class);
         }
 
         refresh();
@@ -71,7 +71,7 @@ public class XmlErrorReplyManager implements ErrorReplyManager {
     }
 
     @Override
-    public ErrorReplyDO getErrorReply() {
+    public DefaultReplyDO getErrorReply() {
         return this.errorReply;
     }
 
@@ -80,13 +80,13 @@ public class XmlErrorReplyManager implements ErrorReplyManager {
 
         if (this.file.length() <= 0) {
             log.warn("there is no error reply need to refresh.");
-            this.errorReply = new ErrorReplyDO();
+            this.errorReply = new DefaultReplyDO();
             return;
         }
 
-        ErrorReplyDO errorReply = null;
+        DefaultReplyDO errorReply = null;
         try {
-            errorReply = (ErrorReplyDO) xStream.fromXML(new FileInputStream(this.file));
+            errorReply = (DefaultReplyDO) xStream.fromXML(new FileInputStream(this.file));
         } catch (FileNotFoundException e) {
             log.error("can not find the error reply conf file", e);
             return;

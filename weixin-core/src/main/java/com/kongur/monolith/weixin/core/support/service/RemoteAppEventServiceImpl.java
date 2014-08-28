@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.client.support.EnumAppEventType;
 import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
-import com.kongur.monolith.weixin.core.reply.manager.ErrorReplyManager;
+import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
 /**
@@ -22,7 +22,7 @@ public class RemoteAppEventServiceImpl implements RemoteAppEventService {
     private SubscribeReplyManager subscribeReplyManager;
 
     @Autowired
-    private ErrorReplyManager     errorReplyManager;
+    private DefaultReplyManager     errorReplyManager;
 
     @Override
     public Result<Object> onEvent(Object obj) {

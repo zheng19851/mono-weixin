@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.pay.demo.common;
+package com.kongur.monolith.weixin.pay.common;
 
 import java.util.HashMap;
 import java.util.Map;

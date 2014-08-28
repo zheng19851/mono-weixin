@@ -43,9 +43,9 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
         }
         String appId = weixinConfigService.getAppId();
         String nonceStr = weixinPaymentHelper.buildNonceStr(trade.getInputCharset());
-        System.out.println("nonceStr=" + nonceStr);
+//        System.out.println("nonceStr=" + nonceStr);
         String timestamp = String.valueOf(System.currentTimeMillis());
-        System.out.println("timestamp=" + timestamp);
+//        System.out.println("timestamp=" + timestamp);
         String packageStr = weixinPaymentHelper.buildPackage(trade);
 
         String paySign = genPaySign(nonceStr, timestamp, packageStr);
@@ -79,7 +79,7 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
         // 设置支付参数
         SortedMap<String, String> signParams = new TreeMap<String, String>();
         signParams.put("appid", weixinConfigService.getAppId());
-        signParams.put("nonceStr", nonceStr);
+        signParams.put("noncestr", nonceStr);
         signParams.put("package", packageStr);
         signParams.put("timestamp", timestamp);
         signParams.put("appkey", weixinConfigService.getPaySignkey());
@@ -118,6 +118,7 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
         configService.setPaternerKey("8934e7d15453e97507ef794cf7b0519d");
         configService.setPartnerId("1900000109");
         configService.setNotifyUrl("http://weixin.qq.com");
+        configService.setAppId("test_appid");
 
         DefaultJSPayRequestBuilder builder = new DefaultJSPayRequestBuilder();
         builder.setWeixinConfigService(configService);
@@ -129,8 +130,8 @@ public class DefaultJSPayRequestBuilder implements JSPayRequestBuilder {
 
         // String packageStr = builder.genPackage(trade);
         // builder.genPaySign(nonceStr, timestamp, packageStr);
-        builder.buildPayRequest(trade);
-
+        JSPayRequestDTO req = builder.buildPayRequest(trade);
+        System.out.println("req=" + req);
         // System.out.println(packageStr);
 
     }

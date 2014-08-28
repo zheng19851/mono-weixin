@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.pay.demo.local;
+package com.kongur.monolith.weixin.pay.demo.ntv;
 
 import java.text.MessageFormat;
 import java.util.SortedMap;

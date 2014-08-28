@@ -3,9 +3,11 @@ package com.kongur.monolith.weixin.core.reply.domain;
 import com.kongur.monolith.common.DomainBase;
 
 /**
+ * 默认回复消息数据对象
+ * 
  * @author zhengwei
  */
-public class ErrorReplyDO extends DomainBase {
+public class DefaultReplyDO extends DomainBase {
 
     /**
      * 

@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.pay.demo.local;
+package com.kongur.monolith.weixin.pay.demo.ntv;
 
 /**
  * Native（原生）支付回调商户后台post数据验证

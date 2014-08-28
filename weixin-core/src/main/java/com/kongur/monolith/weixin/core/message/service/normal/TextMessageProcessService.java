@@ -1,9 +1,16 @@
 package com.kongur.monolith.weixin.core.message.service.normal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.message.domain.EnumMessageType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.message.domain.normal.TextMessage;
 import com.kongur.monolith.weixin.core.message.service.AbstractMessageProcessService;
+import com.kongur.monolith.weixin.core.reply.domain.DefaultReplyDO;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
+import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 
 /**
  * 文本消息处理服务
@@ -14,9 +21,43 @@ import com.kongur.monolith.weixin.core.message.service.AbstractMessageProcessSer
 // @Service("textMessageProcessService")
 public class TextMessageProcessService extends AbstractMessageProcessService<TextMessage> {
 
+    @Autowired
+    private DefaultReplyManager errorReplyManager;
+
     @Override
     public boolean supports(Message msg) {
         return EnumMessageType.isText(msg.getMsgType());
     }
 
+    @Override
+    protected Reply buildReply(TextMessage msg) {
+        Reply reply = null;
+
+        // 判断是否查询份额信息
+        String content = msg.getContent();
+
+        if (reply == null) {
+            reply = createDefaultReply();
+        }
+
+        return reply;
+    }
+
+    /**
+     * 创建默认的回复
+     * 
+     * @return
+     */
+    private Reply createDefaultReply() {
+        DefaultReplyDO errorReply = errorReplyManager.getErrorReply();
+        if (errorReply == null || StringUtil.isBlank(errorReply.getContent())) {
+            return null;
+        }
+        ReplyDO reply = new ReplyDO();
+        reply.setType(EnumMessageType.TEXT.getValue());
+
+        reply.setContent(errorReply.getContent());
+
+        return reply;
+    }
 }

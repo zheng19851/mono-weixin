@@ -43,7 +43,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         String params = this.buildUrlParamsStr(packageParams, charset);
         sb.append(params).append("&");
         String packageValue = sb.append("sign=" + sign).toString();
-        System.out.println("packageValue=" + packageValue);
+        // System.out.println("packageValue=" + packageValue);
 
         if (log.isDebugEnabled()) {
             log.debug("createPayRequestDTO, packageValue=" + packageValue);
@@ -98,7 +98,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     public String buildPackageSign(SortedMap<String, String> packageParams) {
         return this.buildPackageSign(packageParams, EnumSignType.MD5);
     }
-    
+
     @Override
     public String buildPackageSign(SortedMap<String, String> packageParams, EnumSignType signType) {
         if (log.isDebugEnabled()) {
@@ -114,11 +114,11 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         // String sign = MD5Util.MD5Encode(sb.toString(), charset)
         // .toUpperCase();
         String sign = null;
-        if(signType.isMd5()) {
+        if (signType.isMd5()) {
             sign = DigestUtils.md5Hex(sb.toString()).toUpperCase();
-        } else if(signType.isSHA1()) {
+        } else if (signType.isSHA1()) {
             sign = DigestUtils.sha1Hex(sb.toString()).toUpperCase();
-        } else if(signType.isRsa()) {
+        } else if (signType.isRsa()) {
             //
             throw new UnsupportedOperationException("unsupport current sign type, signType=" + signType);
         }
@@ -194,7 +194,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
             log.debug("buildPaySign, paySign params=" + paramsMap);
         }
 
-        if (!"sha1".equalsIgnoreCase(signType)) {
+        if (!EnumSignType.isSHA1(signType)) {
             throw new IllegalArgumentException("unsupport the signType, signType=" + signType + ", please use sha1.");
         }
 
@@ -203,7 +203,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         // 生成支付签名，要采用URLENCODER的原始值进行SHA1算法！
         String sign = DigestUtils.sha1Hex(params);
 
-        System.out.println("paySign=" + sign);
+        // System.out.println("paySign=" + sign);
         if (log.isDebugEnabled()) {
             log.debug("buildPaySign, paySign=" + sign);
         }
@@ -218,7 +218,5 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     public void setWeixinConfigService(WeixinConfigService weixinConfigService) {
         this.weixinConfigService = weixinConfigService;
     }
-
-  
 
 }

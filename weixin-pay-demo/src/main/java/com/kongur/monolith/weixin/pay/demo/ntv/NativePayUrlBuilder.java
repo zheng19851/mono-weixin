@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.pay.demo.local;
+package com.kongur.monolith.weixin.pay.demo.ntv;
 
 /**
  * 原生支付url生成器

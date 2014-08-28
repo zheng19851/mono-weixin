@@ -1,5 +1,6 @@
 package com.kongur.monolith.weixin.pay.demo.common;
 
+import com.kongur.monolith.common.DomainBase;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
@@ -8,7 +9,12 @@ import com.sun.istack.internal.Nullable;
  * 
  * @author zhengwei
  */
-public class TradeDO {
+public class TradeDO extends DomainBase {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7344983560942657861L;
 
     /**
      * 银行通道类
@@ -17,19 +23,19 @@ public class TradeDO {
     private String bankType     = "WX";
 
     /**
-     * 商品描述
+     * 商品描述，字符串类型，128 字节以下
      */
     @NotNull
     private String productDesc;
 
     /**
-     * 附加数据
+     * 附加数据，128 字节以下
      */
     @Nullable
     private String attach;
 
     /**
-     * 商户订单号
+     * 商户订单号，32 字节以下
      */
     @NotNull
     private String tradeId;
@@ -47,13 +53,13 @@ public class TradeDO {
     private String feeType      = "1";
 
     /**
-     * 交易起始时间
+     * 交易起始时间，14 字节以下
      */
     @Nullable
     private String timeStart;
 
     /**
-     * 交易结束时间
+     * 交易结束时间，14 字节以下
      */
     @Nullable
     private String timeExpire;

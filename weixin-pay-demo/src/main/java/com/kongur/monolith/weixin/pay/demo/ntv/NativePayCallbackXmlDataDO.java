@@ -1,51 +1,58 @@
-package com.kongur.monolith.weixin.pay.demo.local;
+package com.kongur.monolith.weixin.pay.demo.ntv;
+
+import com.kongur.monolith.common.DomainBase;
 
 /**
  * native api回调商户post数据
  * 
  * @author zhengwei
  */
-public class NativePayCallbackXmlDataDO {
+public class NativePayCallbackXmlDataDO extends DomainBase {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 540646586823580297L;
 
     /**
      * 点击链接准备购买商品的用户标识
      */
-    private String OpenId;
+    private String            OpenId;
 
     /**
      * 公众帐号的appid
      */
-    private String AppId;
+    private String            AppId;
 
     /**
      * 标记用户是否订阅该公众帐号，1 为关注，0 为未关注
      */
-    private String IsSubscribe;
-    
+    private String            IsSubscribe;
+
     /**
      * 第三方的商品ID 号
      */
-    private String ProductId;
+    private String            ProductId;
 
     /**
      * 时间戳
      */
-    private String TimeStamp;
+    private String            TimeStamp;
 
     /**
      * 随机串
      */
-    private String NonceStr;
+    private String            NonceStr;
 
     /**
      * 参数的加密签名
      */
-    private String AppSignature;
+    private String            AppSignature;
 
     /**
      * 签名方式，目前只支持“SHA1”，该字段不参与签名
      */
-    private String SignMethod;
+    private String            SignMethod;
 
     public String getOpenId() {
         return OpenId;
