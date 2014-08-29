@@ -18,6 +18,16 @@ public interface RemoteMenuService {
      * @return
      */
     Result<Object> refreshMenus();
+    
+    /**
+     * 创建菜单
+     * 
+     * @param appId 微信appId
+     * @param menus
+     * 
+     * @return
+     */
+    Result<Object> createMenus(String appId, List<Menu> menus);
 
     /**
      * 创建菜单
@@ -34,6 +44,13 @@ public interface RemoteMenuService {
      */
     Result<Object> removeMenus();
 
+    /**
+     * 删除所有菜单
+     * 
+     * @return
+     */
+    Result<Object> removeMenus(String appId);
+    
     /**
      * 获取所有菜单
      * 

@@ -25,4 +25,20 @@ public interface RemoteUserService {
      */
     Result<String> getOpenIdByOAuth2Code(String code);
 
+    /**
+     * OAuth2.0 获取用户基本信息
+     * 
+     * @param code OAuth2.0授权时的CODE
+     * @return
+     */
+    Result<User> getUserByOAuth2Code(String appId, String code);
+
+    /**
+     * 网页授权获取用户id
+     * 
+     * @param code OAuth2.0授权时的CODE
+     * @return
+     */
+    Result<String> getOpenIdByOAuth2Code(String appId, String code);
+
 }

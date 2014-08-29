@@ -4,7 +4,7 @@
 	<groupId>com.kongur.monolith.weixin</groupId>
 	<artifactId>weixin-core</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>2.0-SNAPSHOT</version>
 	<name>weixin-core</name>
 	<url>http://maven.apache.org</url>
 
@@ -19,9 +19,10 @@
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
 		
-		<weixin.menus.conf>/home/weixin/work/conf/menus.xml</weixin.menus.conf><!-- D:/temp/weixin/menus.xml --><!--  -->
-		<weixin.subscribe.reply.conf>/home/weixin/work/conf/subscribe_reply.xml</weixin.subscribe.reply.conf><!-- D:/temp/weixin/subscribe_reply.xml --><!--  -->
-		<weixin.reply.error.conf>/home/weixin/work/conf/default_reply.xml</weixin.reply.error.conf><!--D:/temp/weixin/default_reply.xml -->
+		<weixin.menus.conf>/home/weixin/work/conf/menus.xml</weixin.menus.conf><!-- D:/temp/weixin/menus.xml --><!-- /home/weixin/work/conf/menus.xml -->
+		<weixin.subscribe.reply.conf>/home/weixin/work/conf/subscribe_reply.xml</weixin.subscribe.reply.conf><!-- D:/temp/weixin/subscribe_reply.xml --><!-- /home/weixin/work/conf/subscribe_reply.xml -->
+		<weixin.reply.error.conf>/home/weixin/work/conf/default_reply.xml</weixin.reply.error.conf><!--D:/temp/weixin/default_reply.xml --><!-- /home/weixin/work/conf/default_reply.xml -->
+		<weixin.publicNo.conf>/home/weixin/work/conf/publicNo.xml</weixin.publicNo.conf>
 	</properties>
 
 	<build>

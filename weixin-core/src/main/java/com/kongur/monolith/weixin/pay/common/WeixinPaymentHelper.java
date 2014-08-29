@@ -32,14 +32,22 @@ public interface WeixinPaymentHelper {
      * @param paramMap
      * @return
      */
-    String buildPaySign(SortedMap<String, String> paramsMap);
+    String buildPaySign(SortedMap<String, String> paramMap);
 
     /**
      * 生成付款签名
      * 
-     * @param paramMap
-     * @param signType 签名方式
+     * @param paramsMap
+     * @param signType
      * @return
      */
     String buildPaySign(SortedMap<String, String> paramsMap, String signType);
+
+    /**
+     * 生成退款申请时的签名
+     * 
+     * @param paramsMap
+     * @return
+     */
+    String buildRefundSign(SortedMap<String, String> paramsMap);
 }

@@ -8,12 +8,10 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.reply.domain.DefaultReplyDO;
 import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.thoughtworks.xstream.XStream;
@@ -24,25 +22,22 @@ import com.thoughtworks.xstream.XStream;
 @Service("defaultReplyManager")
 public class XmlDefaultReplyManager implements DefaultReplyManager {
 
-    private final Logger          log  = Logger.getLogger(getClass());
+    private final Logger   log  = Logger.getLogger(getClass());
 
     /**
      * Â·¾¶
      */
     @Value("${weixin.reply.error.conf}")
-    private String                confPath;
+    private String         confPath;
 
-    private File                  file = null;
+    private File           file = null;
 
-    private XStream               xStream;
+    private XStream        xStream;
 
     /**
      * »º´æ
      */
-    private DefaultReplyDO          errorReply;
-
-    @Autowired
-    private RemoteAppEventService remoteAppEventService;
+    private DefaultReplyDO errorReply;
 
     @PostConstruct
     public void init() throws IOException {

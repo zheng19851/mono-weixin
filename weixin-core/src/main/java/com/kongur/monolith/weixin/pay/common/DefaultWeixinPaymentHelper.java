@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.weixin.core.common.utils.MD5Util;
-import com.kongur.monolith.weixin.core.conf.WeixinConfigService;
+import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**
  * 默认的微信支付帮助类实现
@@ -25,8 +25,11 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
 
     private final Logger        log = Logger.getLogger(getClass());
 
+    // @Autowired
+    // private WeixinConfigService weixinConfigService;
+
     @Autowired
-    private WeixinConfigService weixinConfigService;
+    private PublicNoInfoService publicNoInfoService;
 
     /**
      * 将自然排序过的参数组装成url形式参数(key=value)
@@ -75,8 +78,19 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     }
 
     @Override
+    public String buildRefundSign(SortedMap<String, String> paramsMap) {
+        String paramsStr = this.buildUrlParamsStr(paramsMap, null);
+        String paternerKey = publicNoInfoService.getDefaultPaternerKey();
+        String encryptStr = paramsStr + "&key=" + paternerKey;
+
+        String sign = DigestUtils.md5Hex(encryptStr).toUpperCase();
+
+        return sign;
+    }
+
+    @Override
     public String buildPaySign(SortedMap<String, String> paramsMap) {
-        return this.buildPaySign(paramsMap, EnumSignType.SHA1.getVal());
+        return this.buildPaySign(paramsMap, "sha1");
     }
 
     @Override
@@ -102,12 +116,6 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         return sign;
     }
 
-    public WeixinConfigService getWeixinConfigService() {
-        return weixinConfigService;
-    }
-
-    public void setWeixinConfigService(WeixinConfigService weixinConfigService) {
-        this.weixinConfigService = weixinConfigService;
-    }
+    // ===========================
 
 }

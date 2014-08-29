@@ -24,4 +24,12 @@ public interface AccessTokenService {
      */
     String getAccessToken();
 
+    /**
+     * 根据微信appid获取对应的accessToken
+     * 
+     * @param appId
+     * @return
+     */
+    String getAccessToken(String appId);
+
 }

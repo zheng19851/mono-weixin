@@ -15,7 +15,7 @@ import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.client.deliver.DeliverInfo;
 import com.kongur.monolith.weixin.client.deliver.IDeliverNotifyService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
-import com.kongur.monolith.weixin.core.conf.WeixinConfigService;
+import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.kongur.monolith.weixin.pay.common.EnumSignType;
 import com.kongur.monolith.weixin.pay.common.WeixinPaymentHelper;
 
@@ -34,8 +34,11 @@ public class DefaultDeliverNotifyService implements IDeliverNotifyService {
     @Autowired
     private WeixinPaymentHelper weixinPaymentHelper;
 
+    // @Autowired
+    // private WeixinConfigService weixinConfigService;
+
     @Autowired
-    private WeixinConfigService weixinConfigService;
+    private PublicNoInfoService publicNoInfoService;
 
     @Resource(name = "messageVelocityEngine")
     private VelocityEngine      velocityEngine;
@@ -44,9 +47,9 @@ public class DefaultDeliverNotifyService implements IDeliverNotifyService {
     public Result<Object> sendNotify(DeliverInfo deliverInfo) {
 
         Result<Object> result = new Result<Object>();
-        
+
         SortedMap<String, String> paramsMap = new TreeMap<String, String>();
-        paramsMap.put("appid", weixinConfigService.getAppId());
+        paramsMap.put("appid", publicNoInfoService.getDefaultAppId());
         paramsMap.put("openid", deliverInfo.getOpenId());
         paramsMap.put("transid", deliverInfo.getTransId());
         paramsMap.put("out_trade_no", deliverInfo.getOutTradeNo());

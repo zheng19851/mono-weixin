@@ -53,18 +53,19 @@ public class MessageReceivedAction {
                                   @RequestParam(value = "timestamp", required = false) String timestamp,
                                   @RequestParam(value = "nonce", required = false) String nonce,
                                   @RequestParam(value = "echostr", required = false) String echostr,
-                                  HttpServletRequest req) {
+                                  @RequestParam(value = "appId", required = false) String appId, HttpServletRequest req) {
 
         if (log.isInfoEnabled()) {
-            log.info("==============================message received==================================");
+            log.info("==============================message received==================================, reqParamsMap="
+                     + req.getParameterMap());
         }
 
         if (log.isDebugEnabled()) {
             log.debug("signature=" + signature + ", timestamp=" + timestamp + ", nonce=" + nonce + ", echostr="
-                      + echostr);
+                      + echostr + ", appId=" + appId);
         }
 
-        if (!signatureValidator.validate(signature, timestamp, nonce)) {
+        if (!signatureValidator.validate(appId, signature, timestamp, nonce)) {
             log.error("signature error. signature=" + signature + ", timestamp=" + timestamp + ", nonce=" + nonce
                       + ", echostr=" + echostr);
             return null;

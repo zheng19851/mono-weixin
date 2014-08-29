@@ -19,6 +19,7 @@ import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
 import com.kongur.monolith.weixin.core.base.service.ApiException;
 import com.kongur.monolith.weixin.core.base.service.ApiService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
+import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.kongur.monolith.weixin.core.support.WeixinApiHelper;
 
 /**
@@ -62,6 +63,12 @@ public class DefaultWeixinApiService implements WeixinApiService {
     @Value("${weixin.api.retry.period}")
     private long                      retryWait      = 300;
 
+    // @Autowired
+    // private WeixinConfigService weixinConfigService;
+
+    @Autowired
+    private PublicNoInfoService       publicNoInfoService;
+
     protected boolean supports(Exception e) {
         // 你妹的，测试的时候经常会出java.net.UnknownHostException: api.weixin.qq.com
         return e.getCause() instanceof UnknownHostException;
@@ -73,21 +80,16 @@ public class DefaultWeixinApiService implements WeixinApiService {
     }
 
     @Override
-    public Result<JSONObject> doGet(String apiUrl, final Map<String, String> getParams, boolean replaceAccessToken)
-                                                                                                                         throws ApiException {
-        return retryTemplate.execute(apiUrl, replaceAccessToken, new Callback() {
+    public Result<JSONObject> doGet(String apiUrl, final Map<String, String> getParams, boolean appendAccessToken)
+                                                                                                                  throws ApiException {
+        return this.doGet(publicNoInfoService.getDefaultAppId(), apiUrl, getParams, appendAccessToken);
 
-            @Override
-            public Result<JSONObject> doAction(String internalApiUrl) {
-                return apiService.doGet(internalApiUrl, getParams);
-            }
-        });
     }
 
     @Override
     public Result<JSONObject> doPost(String apiUrl, final String postParams, boolean replaceAccessToken)
-                                                                                                              throws ApiException {
-        return retryTemplate.execute(apiUrl, replaceAccessToken, new Callback() {
+                                                                                                        throws ApiException {
+        return retryTemplate.execute(publicNoInfoService.getDefaultAppId(), apiUrl, replaceAccessToken, new Callback() {
 
             @Override
             public Result<JSONObject> doAction(String internalApiUrl) {
@@ -146,14 +148,14 @@ public class DefaultWeixinApiService implements WeixinApiService {
      */
     private class RetryTemplate {
 
-        public Result<JSONObject> execute(String apiUrl, boolean replaceAccessToken, Callback callback) {
+        public Result<JSONObject> execute(String appId, String apiUrl, boolean replaceAccessToken, Callback callback) {
             Result<JSONObject> result = new Result<JSONObject>();
 
             String internalApiUrl = apiUrl;
 
             if (replaceAccessToken) {
                 // internalApiUrl = appendAccessToken(apiUrl, accessTokenService.getAccessToken());
-                internalApiUrl = replaceAccessTokenKey(apiUrl, accessTokenService.getAccessToken());
+                internalApiUrl = replaceAccessTokenKey(apiUrl, accessTokenService.getAccessToken(appId));
             }
 
             // result = executeInternal(internalApiUrl, callback);
@@ -269,6 +271,38 @@ public class DefaultWeixinApiService implements WeixinApiService {
     interface Callback {
 
         Result<JSONObject> doAction(String internalApiUrl);
+    }
+
+    @Override
+    public Result<JSONObject> doPost(String appId, String apiUrl, String postParams) throws ApiException {
+        return doPost(appId, apiUrl, postParams, true);
+    }
+
+    private Result<JSONObject> doPost(String appId, String apiUrl, final String postParams, boolean replaceAccessToken) {
+        return retryTemplate.execute(appId, apiUrl, replaceAccessToken, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction(String internalApiUrl) {
+                return apiService.doPost(internalApiUrl, postParams);
+            }
+        });
+    }
+
+    @Override
+    public Result<JSONObject> doGet(String appId, String apiUrl, final Map<String, String> getParams,
+                                    boolean appendAccessToken) {
+        return retryTemplate.execute(appId, apiUrl, appendAccessToken, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction(String internalApiUrl) {
+                return apiService.doGet(internalApiUrl, getParams);
+            }
+        });
+    }
+
+    @Override
+    public Result<JSONObject> doGet(String appId, String apiUrl) {
+        return this.doGet(appId, apiUrl, null, true);
     }
 
     public long getRetryWait() {

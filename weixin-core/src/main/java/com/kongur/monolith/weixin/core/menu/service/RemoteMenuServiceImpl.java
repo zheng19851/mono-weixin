@@ -21,6 +21,7 @@ import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.client.menu.Menu;
 import com.kongur.monolith.weixin.client.menu.RemoteMenuService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
+import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**
  * @author zhengwei
@@ -29,38 +30,43 @@ import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 @Service("remoteMenuService")
 public class RemoteMenuServiceImpl implements RemoteMenuService {
 
-    private final Logger     log                   = Logger.getLogger(getClass());
+    private final Logger        log                   = Logger.getLogger(getClass());
 
     /**
      * 创建菜单api url
      */
     // @Value("${weixin.api.menu.create.url.pattern}")
-    private String           createMenusUrlPattern = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}";
-    private String           createMenusTemplate   = "menu/create_menus.vm";
+    private String              createMenusUrlPattern = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}";
+    private String              createMenusTemplate   = "menu/create_menus.vm";
 
     /**
      * 删除菜单api url
      */
-    private String           removeMenusUrlPattern = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${access_token}";
+    private String              removeMenusUrlPattern = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${access_token}";
 
     /**
      * 查询菜单
      */
-    private String           getMenusUrlPattern    = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${access_token}";
+    private String              getMenusUrlPattern    = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${access_token}";
 
     @Resource(name = "defaultWeixinApiService")
-    private WeixinApiService weixinApiService;
+    private WeixinApiService    weixinApiService;
 
     // @Autowired
     // private AccessTokenService accessTokenService;
 
     @Resource(name = "messageVelocityEngine")
-    private VelocityEngine   velocityEngine;
+    private VelocityEngine      velocityEngine;
 
-    private ExecutorService  executorService;
+    private ExecutorService     executorService;
 
     @Autowired
-    private MenuManager      menuManager;
+    private MenuManager         menuManager;
+
+    // @Autowired
+    // private WeixinConfigService weixinConfigService;
+    @Autowired
+    private PublicNoInfoService publicNoInfoService;
 
     @PostConstruct
     public void init() {
@@ -72,7 +78,16 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
     @Override
     public Result<Object> createMenus(List<Menu> menus) {
         if (log.isDebugEnabled()) {
-            log.debug("invoke createMenus, menus=" + menus);
+            log.debug("invoke default createMenus, menus=" + menus);
+        }
+
+        return this.createMenus(publicNoInfoService.getDefaultAppId(), menus);
+    }
+
+    @Override
+    public Result<Object> createMenus(String appId, List<Menu> menus) {
+        if (log.isDebugEnabled()) {
+            log.debug("invoke createMenus, appId=" + appId + " menus=" + menus);
         }
 
         Result<Object> result = new Result<Object>();
@@ -109,30 +124,15 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
 
         String postParams = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, createMenusTemplate, params);
 
-        Result<JSONObject> apiResult = weixinApiService.doPost(createMenuUrl, postParams);
+        Result<JSONObject> apiResult = weixinApiService.doPost(appId, createMenuUrl, postParams);
 
         if (!apiResult.isSuccess()) {
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
 
-        // 刷新本地菜单缓存
-        // executorService.submit(new Runnable() {
-        //
-        // @Override
-        // public void run() {
-        //
-        // try {
-        // menuManager.refresh();
-        // } catch (Exception e) {
-        // log.error("refresh menu cache error", e);
-        // }
-        //
-        // }
-        // });
-
         if (log.isDebugEnabled()) {
-            log.debug("invoke createMenus successfully, menus=" + menus);
+            log.debug("invoke createMenus successfully, appId=" + appId + " menus=" + menus);
         }
 
         result.setSuccess(true);
@@ -156,21 +156,6 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
-
-        // 刷新本地菜单缓存
-        // executorService.submit(new Runnable() {
-        //
-        // @Override
-        // public void run() {
-        //
-        // try {
-        // menuManager.refresh();
-        // } catch (Exception e) {
-        // log.error("refresh menu cache error", e);
-        // }
-        //
-        // }
-        // });
 
         if (log.isDebugEnabled()) {
             log.debug("invoke removeMenus successfully");
@@ -266,6 +251,32 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
 
     public void setWeixinApiService(WeixinApiService weixinApiService) {
         this.weixinApiService = weixinApiService;
+    }
+
+    @Override
+    public Result<Object> removeMenus(String appId) {
+
+        if (log.isDebugEnabled()) {
+            log.debug("invoke removeMenus, appid=" + appId);
+        }
+
+        Result<Object> result = new Result<Object>();
+
+        String removeMenuUrl = this.removeMenusUrlPattern;
+
+        Result<JSONObject> apiResult = weixinApiService.doGet(appId, removeMenuUrl);
+
+        if (!apiResult.isSuccess()) {
+            result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
+            return result;
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("invoke removeMenus successfully, appid=" + appId);
+        }
+
+        result.setSuccess(true);
+        return result;
     }
 
 }
