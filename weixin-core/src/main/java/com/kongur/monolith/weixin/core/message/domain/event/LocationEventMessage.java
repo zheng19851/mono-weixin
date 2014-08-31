@@ -23,7 +23,7 @@ public class LocationEventMessage extends EventMessage {
      * @param nonce
      * @param params
      */
-    public LocationEventMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public LocationEventMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
     }
 

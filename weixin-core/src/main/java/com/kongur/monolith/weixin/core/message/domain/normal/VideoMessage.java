@@ -23,8 +23,9 @@ public class VideoMessage extends NormalMessage {
      * @param nonce
      * @param params
      */
-    public VideoMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public VideoMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

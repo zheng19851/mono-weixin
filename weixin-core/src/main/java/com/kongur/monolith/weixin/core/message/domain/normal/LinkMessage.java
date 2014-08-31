@@ -23,8 +23,9 @@ public class LinkMessage extends NormalMessage {
      * @param nonce
      * @param params
      */
-    public LinkMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public LinkMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

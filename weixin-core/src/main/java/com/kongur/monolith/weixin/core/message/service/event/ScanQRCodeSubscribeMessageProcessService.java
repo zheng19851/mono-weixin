@@ -38,7 +38,7 @@ public class ScanQRCodeSubscribeMessageProcessService extends AbstractEventMessa
 
     @Override
     protected Reply buildReply(ScanQRCodeEventMessage msg) {
-        SubscribeReplyDO reply = subscribeReplyManager.getSubscribeReply();
+        SubscribeReplyDO reply = subscribeReplyManager.getSubscribeReply(msg.getAppId());
 
         return reply;
     }

@@ -2,9 +2,10 @@ package com.kongur.monolith.weixin.core.menu.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
@@ -13,6 +14,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -20,7 +22,10 @@ import org.springframework.util.Assert;
 import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.menu.domain.ItemDO;
 import com.kongur.monolith.weixin.core.menu.domain.MenuDO;
+import com.kongur.monolith.weixin.core.menu.domain.MenuListDO;
 import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
+import com.kongur.monolith.weixin.core.mp.domain.PublicNoInfoDO;
+import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 import com.thoughtworks.xstream.XStream;
 
@@ -32,31 +37,49 @@ import com.thoughtworks.xstream.XStream;
 @Service("xmlMenuManager")
 public class XmlMenuManager implements MenuManager {
 
-    private final Logger                        log           = Logger.getLogger(getClass());
+    private final Logger                                                 log              = Logger.getLogger(getClass());
+
+    @Autowired
+    private PublicNoInfoService                                          publicNoInfoService;
 
     /**
      * 路径
      */
-    @Value("${weixin.menus.conf}")
-    private String                              confPath;
+    // @Value("${weixin.menus.conf}")
+    // private String confPath;
 
-    private File                                file;
+    // private File file;
+
+    /**
+     * 配置文件目录
+     */
+    @Value("${weixin.menus.conf}")
+    private String                                                       confFileDir;
+
+    private String                                                       filePrefix       = "menu";
 
     /**
      * 所有菜单缓存
      */
-    private MenusDO                             menusCache    = new MenusDO(null);
+    // private MenusDO menusCache = new MenusDO(null);
 
-    private Map<String /* eventKey */, ReplyDO> replysCache   = new HashMap<String, ReplyDO>();
+    // private MenuListDO menuListCache = null;
 
-    private Map<String /* menuId */, MenuDO>    menusMap      = new HashMap<String, MenuDO>();
+    /**
+     * key=appid
+     */
+    private Map<String, MenusDO>                                         menusMapCache    = new HashMap<String, MenusDO>();
+
+    private Map<String /* appid */, Map<String /* eventKey */, ReplyDO>> allReplysCache   = new HashMap<String, Map<String /* eventKey */, ReplyDO>>();
+
+    private Map<String /* appid */, Map<String /* menuId */, MenuDO>>    allMenusMapCache = new HashMap<String, Map<String /* menuId */, MenuDO>>();
 
     /**
      * xml与对象之间转换用
      */
-    private XStream                             xstream;
+    private XStream                                                      xstream;
 
-    private ReentrantReadWriteLock              readWriteLock = new ReentrantReadWriteLock();
+    private ReentrantReadWriteLock                                       readWriteLock    = new ReentrantReadWriteLock();
 
     /**
      * 初始化
@@ -65,13 +88,16 @@ public class XmlMenuManager implements MenuManager {
      */
     @PostConstruct
     public void init() throws IOException {
-        Assert.notNull(this.confPath, "the xml conf of menus file can not be null.");
-
-        this.file = new File(this.confPath);
-
-        if (!this.file.exists()) {
-            this.file.createNewFile();
+        Assert.notNull(this.confFileDir, "the xml conf of menus file dir can not be null.");
+        if (!this.confFileDir.endsWith("/")) {
+            this.confFileDir = this.confFileDir + "/";
         }
+
+        // this.file = new File(this.confPath);
+        //
+        // if (!this.file.exists()) {
+        // this.file.createNewFile();
+        // }
 
         if (xstream == null) {
             xstream = new XStream();
@@ -79,30 +105,58 @@ public class XmlMenuManager implements MenuManager {
             xstream.alias("menu", MenuDO.class);
             xstream.alias("reply", ReplyDO.class);
             xstream.alias("item", ItemDO.class);
+
+            // xstream.alias("menuList", MenuListDO.class); // 所有菜单
+
             xstream.addImplicitCollection(MenusDO.class, "menus");
+            // xstream.addImplicitCollection(MenuListDO.class, "menuList");
+
         }
 
         refresh();
 
     }
 
-    public void refresh() {
+    /**
+     * 刷新单个公众号菜单
+     * 
+     * @param appId
+     */
+    public void refresh(String appId) {
 
-        if (this.file.length() <= 0) {
-            log.warn("there are no menus need to refresh.");
+        if (log.isDebugEnabled()) {
+            log.debug("refresh menus start, appId=" + appId);
+        }
+
+        String confFile = getConfFilePath(appId);
+
+        File file = new File(confFile);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                if (log.isDebugEnabled()) {
+                    log.debug("create conf file successfully, appId=" + appId + ", confFile=" + confFile);
+                }
+
+                return;
+            } catch (IOException e) {
+                new RuntimeException("create file error, confFile=" + confFile, e);
+            }
+        }
+
+        clear(appId);
+
+        if (file.length() <= 0) {
+            log.warn("there are no menus need to refresh. appId=" + appId);
             return;
         }
 
         // 将XML文件数据转成java对像
         MenusDO menus = null;
         try {
-            menus = (MenusDO) xstream.fromXML(new FileInputStream(this.file));
+            menus = (MenusDO) xstream.fromXML(new FileInputStream(file));
         } catch (IOException e) {
-            throw new RuntimeException("refresh menus error", e);
-        }
-
-        if (menus == null) {
-            menus = new MenusDO(null);
+            throw new RuntimeException("refresh menus error, appId=" + appId + ", confFile=" + confFile, e);
         }
 
         WriteLock writeLock = readWriteLock.writeLock();
@@ -111,39 +165,91 @@ public class XmlMenuManager implements MenuManager {
 
         try {
             // 缓存回复数据
-            buildCacheData(menus);
+            buildCacheData(appId, menus);
         } finally {
             writeLock.unlock();
         }
 
         if (log.isDebugEnabled()) {
-            log.debug("refresh menus successfully, menus=" + menus);
+            log.debug("refresh menus successfully, appId=" + appId + ", menus=" + menus);
+        }
+    }
+
+    private void clear(String appId) {
+        WriteLock writeLock = readWriteLock.writeLock();
+
+        writeLock.lock();
+
+        try {
+            // 清除某个appid对应的缓存数据
+            Map<String /* menuId */, MenuDO> menusMap = this.allMenusMapCache.get(appId);
+            if (menusMap != null) {
+                menusMap.clear();
+            }
+
+            Map<String /* eventKey */, ReplyDO> replyMap = this.allReplysCache.get(appId);
+
+            if (replyMap != null) {
+                replyMap.clear();
+            }
+
+            this.menusMapCache.put(appId, null);
+
+        } finally {
+            writeLock.unlock();
+        }
+
+    }
+
+    private String getConfFilePath(String appId) {
+        return this.confFileDir + filePrefix + "_" + appId + ".xml";
+    }
+
+    public void refresh() {
+
+        // if (this.file.length() <= 0) {
+        // log.warn("there are no menus need to refresh.");
+        // clear();
+        // return;
+        // }
+        if (log.isDebugEnabled()) {
+            log.debug("refresh menus start, before refresh menusMapCache=" + this.menusMapCache);
+        }
+
+        List<PublicNoInfoDO> publicNoInfoList = publicNoInfoService.getPublicNoInfoList();
+
+        for (PublicNoInfoDO publicNoInfo : publicNoInfoList) {
+            refresh(publicNoInfo.getAppId());
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("refresh menus successfully, after refresh menusMapCache=" + this.menusMapCache);
         }
     }
 
     /**
      * 组装回复缓存数据
      * 
+     * @param appId
      * @param menus
      * @return
      */
-    private void buildCacheData(MenusDO menus) {
+    private void buildCacheData(String appId, MenusDO menus) {
 
-        if (menus.getMenus() == null) {
-            menus.setMenus(new ArrayList<MenuDO>());
-        }
+        // if (menus.getMenus() == null) {
+        // menus.setMenus(new ArrayList<MenuDO>());
+        // }
 
-        this.menusCache = menus;
+        // this.menusCache = menus;
 
         // 缓存回复数据
         if (!menus.isEmpty()) {
             Map<String, ReplyDO> replysMap = new HashMap<String, ReplyDO>();
-
             Map<String, MenuDO> menusMap = new HashMap<String, MenuDO>();
 
+            // String suffix = appId + "_";
             for (MenuDO menu : menus.getMenus()) {
                 if (menu.isClick()) {
-                    // ReplyDO reply = replyManager.getReply(menu.getReplyId());
                     ReplyDO reply = menu.getReply();
                     if (reply != null) {
                         replysMap.put(menu.getEventKey(), reply);
@@ -170,9 +276,14 @@ public class XmlMenuManager implements MenuManager {
 
             }
 
-            this.menusMap = menusMap;
+            this.allMenusMapCache.put(appId, menusMap);
+            this.allReplysCache.put(appId, replysMap);
 
-            this.replysCache = replysMap;
+            this.menusMapCache.put(appId, menus);
+
+            // this.menusMap = menusMap;
+            //
+            // this.replysCache = replysMap;
 
         }
 
@@ -185,7 +296,7 @@ public class XmlMenuManager implements MenuManager {
         readLock.lock();
         try {
 
-            menus = this.menusCache;
+            menus = this.menusMapCache.get(publicNoInfoService.getDefaultAppId());
 
         } finally {
             readLock.unlock();
@@ -204,7 +315,8 @@ public class XmlMenuManager implements MenuManager {
         readLock.lock();
 
         try {
-            reply = this.replysCache.get(eventKey);
+            reply = this.allReplysCache.get(publicNoInfoService.getDefaultAppId()).get(eventKey);
+            // reply = this.replysCache.get(eventKey);
         } finally {
             readLock.unlock();
         }
@@ -212,15 +324,22 @@ public class XmlMenuManager implements MenuManager {
         return reply;
     }
 
-    public String getConfPath() {
-        return confPath;
-    }
-
-    public void setConfPath(String confPath) {
-        this.confPath = confPath;
-    }
+    // public String getConfPath() {
+    // return confPath;
+    // }
+    //
+    // public void setConfPath(String confPath) {
+    // this.confPath = confPath;
+    // }
 
     public static void main(String[] args) throws Exception {
+         readXML();
+
+//        System.out.println("//");
+
+    }
+
+    private static void readXML() throws FileNotFoundException {
         XStream xstream = new XStream();
         // xstream.alias("menus", MenusDO.class);
         // xstream.alias("menu", MenuDO.class);
@@ -228,14 +347,17 @@ public class XmlMenuManager implements MenuManager {
         // xstream.addImplicitCollection(MenusDO.class, "menus");
 
         xstream = new XStream();
-        xstream.alias("menus", MenusDO.class);
+        xstream.alias("menus", MenusDO.class); // 一个公众号菜单
         xstream.alias("menu", MenuDO.class);
         xstream.alias("reply", ReplyDO.class);
         xstream.alias("item", ItemDO.class);
+        xstream.alias("menuList", MenuListDO.class); // 所有菜单
+
         xstream.addImplicitCollection(MenusDO.class, "menus");
+        xstream.addImplicitCollection(MenuListDO.class, "menuList");
 
         // String conf = "D:/git_repo/monolith/monolith-im/src/main/resources/menus.xml";
-        String conf = "D:/temp/weixin/menus.xml";
+        String conf = "D:/temp/weixin/menus/menu_38383932929.xml";
 
         File f = new File(conf);
 
@@ -244,7 +366,6 @@ public class XmlMenuManager implements MenuManager {
         Object obj = xstream.fromXML(in);
 
         System.out.println(obj);
-
     }
 
     @Override
@@ -260,7 +381,8 @@ public class XmlMenuManager implements MenuManager {
 
         try {
 
-            menu = this.menusMap.get(menuId);
+            menu = this.allMenusMapCache.get(publicNoInfoService.getDefaultAppId()).get(menuId);
+            // menu = this.menusMap.get(menuId);
 
         } finally {
             readLock.unlock();
@@ -276,7 +398,7 @@ public class XmlMenuManager implements MenuManager {
         ReadLock readLock = readWriteLock.readLock();
         readLock.lock();
         try {
-            return this.replysCache.containsKey(eventKey);
+            return this.allReplysCache.get(publicNoInfoService.getDefaultAppId()).containsKey(eventKey);
         } finally {
             readLock.unlock();
         }

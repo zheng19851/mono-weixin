@@ -1,5 +1,7 @@
 package com.kongur.monolith.weixin.core.mp.domain;
 
+import java.util.Date;
+
 import com.kongur.monolith.common.DomainBase;
 
 /**
@@ -14,6 +16,10 @@ public class PublicNoInfoDO extends DomainBase {
      */
     private static final long serialVersionUID = -1894755335160121712L;
 
+    private String            id;
+
+    private String            name;
+
     private String            appId;
 
     private String            appSecret;
@@ -27,7 +33,33 @@ public class PublicNoInfoDO extends DomainBase {
 
     private Integer           status           = 1;
 
+    private Date              gmtCreate;
+
     public PublicNoInfoDO() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
     public String getAppId() {

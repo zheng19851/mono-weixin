@@ -14,8 +14,9 @@ import java.util.Map;
  */
 public class SubscribeEventMessage extends EventMessage {
 
-    public SubscribeEventMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public SubscribeEventMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

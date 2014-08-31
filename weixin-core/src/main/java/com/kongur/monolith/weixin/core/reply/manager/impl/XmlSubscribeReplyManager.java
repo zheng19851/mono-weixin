@@ -6,16 +6,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.eyeieye.skyjoo.util.StringUtil;
+import com.eyeieye.skyjoo.util.UUIDGenerator;
+import com.kongur.monolith.weixin.client.support.EnumAppEventType;
+import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.menu.domain.ItemDO;
+import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
+import com.kongur.monolith.weixin.core.reply.domain.ReplysDO;
 import com.kongur.monolith.weixin.core.reply.domain.SubscribeReplyDO;
 import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 import com.thoughtworks.xstream.XStream;
@@ -46,9 +57,16 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
 
     private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    private SubscribeReplyDO       replyCache;
+    private ReplysDO               replysCache;
+    /**
+     * key = appid
+     */
+    private Map<String, ReplyDO>   replyMapCache = new HashMap<String, ReplyDO>();
 
     private String                 fileEncoding  = "UTF-8";
+
+    @Autowired
+    private RemoteAppEventService  remoteAppEventService;
 
     @PostConstruct
     public void init() throws IOException {
@@ -62,6 +80,9 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
             xstream = new XStream();
             xstream.alias("reply", SubscribeReplyDO.class);
             xstream.alias("item", ItemDO.class);
+            xstream.alias("replys", ReplysDO.class);
+
+            xstream.addImplicitCollection(ReplysDO.class, "replys");
         }
 
         refresh();
@@ -78,32 +99,48 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
         }
 
         // 将XML文件数据转成java对像
-        SubscribeReplyDO reply = null;
+        ReplysDO replys = null;
+        FileInputStream in = null;
         try {
 
-            FileInputStream in = new FileInputStream(file);
-            reply = (SubscribeReplyDO) xstream.fromXML(in);
+            in = new FileInputStream(file);
+            replys = (ReplysDO) xstream.fromXML(in);
         } catch (IOException e) {
             throw new RuntimeException("refresh subscribe reply error", e);
-        }
-
-        if (reply == null) {
-            return;
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            }
         }
 
         WriteLock writeLock = readWriteLock.writeLock();
         writeLock.lock();
 
         try {
+            this.replysCache = replys;
+            // if (this.replysCache == null) {
+            // this.replysCache = new ReplysDO();
+            // }
 
-            this.replyCache = reply;
+            // 先清除缓存
+            this.replyMapCache.clear();
+
+            if (replys != null && replys.getReplys() != null && !replys.getReplys().isEmpty()) {
+                for (ReplyDO reply : replys.getReplys()) {
+                    this.replyMapCache.put(reply.getAppId(), reply);
+                }
+            }
 
         } finally {
             writeLock.unlock();
         }
 
         if (log.isDebugEnabled()) {
-            log.debug("refresh subscribe reply successfully, reply=" + this.replyCache);
+            log.debug("refresh subscribe reply successfully, replys=" + replys);
         }
 
     }
@@ -119,32 +156,53 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
 
         try {
 
-            this.replyCache = reply;
+            this.replysCache.addReply(reply);
+            this.replyMapCache.put(reply.getAppId(), reply);
 
-            storeToXml(reply);
+            storeToXml();
 
         } finally {
             writeLock.unlock();
         }
 
+        remoteAppEventService.multicastEvent(EnumAppEventType.REFRESH_SUBSCRIBE_REPLY);
+
         return reply.getId();
     }
 
-    private void storeToXml(SubscribeReplyDO reply) {
+    private void storeToXml() {
 
         OutputStreamWriter out = null;
         try {
             out = new OutputStreamWriter(new FileOutputStream(file), this.fileEncoding);
+            xstream.toXML(this.replysCache, out);
+            out.flush();
         } catch (Exception e) {
             throw new RuntimeException("can not find the subscribe reply conf file, filePath=" + this.confPath, e);
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            }
         }
 
-        xstream.toXML(reply, out);
     }
 
     @Override
-    public SubscribeReplyDO getSubscribeReply() {
-        return this.replyCache;
+    public SubscribeReplyDO getSubscribeReply(String appId) {
+        ReadLock readLock = readWriteLock.readLock();
+        readLock.lock();
+
+        try {
+
+            return (SubscribeReplyDO) this.replyMapCache.get(appId);
+
+        } finally {
+            readLock.unlock();
+        }
     }
 
     @Override
@@ -165,18 +223,45 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
             reply.setItems(null);
         }
 
+        if (StringUtil.isBlank(reply.getId())) {
+            String id = UUIDGenerator.generate();
+            reply.setId(id);
+        }
+
         WriteLock writeLock = readWriteLock.writeLock();
         writeLock.lock();
 
         try {
+            reply.setGmtModify(new Date());
+            if (this.replysCache == null) {
+                this.replysCache = new ReplysDO();
+                this.replysCache.addReply(reply);
+            } else {
+                ReplyDO old = null;
 
-            this.replyCache = reply;
+                for (ReplyDO r : this.replysCache.getReplys()) {
+                    if (r.getId().equals(reply.getId())) {
+                        old = r;
+                        break;
+                    }
+                }
+                if (old != null) {
+                    old.copyFrom(reply);
+                } else {
+                    this.replysCache.addReply(reply);
+                }
+            }
 
-            storeToXml(reply);
+            this.replyMapCache.put(reply.getAppId(), reply);
+
+            storeToXml();
 
         } finally {
             writeLock.unlock();
         }
+
+        // 刷新微信平台上的本地缓存
+        remoteAppEventService.multicastEvent(EnumAppEventType.REFRESH_SUBSCRIBE_REPLY);
 
         return true;
     }
@@ -184,20 +269,22 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
     @Override
     public boolean remove() {
 
-        WriteLock writeLock = readWriteLock.writeLock();
-        writeLock.lock();
+        // WriteLock writeLock = readWriteLock.writeLock();
+        // writeLock.lock();
+        //
+        // try {
+        //
+        // this.replyCache = null;
+        //
+        // clearFile();
+        //
+        // } finally {
+        // writeLock.unlock();
+        // }
+        //
+        // remoteAppEventService.multicastEvent(EnumAppEventType.REFRESH_SUBSCRIBE_REPLY);
 
-        try {
-
-            this.replyCache = null;
-
-            clearFile();
-
-        } finally {
-            writeLock.unlock();
-        }
-
-        return true;
+        return false;
     }
 
     private void clearFile() {
@@ -211,6 +298,11 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
             throw new RuntimeException("clear xml error", e);
         }
 
+    }
+
+    @Override
+    public ReplysDO getSubscribeReplys() {
+        return this.replysCache;
     }
 
 }

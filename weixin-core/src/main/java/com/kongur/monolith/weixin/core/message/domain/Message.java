@@ -72,12 +72,20 @@ public interface Message {
                                  return null;
                              }
 
+                             @Override
+                             public boolean isValid() {
+                                 return false;
+                             }
+
                             @Override
-                            public boolean isValid() {
-                                return false;
+                            public String getAppId() {
+                                // TODO Auto-generated method stub
+                                return null;
                             }
 
                          };
+
+    String getAppId();
 
     /**
      * 消息ID
@@ -163,7 +171,7 @@ public interface Message {
      * @return
      */
     boolean containsKey(String key);
-    
+
     /**
      * 是否正确
      * 

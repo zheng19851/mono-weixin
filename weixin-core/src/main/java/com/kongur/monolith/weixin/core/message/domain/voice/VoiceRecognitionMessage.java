@@ -25,8 +25,10 @@ public class VoiceRecognitionMessage extends AbstractMessage {
      * @param nonce
      * @param params
      */
-    public VoiceRecognitionMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public VoiceRecognitionMessage(String appId, String signature, String timestamp, String nonce,
+                                   Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     // /**

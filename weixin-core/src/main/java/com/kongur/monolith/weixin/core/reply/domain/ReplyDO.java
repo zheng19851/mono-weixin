@@ -20,6 +20,7 @@ public class ReplyDO extends DomainBase implements Reply {
      * 
      */
     private static final long serialVersionUID = -7719757655897015135L;
+    private String            appId;
 
     private String            id;
 
@@ -53,6 +54,14 @@ public class ReplyDO extends DomainBase implements Reply {
     private Date              gmtModify;
 
     private String            errors;
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
     public String getErrors() {
         return errors;
@@ -201,6 +210,17 @@ public class ReplyDO extends DomainBase implements Reply {
 
         return false;
 
+    }
+
+    public void copyFrom(ReplyDO reply) {
+        this.appId = reply.appId;
+        this.type = reply.getType();
+        this.content = reply.getContent();
+        this.resourceId = reply.getResourceId();
+        this.items = reply.getItems();
+        this.active = reply.isActive();
+        this.gmtModify = reply.getGmtModify();
+        this.gmtCreate = reply.getGmtCreate();
     }
 
 }

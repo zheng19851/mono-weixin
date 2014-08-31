@@ -23,7 +23,7 @@ public class VoiceMessage extends NormalMessage {
      * @param nonce
      * @param params
      */
-    public VoiceMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public VoiceMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
     }
 

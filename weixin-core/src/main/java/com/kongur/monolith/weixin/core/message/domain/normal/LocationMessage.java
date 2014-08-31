@@ -23,8 +23,9 @@ public class LocationMessage extends NormalMessage {
      * @param nonce
      * @param params
      */
-    public LocationMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public LocationMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

@@ -14,6 +14,8 @@ public class DeliverInfo extends DomainBase {
      */
     private static final long serialVersionUID = 7265424907948395272L;
 
+    private String            appId;
+
     /**
      * 用户的OpenId
      */
@@ -42,6 +44,14 @@ public class DeliverInfo extends DomainBase {
      * deliver_msg 是发货状态信息，失败时可以填上UTF8 编码的错误提示信息，比如“该商品已退款”；
      */
     private String            deliverMsg;
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
     public String getOpenId() {
         return openId;

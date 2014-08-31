@@ -17,6 +17,7 @@ public class MenusDO extends DomainBase {
      * 
      */
     private static final long serialVersionUID = -8782860705768827760L;
+    private String            appId;
 
     private List<MenuDO>      menus;
 
@@ -50,6 +51,14 @@ public class MenusDO extends DomainBase {
             this.menus = new ArrayList<MenuDO>();
         }
         this.menus.add(menu);
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
 }

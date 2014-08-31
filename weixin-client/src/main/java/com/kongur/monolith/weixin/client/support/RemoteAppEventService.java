@@ -10,13 +10,6 @@ import com.kongur.monolith.common.result.Result;
 public interface RemoteAppEventService {
 
     /**
-     * 添加监听器
-     * 
-     * @param listener
-     */
-    void addAppEventListener(AppEventListener listener);
-
-    /**
      * 投递事件
      * 
      * @param obj

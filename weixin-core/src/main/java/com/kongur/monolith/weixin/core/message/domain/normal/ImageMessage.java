@@ -23,8 +23,9 @@ public class ImageMessage extends NormalMessage {
      * @param nonce
      * @param params
      */
-    public ImageMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public ImageMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

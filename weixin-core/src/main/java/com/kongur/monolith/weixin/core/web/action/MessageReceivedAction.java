@@ -73,7 +73,7 @@ public class MessageReceivedAction {
             return echostr;
         }
 
-        Message msg = messageBuilder.build(signature, timestamp, nonce, echostr, req);
+        Message msg = messageBuilder.build(appId, signature, timestamp, nonce, echostr, req);
         if (!msg.isValid()) {
             log.error("=============can not build valid message=============, msg=" + msg);
             return null;

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.support.AppEventListener;
 import com.kongur.monolith.weixin.client.support.EnumAppEventType;
 import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
+import com.kongur.monolith.weixin.core.mp.manager.PublicNoInfoManager;
 import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
@@ -27,6 +27,9 @@ public class RemoteAppEventServiceImpl implements RemoteAppEventService {
 
     @Autowired
     private DefaultReplyManager    errorReplyManager;
+
+    @Autowired
+    private PublicNoInfoManager    publicNoInfoManager;
 
     /**
      * ¼àÌýÆ÷
@@ -49,13 +52,15 @@ public class RemoteAppEventServiceImpl implements RemoteAppEventService {
             errorReplyManager.refresh();
         } else if (EnumAppEventType.REFRESH_SUBSCRIBE_REPLY.equals(event)) {
             subscribeReplyManager.refresh();
+        } else if (EnumAppEventType.REFRESH_SUBSCRIBE_REPLY.equals(event)) {
+            publicNoInfoManager.refresh();
         }
 
         result.setSuccess(true);
         return result;
     }
 
-    @Override
+    // @Override
     public void addAppEventListener(AppEventListener listener) {
         if (this.appEventListeners == null) {
             this.appEventListeners = new ArrayList<AppEventListener>();

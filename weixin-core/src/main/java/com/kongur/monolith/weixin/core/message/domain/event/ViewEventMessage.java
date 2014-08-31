@@ -14,8 +14,9 @@ public class ViewEventMessage extends EventMessage {
      */
     private static final long serialVersionUID = 1L;
 
-    public ViewEventMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public ViewEventMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
 

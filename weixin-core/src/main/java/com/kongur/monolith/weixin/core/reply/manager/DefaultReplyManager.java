@@ -4,7 +4,7 @@ import com.kongur.monolith.weixin.core.reply.domain.DefaultReplyDO;
 
 
 /**
- * 默认回复管理，当用户发送内容到公众号，但找不到对应回复内容时，默认返回的内容
+ * 错误回复管理
  * 
  * @author zhengwei
  */
@@ -15,7 +15,15 @@ public interface DefaultReplyManager {
      * 
      * @return
      */
-    DefaultReplyDO getErrorReply();
+    DefaultReplyDO getDefaultReply(String appId);
+
+    /**
+     * 修改
+     * 
+     * @param errorReply
+     * @return
+     */
+    boolean update(DefaultReplyDO errorReply);
 
     /**
      * 刷新

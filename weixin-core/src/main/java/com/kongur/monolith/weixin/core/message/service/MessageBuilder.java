@@ -23,6 +23,7 @@ public interface MessageBuilder {
     /**
      * 组装消息对象
      * 
+     * @param appId 
      * @param signature
      * @param timestamp
      * @param nonce
@@ -30,6 +31,6 @@ public interface MessageBuilder {
      * @param req
      * @return
      */
-    Message build(String signature, String timestamp, String nonce, String echostr, HttpServletRequest req);
+    Message build( String appId,String signature, String timestamp, String nonce, String echostr, HttpServletRequest req);
 
 }

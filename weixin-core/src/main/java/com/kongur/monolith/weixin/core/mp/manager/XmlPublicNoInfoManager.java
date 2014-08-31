@@ -71,7 +71,7 @@ public class XmlPublicNoInfoManager implements PublicNoInfoManager {
         }
     }
 
-    private void refresh() {
+    public void refresh() {
         if (this.file.length() <= 0) {
             log.warn("there is no error reply need to refresh.");
             clear();

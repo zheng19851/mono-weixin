@@ -11,7 +11,7 @@ import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
 import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
 import com.kongur.monolith.weixin.core.menu.service.MenuManager;
-import com.kongur.monolith.weixin.core.reply.domain.SubscribeReplyDO;
+import com.kongur.monolith.weixin.core.reply.domain.ReplysDO;
 import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
 /**
@@ -89,7 +89,7 @@ public class ConfInfoManageAction {
     @RequestMapping("get_subscribe_reply.htm")
     public String getSubscribeReply(Model model) {
 
-        SubscribeReplyDO subscribeReply = subscribeReplyManager.getSubscribeReply();
+        ReplysDO subscribeReply = subscribeReplyManager.getSubscribeReplys();
 
         model.addAttribute("reply", subscribeReply);
 

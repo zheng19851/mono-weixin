@@ -23,8 +23,9 @@ public class ScanQRCodeEventMessage extends EventMessage {
      * @param nonce
      * @param params
      */
-    public ScanQRCodeEventMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public ScanQRCodeEventMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

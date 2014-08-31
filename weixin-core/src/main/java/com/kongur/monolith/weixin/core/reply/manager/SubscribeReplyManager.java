@@ -1,5 +1,6 @@
 package com.kongur.monolith.weixin.core.reply.manager;
 
+import com.kongur.monolith.weixin.core.reply.domain.ReplysDO;
 import com.kongur.monolith.weixin.core.reply.domain.SubscribeReplyDO;
 
 /**
@@ -20,11 +21,14 @@ public interface SubscribeReplyManager {
 
     /**
      * ²éÑ¯
+     * @param appId 
      * 
      * @param id
      * @return
      */
-    SubscribeReplyDO getSubscribeReply();
+    SubscribeReplyDO getSubscribeReply(String appId);
+    
+    ReplysDO getSubscribeReplys();
 
     /**
      * ÐÞ¸Ä
@@ -41,7 +45,7 @@ public interface SubscribeReplyManager {
      * @return
      */
     boolean remove();
-
+    
     void refresh();
 
 }

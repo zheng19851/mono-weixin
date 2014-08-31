@@ -18,8 +18,10 @@ public class UnsubscribeEventMessage extends EventMessage {
      * @param nonce
      * @param params
      */
-    public UnsubscribeEventMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public UnsubscribeEventMessage(String appId, String signature, String timestamp, String nonce,
+                                   Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

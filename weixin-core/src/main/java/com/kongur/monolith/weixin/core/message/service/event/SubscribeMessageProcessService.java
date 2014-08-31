@@ -38,7 +38,7 @@ public class SubscribeMessageProcessService extends AbstractEventMessageProcessS
 
     @Override
     protected Reply buildReply(SubscribeEventMessage msg) {
-        SubscribeReplyDO reply = subscribeReplyManager.getSubscribeReply();
+        SubscribeReplyDO reply = subscribeReplyManager.getSubscribeReply(msg.getAppId());
 
         return reply;
     }

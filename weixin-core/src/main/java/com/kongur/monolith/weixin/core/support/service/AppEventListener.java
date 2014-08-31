@@ -1,4 +1,4 @@
-package com.kongur.monolith.weixin.client.support;
+package com.kongur.monolith.weixin.core.support.service;
 
 /**
  * ÊÂ¼ş¼àÌıÆ÷

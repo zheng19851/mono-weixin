@@ -18,8 +18,9 @@ public class TextMessage extends NormalMessage {
      * @param nonce
      * @param params
      */
-    public TextMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public TextMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        setAppId(appId);
     }
 
     /**

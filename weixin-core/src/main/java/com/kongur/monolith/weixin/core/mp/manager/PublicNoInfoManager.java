@@ -10,6 +10,8 @@ import com.kongur.monolith.weixin.core.mp.domain.PublicNoInfoDO;
  * @author zhengwei
  */
 public interface PublicNoInfoManager {
+    
+    void refresh();
 
     /**
      * 根据appid获取公众号信息

@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 import com.kongur.monolith.weixin.core.mp.domain.PublicNoInfoDO;
@@ -46,7 +45,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
     /**
      * 主动调用微信平台接口时需要用到
      */
-    private volatile String          accessToken;
+    // private volatile String accessToken;
 
     // @Autowired
     // private WeixinConfigService weixinConfigService;
@@ -54,14 +53,14 @@ public class DefaultAccessTokenService implements AccessTokenService {
     /**
      * 默认的appid
      */
-    @Value("${weixin.appId}")
-    private String                   appId;
-
-    /**
-     * 默认微信账号的的appSecret
-     */
-    @Value("${weixin.appSecret}")
-    private String                   appSecret;
+    // @Value("${weixin.appId}")
+    // private String appId;
+    //
+    // /**
+    // * 默认微信账号的的appSecret
+    // */
+    // @Value("${weixin.appSecret}")
+    // private String appSecret;
 
     @Value("${weixin.api.token.url}")
     private String                   apiTokenUrl;
@@ -84,7 +83,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
     private boolean                  disableRefresh   = false;
 
     /**
-     * key=appid
+     * access token缓存，key=appid
      */
     private Map<String, String>      accessTokenCache = new ConcurrentHashMap<String, String>();
 
@@ -94,15 +93,15 @@ public class DefaultAccessTokenService implements AccessTokenService {
     @PostConstruct
     public void init() {
 
-        Assert.notNull(this.appId, "the appId can not be blank.");
-        Assert.notNull(this.appSecret, "the appSecret can not be blank.");
+        // Assert.notNull(this.appId, "the appId can not be blank.");
+        // Assert.notNull(this.appSecret, "the appSecret can not be blank.");
         Assert.notNull(this.apiTokenUrl, "the apiTokenUrl can not be blank.");
 
         // this.apiTokenUrl = MessageFormat.format(this.apiTokenUrlPattern, this.appId, this.appSecret);
 
         if (log.isInfoEnabled()) {
-            log.info("the appId->" + this.appId);
-            log.info("the appSecret->" + this.appSecret);
+            // log.info("the appId->" + this.appId);
+            // log.info("the appSecret->" + this.appSecret);
             log.info("the api for access token url is->" + this.apiTokenUrl);
         }
 
@@ -156,16 +155,16 @@ public class DefaultAccessTokenService implements AccessTokenService {
 
         if (WeixinApiHelper.containsAccessToken(jsonObj)) {
             String newAccessToken = WeixinApiHelper.getAccessToken(jsonObj);
-            if (this.publicNoInfoService.isDefaultAppId(appId)) {
-                this.accessToken = newAccessToken;
-            }
+            // if (this.publicNoInfoService.isDefaultAppId(appId)) {
+            // this.accessToken = newAccessToken;
+            // }
 
             // 更新accessToken
             this.accessTokenCache.put(appId, newAccessToken);
 
             if (log.isInfoEnabled()) {
                 log.info("refresh access token successfully, appId=" + appId + ", appSecret=" + appSecret
-                         + ".\n oldAccessToken=" + oldAccessToken + "\n newAccessToken=" + newAccessToken);
+                         + ", oldAccessToken=" + oldAccessToken + ", newAccessToken=" + newAccessToken);
             }
 
             return result;
@@ -226,15 +225,15 @@ public class DefaultAccessTokenService implements AccessTokenService {
     @Override
     public String getAccessToken() {
 
-        String token = this.accessToken;
-        if (StringUtil.isBlank(token)) {
-            Result<String> result = refresh();
-            if (result.isSuccess()) {
-                token = result.getResult();
-            }
-        }
+        // String token = this.accessToken;
+        // if (StringUtil.isBlank(token)) {
+        // Result<String> result = refresh();
+        // if (result.isSuccess()) {
+        // token = result.getResult();
+        // }
+        // }
 
-        return token;
+        return this.getAccessToken(publicNoInfoService.getDefaultAppId());
     }
 
     @PreDestroy
@@ -246,9 +245,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
 
     @Override
     public String getAccessToken(String appId) {
-        if (this.appId.equals(appId)) {
-            return this.accessToken;
-        }
+
         return this.accessTokenCache.get(appId);
     }
 

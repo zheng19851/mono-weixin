@@ -49,7 +49,8 @@ public class DefaultMessageBuilder implements MessageBuilder {
         String timestamp = req.getParameter("timestamp"); // 时间戳
         String nonce = req.getParameter("nonce"); // 随机数
         String echostr = req.getParameter("echostr");// 随机字符串
-        return this.build(signature, timestamp, nonce, echostr, req);
+        String appId = req.getParameter("appId");
+        return this.build(appId, signature, timestamp, nonce, echostr, req);
     }
 
     private String readMsg(HttpServletRequest req) {
@@ -83,7 +84,8 @@ public class DefaultMessageBuilder implements MessageBuilder {
     }
 
     @Override
-    public Message build(String signature, String timestamp, String nonce, String echostr, HttpServletRequest req) {
+    public Message build(String appId, String signature, String timestamp, String nonce, String echostr,
+                         HttpServletRequest req) {
         Message msg = Message.NULL_MESSAGE;
 
         if (StringUtil.isNotBlank(echostr)) {
@@ -107,24 +109,24 @@ public class DefaultMessageBuilder implements MessageBuilder {
             String msgType = (String) params.get("MsgType");
 
             if (EnumMessageType.isText(msgType)) {
-                msg = new TextMessage(signature, timestamp, nonce, params);
+                msg = new TextMessage(appId, signature, timestamp, nonce, params);
             } else if (EnumMessageType.isImage(msgType)) {
-                msg = new ImageMessage(signature, timestamp, nonce, params);
+                msg = new ImageMessage(appId, signature, timestamp, nonce, params);
             } else if (EnumMessageType.isVoice(msgType)) {
                 // normal voice or Voice Recognition
                 String recognition = (String) params.get("Recognition"); // 语音识别结果
                 if (recognition != null) {
-                    msg = new VoiceRecognitionMessage(signature, timestamp, nonce, params);
+                    msg = new VoiceRecognitionMessage(appId, signature, timestamp, nonce, params);
                 } else {
-                    msg = new VoiceMessage(signature, timestamp, nonce, params);
+                    msg = new VoiceMessage(appId, signature, timestamp, nonce, params);
                 }
 
             } else if (EnumMessageType.isVideo(msgType)) {
-                msg = new VideoMessage(signature, timestamp, nonce, params);
+                msg = new VideoMessage(appId, signature, timestamp, nonce, params);
             } else if (EnumMessageType.isLocation(msgType)) {
-                msg = new LocationMessage(signature, timestamp, nonce, params);
+                msg = new LocationMessage(appId, signature, timestamp, nonce, params);
             } else if (EnumMessageType.isLink(msgType)) {
-                msg = new LinkMessage(signature, timestamp, nonce, params);
+                msg = new LinkMessage(appId, signature, timestamp, nonce, params);
             } else if (EnumMessageType.isEvent(msgType)) {
 
                 // 事件类型
@@ -133,23 +135,23 @@ public class DefaultMessageBuilder implements MessageBuilder {
 
                     String ticket = (String) params.get("Ticket"); // 二维码的ticket，可用来换取二维码图片
                     if (ticket != null) {
-                        msg = new ScanQRCodeEventMessage(signature, timestamp, nonce, params);
+                        msg = new ScanQRCodeEventMessage(appId, signature, timestamp, nonce, params);
                     } else {
-                        msg = new SubscribeEventMessage(signature, timestamp, nonce, params);
+                        msg = new SubscribeEventMessage(appId, signature, timestamp, nonce, params);
                     }
 
                 } else if (EnumEventType.isUnSubscribe(eventType)) {
-                    msg = new UnsubscribeEventMessage(signature, timestamp, nonce, params);
+                    msg = new UnsubscribeEventMessage(appId, signature, timestamp, nonce, params);
                 } else if (EnumEventType.isLocation(eventType)) {
-                    msg = new LocationEventMessage(signature, timestamp, nonce, params);
+                    msg = new LocationEventMessage(appId, signature, timestamp, nonce, params);
                 } else if (EnumEventType.isClick(eventType)) {
-                    msg = new ClickEventMessage(signature, timestamp, nonce, params);
+                    msg = new ClickEventMessage(appId, signature, timestamp, nonce, params);
                 } else if (EnumEventType.isView(eventType)) {
-                    msg = new ViewEventMessage(signature, timestamp, nonce, params);
+                    msg = new ViewEventMessage(appId, signature, timestamp, nonce, params);
                 }
 
             } else {
-                msg = new DefaultMessage(signature, timestamp, nonce, params);
+                msg = new DefaultMessage(appId, signature, timestamp, nonce, params);
             }
 
         }

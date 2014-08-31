@@ -18,6 +18,8 @@ public abstract class AbstractMessage extends DomainBase implements Message {
      */
     private static final long   serialVersionUID = -2293661716502114332L;
 
+    private String              appId;
+
     /**
      * Œ¢–≈º”√‹«©√˚
      */
@@ -44,10 +46,19 @@ public abstract class AbstractMessage extends DomainBase implements Message {
     private Map<String, Object> params           = null;
 
     public AbstractMessage(String signature, String timestamp, String nonce) {
-        this(signature, timestamp, nonce, null);
+        this(null, signature, timestamp, nonce, null);
+    }
+
+    public AbstractMessage(String appId, String signature, String timestamp, String nonce) {
+        this(appId, signature, timestamp, nonce, null);
     }
 
     public AbstractMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
+        this(null, signature, timestamp, nonce, params);
+    }
+
+    public AbstractMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
+        this.appId = appId;
         this.signature = signature;
         this.timestamp = timestamp;
         this.nonce = nonce;
@@ -142,6 +153,14 @@ public abstract class AbstractMessage extends DomainBase implements Message {
     @Override
     public boolean isValid() {
         return true;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
 }

@@ -22,7 +22,7 @@ import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 public class TextMessageProcessService extends AbstractMessageProcessService<TextMessage> {
 
     @Autowired
-    private DefaultReplyManager errorReplyManager;
+    private DefaultReplyManager defaultReplyManager;
 
     @Override
     public boolean supports(Message msg) {
@@ -37,7 +37,7 @@ public class TextMessageProcessService extends AbstractMessageProcessService<Tex
         String content = msg.getContent();
 
         if (reply == null) {
-            reply = createDefaultReply();
+            reply = createDefaultReply(msg);
         }
 
         return reply;
@@ -45,18 +45,19 @@ public class TextMessageProcessService extends AbstractMessageProcessService<Tex
 
     /**
      * 创建默认的回复
+     * @param msg 
      * 
      * @return
      */
-    private Reply createDefaultReply() {
-        DefaultReplyDO errorReply = errorReplyManager.getErrorReply();
-        if (errorReply == null || StringUtil.isBlank(errorReply.getContent())) {
+    private Reply createDefaultReply(TextMessage msg) {
+        DefaultReplyDO defaultReply = defaultReplyManager.getDefaultReply(msg.getAppId());
+        if (defaultReply == null || StringUtil.isBlank(defaultReply.getContent())) {
             return null;
         }
         ReplyDO reply = new ReplyDO();
         reply.setType(EnumMessageType.TEXT.getValue());
 
-        reply.setContent(errorReply.getContent());
+        reply.setContent(defaultReply.getContent());
 
         return reply;
     }

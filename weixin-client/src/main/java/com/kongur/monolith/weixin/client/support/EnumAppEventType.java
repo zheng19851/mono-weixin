@@ -11,6 +11,8 @@ public enum EnumAppEventType {
 
     REFRESH_SUBSCRIBE_REPLY("REFRESH_SUBSCRIBE_REPLY"),
 
+    
+    REFRESH_PUBLIC_NO("refresh_public_no"),
     ;
 
     private String val;

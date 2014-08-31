@@ -22,6 +22,8 @@ public class MenuDO extends DomainBase {
      */
     private static final long serialVersionUID = 2098017289149628095L;
 
+    private String            appId;
+
     /**
      * 菜单ID
      */
@@ -107,6 +109,14 @@ public class MenuDO extends DomainBase {
      * 网页授权类型, snsapi_base 或 snsapi_userinfo
      */
     private String            userOAuthType;
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
     /**
      * 当选择菜单类型为链接时，是否需要对url进行oauth2.0授权

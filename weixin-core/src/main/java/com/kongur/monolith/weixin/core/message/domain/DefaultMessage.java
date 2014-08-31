@@ -23,8 +23,8 @@ public class DefaultMessage extends AbstractMessage {
      * @param nonce
      * @param params
      */
-    public DefaultMessage(String signature, String timestamp, String nonce, Map<String, Object> params) {
-        super(signature, timestamp, nonce, params);
+    public DefaultMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
+        super(appId, signature, timestamp, nonce, params);
     }
 
 }
