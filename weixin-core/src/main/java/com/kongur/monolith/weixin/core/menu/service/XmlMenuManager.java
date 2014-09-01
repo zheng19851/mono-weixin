@@ -218,8 +218,10 @@ public class XmlMenuManager implements MenuManager {
 
         List<PublicNoInfoDO> publicNoInfoList = publicNoInfoService.getPublicNoInfoList();
 
-        for (PublicNoInfoDO publicNoInfo : publicNoInfoList) {
-            refresh(publicNoInfo.getAppId());
+        if (publicNoInfoList != null) {
+            for (PublicNoInfoDO publicNoInfo : publicNoInfoList) {
+                refresh(publicNoInfo.getAppId());
+            }
         }
 
         if (log.isDebugEnabled()) {
@@ -333,9 +335,9 @@ public class XmlMenuManager implements MenuManager {
     // }
 
     public static void main(String[] args) throws Exception {
-         readXML();
+        readXML();
 
-//        System.out.println("//");
+        // System.out.println("//");
 
     }
 

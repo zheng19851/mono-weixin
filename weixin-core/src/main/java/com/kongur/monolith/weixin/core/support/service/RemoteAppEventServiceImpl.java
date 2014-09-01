@@ -1,8 +1,5 @@
 package com.kongur.monolith.weixin.core.support.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +10,7 @@ import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.mp.manager.PublicNoInfoManager;
 import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
+import com.kongur.monolith.weixin.core.support.event.AppEventMulticaster;
 
 /**
  * @author zhengwei
@@ -20,22 +18,20 @@ import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 @Service("remoteAppEventService")
 public class RemoteAppEventServiceImpl implements RemoteAppEventService {
 
-    private final Logger           log               = Logger.getLogger(getClass());
+    private final Logger          log = Logger.getLogger(getClass());
 
     @Autowired
-    private SubscribeReplyManager  subscribeReplyManager;
+    private SubscribeReplyManager subscribeReplyManager;
 
     @Autowired
-    private DefaultReplyManager    errorReplyManager;
+    private DefaultReplyManager   errorReplyManager;
 
     @Autowired
-    private PublicNoInfoManager    publicNoInfoManager;
-
-    /**
-     * ¼àÌýÆ÷
-     */
-    private List<AppEventListener> appEventListeners = null;
-
+    private PublicNoInfoManager   publicNoInfoManager;
+    
+    @Autowired
+    private AppEventMulticaster appEventMulticaster;
+ 
     @Override
     public Result<Object> multicastEvent(Object event) {
 
@@ -58,15 +54,6 @@ public class RemoteAppEventServiceImpl implements RemoteAppEventService {
 
         result.setSuccess(true);
         return result;
-    }
-
-    // @Override
-    public void addAppEventListener(AppEventListener listener) {
-        if (this.appEventListeners == null) {
-            this.appEventListeners = new ArrayList<AppEventListener>();
-        }
-        this.appEventListeners.add(listener);
-
     }
 
 }

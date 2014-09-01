@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.client.user.RemoteUserService;
 import com.kongur.monolith.weixin.client.user.User;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
@@ -24,15 +23,12 @@ import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
  * @author zhengwei
  */
 @Service("userService")
-public class DefaultUserService implements RemoteUserService {
+public class DefaultUserService implements UserService {
 
     private final Logger        log                  = Logger.getLogger(getClass());
 
     @Autowired
     private WeixinApiService    weixinApiService;
-
-//    @Autowired
-//    private WeixinConfigService weixinConfigService;
 
     @Autowired
     private PublicNoInfoService publicNoInfoService;
@@ -155,6 +151,12 @@ public class DefaultUserService implements RemoteUserService {
         JSONObject userJsonObj = getUserInfoResult.getResult();
 
         User user = buildUser(openId, userJsonObj);
+
+        if (log.isDebugEnabled()) {
+            log.debug("invoke getUserByOAuth2Code method successfully, appId=" + appId + ", code=" + code + ", user="
+                      + user);
+        }
+
         result.setResult(user);
         result.setSuccess(true);
         return result;
@@ -202,7 +204,8 @@ public class DefaultUserService implements RemoteUserService {
         result.setResult(openId);
 
         if (log.isDebugEnabled()) {
-            log.debug("invoke getOpenIdByCode method successfully, openId=" + openId);
+            log.debug("invoke getOpenIdByCode method successfully, appId=" + appId + ", code=" + code + ", openId="
+                      + openId);
         }
         result.setSuccess(true);
         return result;

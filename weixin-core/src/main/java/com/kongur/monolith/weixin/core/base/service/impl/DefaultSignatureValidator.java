@@ -31,8 +31,8 @@ public class DefaultSignatureValidator implements SignatureValidator {
     /**
      * 微信token
      */
-    @Value("${weixin.token}")
-    private String              token;
+    // @Value("${weixin.token}")
+    // private String token;
 
     /**
      * 是否关闭验证, 默认为开启验证
@@ -42,13 +42,13 @@ public class DefaultSignatureValidator implements SignatureValidator {
 
     @PostConstruct
     public void init() {
-        if (StringUtil.isBlank(this.token)) {
-            throw new IllegalArgumentException("the token can not be blank.");
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("token=" + this.token + ", disableValidate=" + this.disableValidate);
-        }
+        // if (StringUtil.isBlank(this.token)) {
+        // throw new IllegalArgumentException("the token can not be blank.");
+        // }
+        //
+        // if (log.isDebugEnabled()) {
+        // log.debug("token=" + this.token + ", disableValidate=" + this.disableValidate);
+        // }
 
     }
 
@@ -63,7 +63,7 @@ public class DefaultSignatureValidator implements SignatureValidator {
     @Override
     public boolean validate(String signature, String timestamp, String nonce) {
 
-        return this.doValidate(this.token, signature, timestamp, nonce);
+        return this.doValidate(publicNoInfoService.getDefaultToken(), signature, timestamp, nonce);
     }
 
     /**
@@ -83,11 +83,11 @@ public class DefaultSignatureValidator implements SignatureValidator {
 
         if (StringUtil.isBlank(signature) || StringUtil.isBlank(timestamp) || StringUtil.isBlank(nonce)) {
             log.error("validate signature error, the validate arguments can not be blank. signature=" + signature
-                      + ", timestamp=" + timestamp + ", nonce=" + nonce);
+                      + ", timestamp=" + timestamp + ", nonce=" + nonce + ", token=" + token);
             return false;
         }
 
-        String[] signatureArray = { this.token, timestamp, nonce };
+        String[] signatureArray = { token, timestamp, nonce };
 
         Arrays.sort(signatureArray); // 自然排序
 
@@ -102,6 +102,11 @@ public class DefaultSignatureValidator implements SignatureValidator {
 
     @Override
     public boolean validate(String appId, String signature, String timestamp, String nonce) {
+
+        if (log.isDebugEnabled()) {
+            log.debug("validate signature, the validate arguments can not be blank. signature=" + signature
+                      + ", timestamp=" + timestamp + ", nonce=" + nonce + ", appId=" + appId);
+        }
 
         String token = publicNoInfoService.getTokenByAppId(appId);
 

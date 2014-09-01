@@ -65,6 +65,18 @@ public class ConfInfoManageAction {
     }
 
     /**
+     * 刷新当前access token
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping("refresh.htm")
+    public String refresh(String type, Model model) {
+
+        return "success";
+    }
+
+    /**
      * 查看菜单
      * 
      * @param model
@@ -109,8 +121,7 @@ public class ConfInfoManageAction {
 
         return "success";
     }
-    
-    
+
     /**
      * 刷新菜单
      * 

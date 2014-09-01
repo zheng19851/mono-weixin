@@ -12,9 +12,10 @@ import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
  */
 public interface MenuManager {
 
+    void refresh(String appId);
+
     void refresh();
-    
-    
+
     /**
      * 获取所有菜单
      * 
@@ -29,8 +30,6 @@ public interface MenuManager {
      * @return
      */
     MenuDO getMenu(String menuId);
-
-   
 
     /**
      * 根据事件KEY获取回复

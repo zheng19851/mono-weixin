@@ -3,8 +3,6 @@ package com.kongur.monolith.weixin.core.menu.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -58,7 +56,7 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
     @Resource(name = "messageVelocityEngine")
     private VelocityEngine      velocityEngine;
 
-    private ExecutorService     executorService;
+//    private ExecutorService     executorService;
 
     @Autowired
     private MenuManager         menuManager;
@@ -70,12 +68,12 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
 
     @PostConstruct
     public void init() {
-        if (this.executorService == null) {
-            this.executorService = Executors.newSingleThreadExecutor();
-        }
+//        if (this.executorService == null) {
+//            this.executorService = Executors.newSingleThreadExecutor();
+//        }
     }
 
-    @Override
+    // @Override
     public Result<Object> createMenus(List<Menu> menus) {
         if (log.isDebugEnabled()) {
             log.debug("invoke default createMenus, menus=" + menus);
@@ -135,11 +133,13 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
             log.debug("invoke createMenus successfully, appId=" + appId + " menus=" + menus);
         }
 
+        this.menuManager.refresh(appId);
+
         result.setSuccess(true);
         return result;
     }
 
-    @Override
+    // @Override
     public Result<Object> removeMenus() {
 
         if (log.isDebugEnabled()) {
@@ -165,7 +165,7 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         return result;
     }
 
-    @Override
+    // @Override
     public Result<List<Menu>> getMenus() {
         // Result<List<Menu>> result = new Result<List<Menu>>();
         //
@@ -183,7 +183,7 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         throw new UnsupportedOperationException("unsupport this operation of getMenus()");
     }
 
-    @Override
+    // @Override
     public Result<Object> refreshMenus() {
         Result<Object> result = new Result<Object>();
 
@@ -193,22 +193,22 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         return result;
     }
 
-    @Override
+    // @Override
     public Result<Object> updateMenu(Menu menu) {
         throw new UnsupportedOperationException("unsupport this operation of updateMenu()");
     }
 
-    @Override
+    // @Override
     public Result<Object> removeMenu(String menuId) {
         throw new UnsupportedOperationException("unsupport this operation of removeMenu()");
     }
 
-    @Override
+    // @Override
     public Result<Object> createMenu(Menu menu) {
         throw new UnsupportedOperationException("unsupport this operation of createMenu()");
     }
 
-    @Override
+    // @Override
     public Result<Menu> getMenu(String menuId) {
         throw new UnsupportedOperationException("unsupport this operation of getMenu()");
     }
@@ -241,9 +241,9 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         this.getMenusUrlPattern = getMenusUrlPattern;
     }
 
-    public void setExecutorService(ExecutorService executorService) {
-        this.executorService = executorService;
-    }
+    // public void setExecutorService(ExecutorService executorService) {
+    // this.executorService = executorService;
+    // }
 
     public void setMenuManager(MenuManager menuManager) {
         this.menuManager = menuManager;
@@ -270,6 +270,8 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
+
+        this.menuManager.refresh(appId);
 
         if (log.isDebugEnabled()) {
             log.debug("invoke removeMenus successfully, appid=" + appId);
