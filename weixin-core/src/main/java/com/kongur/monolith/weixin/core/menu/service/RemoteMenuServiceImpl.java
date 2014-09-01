@@ -50,27 +50,18 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
     @Resource(name = "defaultWeixinApiService")
     private WeixinApiService    weixinApiService;
 
-    // @Autowired
-    // private AccessTokenService accessTokenService;
-
     @Resource(name = "messageVelocityEngine")
     private VelocityEngine      velocityEngine;
-
-//    private ExecutorService     executorService;
 
     @Autowired
     private MenuManager         menuManager;
 
-    // @Autowired
-    // private WeixinConfigService weixinConfigService;
     @Autowired
     private PublicNoInfoService publicNoInfoService;
 
     @PostConstruct
     public void init() {
-//        if (this.executorService == null) {
-//            this.executorService = Executors.newSingleThreadExecutor();
-//        }
+
     }
 
     // @Override
@@ -125,6 +116,8 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         Result<JSONObject> apiResult = weixinApiService.doPost(appId, createMenuUrl, postParams);
 
         if (!apiResult.isSuccess()) {
+            log.error("(createMenus) create menus error, appId=" + appId + ", menus=" + menus + ", reusltCode="
+                      + apiResult.getResultCode() + ", resultInfo=" + apiResult.getResultInfo());
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
@@ -142,27 +135,7 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
     // @Override
     public Result<Object> removeMenus() {
 
-        if (log.isDebugEnabled()) {
-            log.debug("invoke removeMenus");
-        }
-
-        Result<Object> result = new Result<Object>();
-
-        String removeMenuUrl = this.removeMenusUrlPattern;
-
-        Result<JSONObject> apiResult = weixinApiService.doGet(removeMenuUrl);
-
-        if (!apiResult.isSuccess()) {
-            result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
-            return result;
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("invoke removeMenus successfully");
-        }
-
-        result.setSuccess(true);
-        return result;
+        return this.removeMenus(this.publicNoInfoService.getDefaultAppId());
     }
 
     // @Override
@@ -183,36 +156,6 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         throw new UnsupportedOperationException("unsupport this operation of getMenus()");
     }
 
-    // @Override
-    public Result<Object> refreshMenus() {
-        Result<Object> result = new Result<Object>();
-
-        menuManager.refresh();
-
-        result.setSuccess(true);
-        return result;
-    }
-
-    // @Override
-    public Result<Object> updateMenu(Menu menu) {
-        throw new UnsupportedOperationException("unsupport this operation of updateMenu()");
-    }
-
-    // @Override
-    public Result<Object> removeMenu(String menuId) {
-        throw new UnsupportedOperationException("unsupport this operation of removeMenu()");
-    }
-
-    // @Override
-    public Result<Object> createMenu(Menu menu) {
-        throw new UnsupportedOperationException("unsupport this operation of createMenu()");
-    }
-
-    // @Override
-    public Result<Menu> getMenu(String menuId) {
-        throw new UnsupportedOperationException("unsupport this operation of getMenu()");
-    }
-
     public void setCreateMenuUrlPattern(String createMenuUrlPattern) {
         this.createMenusUrlPattern = createMenuUrlPattern;
     }
@@ -220,10 +163,6 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
     public void setCreateMenusTemplate(String createMenusTemplate) {
         this.createMenusTemplate = createMenusTemplate;
     }
-
-    // public void setAccessTokenService(AccessTokenService accessTokenService) {
-    // this.accessTokenService = accessTokenService;
-    // }
 
     public void setVelocityEngine(VelocityEngine velocityEngine) {
         this.velocityEngine = velocityEngine;
@@ -240,10 +179,6 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
     public void setGetMenusUrlPattern(String getMenusUrlPattern) {
         this.getMenusUrlPattern = getMenusUrlPattern;
     }
-
-    // public void setExecutorService(ExecutorService executorService) {
-    // this.executorService = executorService;
-    // }
 
     public void setMenuManager(MenuManager menuManager) {
         this.menuManager = menuManager;
@@ -267,6 +202,8 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
         Result<JSONObject> apiResult = weixinApiService.doGet(appId, removeMenuUrl);
 
         if (!apiResult.isSuccess()) {
+            log.error("(createMenus) create menus error, appId=" + appId + ", reusltCode=" + apiResult.getResultCode()
+                      + ", resultInfo=" + apiResult.getResultInfo());
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }

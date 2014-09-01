@@ -130,12 +130,19 @@ public class DefaultUserService implements UserService {
         Result<JSONObject> getAccessTokenResult = weixinApiService.doGet(getAccessTokenApiUrl, false);
 
         if (!getAccessTokenResult.isSuccess()) {
+            log.error("(getOpenIdByOAuth2Code) get access_token error, appId=" + appId + ", code=" + code
+                      + ", resultCode=" + getAccessTokenResult.getResultCode() + ", resultInfo="
+                      + getAccessTokenResult.getResultInfo());
             result.setError(getAccessTokenResult.getResultCode(), getAccessTokenResult.getResultInfo());
             return result;
         }
 
         String openId = getAccessTokenResult.getResult().getString("openid");
         String accessToken = getAccessTokenResult.getResult().getString("access_token");
+        if (log.isDebugEnabled()) {
+            log.debug("(getOAuth2UserByCode) get access_token success, appId=" + appId + ", code=" + code + ", openid="
+                      + openId + ", access_token=" + accessToken);
+        }
 
         String getUserInfoApiUrl = this.getOauth2UserInfoUrl;
 
@@ -144,6 +151,9 @@ public class DefaultUserService implements UserService {
         Result<JSONObject> getUserInfoResult = weixinApiService.doGet(getUserInfoApiUrl, false);
 
         if (!getUserInfoResult.isSuccess()) {
+            log.error("(getOpenIdByOAuth2Code) get user info error, appId=" + appId + ", code=" + code
+                      + ", resultCode=" + getUserInfoResult.getResultCode() + ", resultInfo="
+                      + getUserInfoResult.getResultInfo());
             result.setError(getUserInfoResult.getResultCode(), getUserInfoResult.getResultInfo());
             return result;
         }
@@ -177,7 +187,7 @@ public class DefaultUserService implements UserService {
     @Override
     public Result<String> getOpenIdByOAuth2Code(String appId, String code) {
         if (log.isDebugEnabled()) {
-            log.debug("invoke getOpenIdByCode method, appId=" + appId + " code=" + code);
+            log.debug("invoke getOpenIdByOAuth2Code method, appId=" + appId + ", code=" + code);
         }
 
         Result<String> result = new Result<String>();
@@ -196,6 +206,8 @@ public class DefaultUserService implements UserService {
         Result<JSONObject> apiResult = weixinApiService.doGet(getAccessTokenApiUrl, false);
 
         if (!apiResult.isSuccess()) {
+            log.error("getOpenIdByOAuth2Code error, appId=" + appId + ", code=" + code + ", resultCode="
+                      + apiResult.getResultCode() + ", resultInfo=" + apiResult.getResultInfo());
             result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
@@ -204,8 +216,8 @@ public class DefaultUserService implements UserService {
         result.setResult(openId);
 
         if (log.isDebugEnabled()) {
-            log.debug("invoke getOpenIdByCode method successfully, appId=" + appId + ", code=" + code + ", openId="
-                      + openId);
+            log.debug("invoke getOpenIdByOAuth2Code method successfully, appId=" + appId + ", code=" + code
+                      + ", openId=" + openId);
         }
         result.setSuccess(true);
         return result;

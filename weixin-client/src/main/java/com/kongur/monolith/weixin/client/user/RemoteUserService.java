@@ -12,6 +12,7 @@ public interface RemoteUserService {
     /**
      * OAuth2.0 获取用户基本信息
      * 
+     * @param appId 微信appid
      * @param code OAuth2.0授权时的CODE
      * @return
      */
@@ -20,6 +21,7 @@ public interface RemoteUserService {
     /**
      * 网页授权获取用户id
      * 
+     * @param appId 微信appid
      * @param code OAuth2.0授权时的CODE
      * @return
      */

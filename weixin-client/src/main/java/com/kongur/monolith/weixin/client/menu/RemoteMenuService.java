@@ -24,6 +24,7 @@ public interface RemoteMenuService {
     /**
      * 删除所有菜单
      * 
+     * @param appId 微信appId
      * @return
      */
     Result<Object> removeMenus(String appId);
