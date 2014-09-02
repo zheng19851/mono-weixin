@@ -2,6 +2,8 @@ package com.kongur.monolith.weixin.core.support.event;
 
 import java.util.EventObject;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * ÊÂ¼þ
  * 
@@ -16,6 +18,11 @@ public class AppEvent extends EventObject {
 
     public AppEvent(Object source) {
         super(source);
+    }
+
+    public String toString() {
+
+        return ToStringBuilder.reflectionToString(source);
     }
 
 }

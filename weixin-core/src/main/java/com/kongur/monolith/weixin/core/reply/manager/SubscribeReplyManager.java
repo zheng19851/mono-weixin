@@ -12,40 +12,16 @@ import com.kongur.monolith.weixin.core.reply.domain.SubscribeReplyDO;
 public interface SubscribeReplyManager {
 
     /**
-     * 创建
-     * 
-     * @param reply
-     * @return
-     */
-    String create(SubscribeReplyDO reply);
-
-    /**
      * 查询
-     * @param appId 
      * 
+     * @param appId
      * @param id
      * @return
      */
     SubscribeReplyDO getSubscribeReply(String appId);
-    
+
     ReplysDO getSubscribeReplys();
 
-    /**
-     * 修改
-     * 
-     * @param reply
-     * @return
-     */
-    boolean update(SubscribeReplyDO reply);
-
-    /**
-     * 删除
-     * 
-     * @param id
-     * @return
-     */
-    boolean remove();
-    
     void refresh();
 
 }

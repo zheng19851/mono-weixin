@@ -3,14 +3,9 @@ package com.kongur.monolith.weixin.core.reply.manager.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import javax.annotation.PostConstruct;
 
@@ -20,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.client.support.EnumAppEventType;
 import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.reply.domain.DefaultReplyDO;
 import com.kongur.monolith.weixin.core.reply.domain.DefaultReplysDO;
@@ -55,11 +49,6 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     @Autowired
     private RemoteAppEventService       remoteAppEventService;
 
-    private ReentrantReadWriteLock      readWriteLock        = new ReentrantReadWriteLock();
-
-    private WriteLock                   wl                   = readWriteLock.writeLock();
-    private ReadLock                    rl                   = readWriteLock.readLock();
-
     @PostConstruct
     public void init() throws IOException {
 
@@ -93,12 +82,7 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     @Override
     public DefaultReplyDO getDefaultReply(String appId) {
 
-        rl.lock();
-        try {
-            return this.defaultReplyMapCache != null ? this.defaultReplyMapCache.get(appId) : null;
-        } finally {
-            rl.unlock();
-        }
+        return this.defaultReplyMapCache != null ? this.defaultReplyMapCache.get(appId) : null;
     }
 
     @Override
@@ -131,69 +115,6 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
         if (log.isDebugEnabled()) {
             log.debug("refresh DefaultReplysDO successfully, DefaultReplysDO=" + defaultReplys);
         }
-    }
-
-    @Override
-    public boolean update(DefaultReplyDO newReply) {
-
-        wl.lock();
-
-        try {
-
-            if (this.defaultReplysCache == null) {
-                this.defaultReplysCache = new DefaultReplysDO();
-                this.defaultReplysCache.add(newReply);
-            } else {
-                if (!this.defaultReplysCache.isEmpty()) {
-                    DefaultReplyDO old = null;
-                    for (DefaultReplyDO reply : this.defaultReplysCache.getReplyList()) {
-                        if (newReply.getAppId().equals(reply.getAppId())) {
-                            old = reply;
-                            break;
-                        }
-                    }
-
-                    if (old != null) {
-                        old.copyFrom(newReply);
-                    } else {
-                        this.defaultReplysCache.add(newReply);
-                    }
-                }
-            }
-
-            if (this.defaultReplyMapCache == null) {
-                this.defaultReplyMapCache = new HashMap<String, DefaultReplyDO>();
-            }
-            this.defaultReplyMapCache.put(newReply.getAppId(), newReply);
-
-            storeToXml();
-        } finally {
-            wl.unlock();
-        }
-
-        remoteAppEventService.multicastEvent(EnumAppEventType.REFRESH_ERROR_REPLY);
-
-        return true;
-    }
-
-    private void storeToXml() {
-        OutputStreamWriter out = null;
-        try {
-            out = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
-            this.xStream.toXML(this.defaultReplysCache, out);
-            out.flush();
-        } catch (Exception e) {
-            throw new RuntimeException("can not find the default reply conf file, filePath=" + this.confPath, e);
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    log.error(e);
-                }
-            }
-        }
-
     }
 
 }

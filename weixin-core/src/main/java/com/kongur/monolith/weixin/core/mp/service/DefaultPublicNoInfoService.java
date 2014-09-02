@@ -32,6 +32,7 @@ public class DefaultPublicNoInfoService implements PublicNoInfoService {
     @PostConstruct
     public void init() {
 
+        // 设置默认的公众号(配置文件server.properties里的公众号)
         PublicNoInfoDO defaultPublicNo = new PublicNoInfoDO();
         defaultPublicNo.setAppId(weixinConfigService.getAppId());
         defaultPublicNo.setAppSecret(weixinConfigService.getAppSecret());
@@ -75,7 +76,11 @@ public class DefaultPublicNoInfoService implements PublicNoInfoService {
         retList.add(defaultPublicNoInfoCache);
         List<PublicNoInfoDO> otherPublicNoList = this.publicNoInfoManager.getPublicNoInfoList();
         if (otherPublicNoList != null && !otherPublicNoList.isEmpty()) {
-            retList.addAll(otherPublicNoList);
+            for (PublicNoInfoDO info : otherPublicNoList) {
+                if (!isDefaultAppId(info.getAppId())) { // 过滤掉默认的公众号
+                    retList.add(info);
+                }
+            }
         }
         return retList;
     }

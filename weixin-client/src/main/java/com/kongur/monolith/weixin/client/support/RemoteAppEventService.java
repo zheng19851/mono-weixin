@@ -14,6 +14,6 @@ public interface RemoteAppEventService {
      * 
      * @param obj
      */
-    Result<Object> multicastEvent(Object event);
+    Result<Object> multicastEvent(RemoteAppEvent appEvent);
 
 }

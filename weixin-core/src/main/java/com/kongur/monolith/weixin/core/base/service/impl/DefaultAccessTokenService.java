@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.kongur.monolith.common.result.Result;
+import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 import com.kongur.monolith.weixin.core.mp.domain.PublicNoInfoDO;
@@ -133,7 +134,19 @@ public class DefaultAccessTokenService implements AccessTokenService {
      * @param appSecret
      * @return
      */
-    private Result<JSONObject> refreshOne(String appId, String appSecret) {
+    private Result<String> refreshOne(String appId, String appSecret) {
+
+        Result<String> result = new Result<String>();
+
+        if (StringUtil.isBlank(appId)) {
+            result.setError("10001", "the appId can not empty");
+            return result;
+        }
+
+        if (StringUtil.isBlank(appSecret)) {
+            result.setError("10002", "the appSecret can not empty");
+            return result;
+        }
 
         String oldAccessToken = this.getAccessToken(appId);
 
@@ -142,16 +155,17 @@ public class DefaultAccessTokenService implements AccessTokenService {
         // Ìæ»»appIdºÍappSecret
         apiTokenUrl = MessageFormat.format(apiTokenUrl, appId, appSecret);
 
-        Result<JSONObject> result = apiService.doGet(apiTokenUrl, false);
+        Result<JSONObject> apiResult = apiService.doGet(apiTokenUrl, false);
 
-        if (!result.isSuccess()) {
+        if (!apiResult.isSuccess()) {
             log.error("refresh access token error, apiTokenUrl=" + apiTokenUrl + ", errorCode="
-                      + result.getResultCode() + ", errorInfo=" + result.getResultInfo());
+                      + apiResult.getResultCode() + ", errorInfo=" + apiResult.getResultInfo());
 
+            result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
             return result;
         }
 
-        final JSONObject jsonObj = result.getResult();
+        final JSONObject jsonObj = apiResult.getResult();
 
         if (WeixinApiHelper.containsAccessToken(jsonObj)) {
             String newAccessToken = WeixinApiHelper.getAccessToken(jsonObj);
@@ -167,13 +181,20 @@ public class DefaultAccessTokenService implements AccessTokenService {
                          + ", oldAccessToken=" + oldAccessToken + ", newAccessToken=" + newAccessToken);
             }
 
+            result.setResult(newAccessToken);
             return result;
         }
 
-        log.error("refresh access token error, response=" + result.getResult());
+        log.error("refresh access token error, response=" + apiResult.getResult());
         result.setError("2001", "can not find access token.");
         return result;
 
+    }
+
+    @Override
+    public Result<String> refresh(String appId) {
+        String appSecret = this.publicNoInfoService.getAppSecretByAppId(appId);
+        return this.refreshOne(appId, appSecret);
     }
 
     /**

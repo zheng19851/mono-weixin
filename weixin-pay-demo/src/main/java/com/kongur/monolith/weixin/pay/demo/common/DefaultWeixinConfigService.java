@@ -15,37 +15,37 @@ public class DefaultWeixinConfigService implements WeixinConfigService {
     /**
      * 财付通商户权限密钥Key
      */
-    @Value("weixin.payment.paternerKey")
+    @Value("${weixin.payment.paternerKey}")
     private String paternerKey;
 
     /**
      * 财付通商户身份的标识
      */
-    @Value("weixin.payment.partnerId")
+    @Value("${weixin.payment.partnerId}")
     private String partnerId;
 
     /**
      * 接收微信通知的url
      */
-    @Value("weixin.payment.notifyUrl")
+    @Value("${weixin.payment.notifyUrl}")
     private String notifyUrl;
 
     /**
      * 微信公众号appid
      */
-    @Value("weixin.platform.appId")
+    @Value("${weixin.appId}")
     private String appId;
 
     /**
      * 付款密钥
      */
-    @Value("weixin.payment.paySignkey")
+    @Value("${weixin.payment.paySignkey}")
     private String paySignkey;
 
     /**
      * 默认字符集
      */
-    @Value("weixin.payment.charset")
+    @Value("${weixin.payment.charset}")
     private String charset = "GBK";
 
     @PostConstruct

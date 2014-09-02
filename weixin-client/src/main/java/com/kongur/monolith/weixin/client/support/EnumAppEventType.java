@@ -7,12 +7,13 @@ package com.kongur.monolith.weixin.client.support;
  */
 public enum EnumAppEventType {
 
-    REFRESH_ERROR_REPLY("REFRESH_ERROR_REPLY"),
+    REFRESH_DEFAULT_REPLY("REFRESH_DEFAULT_REPLY"),
 
     REFRESH_SUBSCRIBE_REPLY("REFRESH_SUBSCRIBE_REPLY"),
 
-    
     REFRESH_PUBLIC_NO("refresh_public_no"),
+    
+    REFRESH_MENUS("refresh_menus"),
     ;
 
     private String val;

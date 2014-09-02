@@ -22,5 +22,5 @@ public interface AppEventListener<E extends AppEvent> extends EventListener {
      * @param event
      * @return
      */
-    boolean supports(E event);
+    boolean supports(AppEvent event);
 }

@@ -11,6 +11,14 @@ import com.kongur.monolith.common.result.Result;
 public interface AccessTokenService {
 
     /**
+     * 刷新公众号access token
+     * 
+     * @param appId 公众号appid
+     * @return
+     */
+    Result<String> refresh(String appId);
+
+    /**
      * 刷新 access token
      * 
      * @return
@@ -18,7 +26,7 @@ public interface AccessTokenService {
     Result<String> refresh();
 
     /**
-     * 获取AccessToken
+     * 获取默认公众号的AccessToken
      * 
      * @return
      */
