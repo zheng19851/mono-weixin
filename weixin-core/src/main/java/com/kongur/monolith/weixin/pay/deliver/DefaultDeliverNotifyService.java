@@ -13,7 +13,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.client.deliver.DeliverInfo;
-import com.kongur.monolith.weixin.client.deliver.IDeliverNotifyService;
+import com.kongur.monolith.weixin.client.deliver.RemoteDeliverNotifyService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 import com.kongur.monolith.weixin.pay.common.EnumSignType;
 import com.kongur.monolith.weixin.pay.common.WeixinPaymentHelper;
@@ -21,7 +21,7 @@ import com.kongur.monolith.weixin.pay.common.WeixinPaymentHelper;
 /**
  * @author zhengwei
  */
-public class DefaultDeliverNotifyService implements IDeliverNotifyService {
+public class DefaultDeliverNotifyService implements RemoteDeliverNotifyService {
 
     private String              deliverNotifyApiUrl   = "https://api.weixin.qq.com/pay/delivernotify?access_token=${access_token}";
 

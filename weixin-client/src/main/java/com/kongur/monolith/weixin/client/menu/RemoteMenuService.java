@@ -12,6 +12,8 @@ import com.kongur.monolith.common.result.Result;
  */
 public interface RemoteMenuService {
 
+    void refresh(String appId);
+
     /**
      * ´´½¨²Ëµ¥
      * 

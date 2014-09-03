@@ -6,12 +6,15 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+<context:component-scan base-package="com.kongur.monolith.weixin.core" />
+<!-- 
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.base.service,com.kongur.monolith.weixin.core.event.service" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.custom.service,com.kongur.monolith.weixin.core.menu.service" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.service,com.kongur.monolith.weixin.core.user.service" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.support,com.kongur.monolith.weixin.core.message.service" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.manager,com.kongur.monolith.weixin.core.conf" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.mp" />
+	 -->
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

@@ -128,36 +128,10 @@ public class XmlMenuManager implements MenuManager {
             log.debug("refresh menus start, appId=" + appId);
         }
 
-        String confFile = getConfFilePath(appId);
-
-        File file = new File(confFile);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                if (log.isDebugEnabled()) {
-                    log.debug("create conf file successfully, appId=" + appId + ", confFile=" + confFile);
-                }
-
-                return;
-            } catch (IOException e) {
-                new RuntimeException("create file error, confFile=" + confFile, e);
-            }
-        }
-
         clear(appId);
 
-        if (file.length() <= 0) {
-            log.warn("there are no menus need to refresh. appId=" + appId);
-            return;
-        }
-
         // 将XML文件数据转成java对像
-        MenusDO menus = null;
-        try {
-            menus = (MenusDO) xstream.fromXML(new FileInputStream(file));
-        } catch (IOException e) {
-            throw new RuntimeException("refresh menus error, appId=" + appId + ", confFile=" + confFile, e);
-        }
+        MenusDO menus = getMenusFromXml(appId);
 
         WriteLock writeLock = readWriteLock.writeLock();
 
@@ -173,6 +147,48 @@ public class XmlMenuManager implements MenuManager {
         if (log.isDebugEnabled()) {
             log.debug("refresh menus successfully, appId=" + appId + ", menus=" + menus);
         }
+    }
+
+    private MenusDO getMenusFromXml(String appId) {
+        MenusDO menus = null;
+        String confFile = getConfFilePath(appId);
+
+        File file = new File(confFile);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+                if (log.isDebugEnabled()) {
+                    log.debug("create conf file successfully, appId=" + appId + ", confFile=" + confFile);
+                }
+
+                return menus;
+            } catch (IOException e) {
+                throw new RuntimeException("create file error, confFile=" + confFile, e);
+            }
+        }
+
+        if (file.length() <= 0) {
+            log.warn("there are no menus need to refresh. appId=" + appId);
+            return menus;
+        }
+
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(file);
+            menus = (MenusDO) xstream.fromXML(in);
+        } catch (IOException e) {
+            throw new RuntimeException("refresh menus error, appId=" + appId + ", confFile=" + confFile, e);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            }
+        }
+
+        return menus;
     }
 
     private void clear(String appId) {

@@ -9,7 +9,7 @@ import com.kongur.monolith.common.result.Result;
  * 
  * @author zhengwei
  */
-public interface IRefundService {
+public interface RemoteRefundService {
 
     /**
      * ÉêÇëÍË¿î

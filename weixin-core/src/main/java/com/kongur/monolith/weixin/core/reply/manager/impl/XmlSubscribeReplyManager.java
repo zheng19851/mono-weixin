@@ -90,23 +90,7 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
         }
 
         // 将XML文件数据转成java对像
-        ReplysDO replys = null;
-        FileInputStream in = null;
-        try {
-
-            in = new FileInputStream(file);
-            replys = (ReplysDO) xstream.fromXML(in);
-        } catch (IOException e) {
-            throw new RuntimeException("refresh subscribe reply error", e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    log.error(e);
-                }
-            }
-        }
+        ReplysDO replys = getReplysFromXml();
 
         WriteLock writeLock = readWriteLock.writeLock();
         writeLock.lock();
@@ -134,6 +118,33 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
             log.debug("refresh subscribe reply successfully, replys=" + replys);
         }
 
+    }
+
+    private ReplysDO getReplysFromXml() {
+
+        if (this.file.length() <= 0) {
+            log.warn("there are no subscribe reply to refresh.");
+            return null;
+        }
+
+        ReplysDO replys = null;
+        FileInputStream in = null;
+        try {
+
+            in = new FileInputStream(file);
+            replys = (ReplysDO) xstream.fromXML(in);
+        } catch (IOException e) {
+            throw new RuntimeException("get subscribe reply from xml error", e);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            }
+        }
+        return replys;
     }
 
     public XmlSubscribeReplyManager() {

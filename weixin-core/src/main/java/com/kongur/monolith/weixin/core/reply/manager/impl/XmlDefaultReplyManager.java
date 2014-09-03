@@ -95,13 +95,7 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
             return;
         }
 
-        DefaultReplysDO defaultReplys = null;
-        try {
-            defaultReplys = (DefaultReplysDO) xStream.fromXML(new FileInputStream(this.file));
-        } catch (FileNotFoundException e) {
-            log.error("can not find the error reply conf file", e);
-            return;
-        }
+        DefaultReplysDO defaultReplys = getDefaultReplysFromXml();
 
         this.defaultReplysCache = defaultReplys;
         if (defaultReplys != null && !defaultReplys.isEmpty()) {
@@ -115,6 +109,28 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
         if (log.isDebugEnabled()) {
             log.debug("refresh DefaultReplysDO successfully, DefaultReplysDO=" + defaultReplys);
         }
+    }
+
+    private DefaultReplysDO getDefaultReplysFromXml() {
+        DefaultReplysDO defaultReplys = null;
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(this.file);
+            defaultReplys = (DefaultReplysDO) xStream.fromXML(in);
+        } catch (FileNotFoundException e) {
+            log.error("can not find the default reply conf file", e);
+            return defaultReplys;
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            }
+        }
+
+        return defaultReplys;
     }
 
 }

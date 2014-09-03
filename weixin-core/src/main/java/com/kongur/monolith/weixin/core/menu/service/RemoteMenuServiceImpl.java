@@ -126,7 +126,7 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
             log.debug("invoke createMenus successfully, appId=" + appId + " menus=" + menus);
         }
 
-        this.menuManager.refresh(appId);
+//        this.menuManager.refresh(appId);
 
         result.setSuccess(true);
         return result;
@@ -208,7 +208,7 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
             return result;
         }
 
-        this.menuManager.refresh(appId);
+//        this.menuManager.refresh(appId);
 
         if (log.isDebugEnabled()) {
             log.debug("invoke removeMenus successfully, appid=" + appId);
@@ -216,6 +216,11 @@ public class RemoteMenuServiceImpl implements RemoteMenuService {
 
         result.setSuccess(true);
         return result;
+    }
+
+    @Override
+    public void refresh(String appId) {
+        this.menuManager.refresh(appId);
     }
 
 }

@@ -14,15 +14,19 @@
 		<log.path>d:/temp/logs/weixin-core</log.path><!-- d:/temp/logs/weixin-core --><!-- /home/weixin/work/logs/weixin-core -->
 		<app.server.host>localhost</app.server.host><!-- 183.129.158.42 -->
 		<app.server.port>8080</app.server.port>
-		
+
 		<weixin.appId>wxe58afcd99f7a997e</weixin.appId>
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
-		
+
 		<weixin.menus.conf>D:/temp/weixin/menus</weixin.menus.conf><!-- D:/temp/weixin/menus.xml --><!-- /home/weixin/work/conf/menus.xml -->
-		<weixin.subscribe.reply.conf>D:/temp/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf><!-- D:/temp/weixin/subscribe_reply.xml --><!-- /home/weixin/work/conf/subscribe_reply.xml -->
-		<weixin.reply.error.conf>D:/temp/weixin/default_reply.xml</weixin.reply.error.conf><!--D:/temp/weixin/default_reply.xml --><!-- /home/weixin/work/conf/default_reply.xml -->
-		<weixin.publicNo.conf>D:/temp/weixin/publicNo.xml</weixin.publicNo.conf><!-- /home/weixin/work/conf/default_reply.xml -->
+		<weixin.subscribe.reply.conf>D:/temp/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf><!-- 
+			D:/temp/weixin/subscribe_reply.xml --><!-- 
+			/home/weixin/work/conf/subscribe_reply.xml -->
+		<weixin.reply.error.conf>D:/temp/weixin/default_reply.xml</weixin.reply.error.conf><!--D:/temp/weixin/default_reply.xml --><!-- 
+			/home/weixin/work/conf/default_reply.xml -->
+		<weixin.publicNo.conf>D:/temp/weixin/publicNo.xml</weixin.publicNo.conf><!-- 
+			/home/weixin/work/conf/default_reply.xml -->
 	</properties>
 
 	<build>
@@ -150,6 +154,11 @@
 			<version>4.0.38</version>
 		</dependency>
 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.32</version>
+		</dependency>
 
 	</dependencies>
 </project>
