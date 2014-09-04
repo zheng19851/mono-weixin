@@ -38,10 +38,10 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
      * @param encodeValue 是否对value进行url encode
      * @return
      */
-    public String buildUrlParamsStr(SortedMap<String, String> paramMap, String charset) {
+    public String buildUrlParamsStr(SortedMap<String, Object> paramMap, String charset) {
         StringBuilder sb = new StringBuilder();
-        Set<Entry<String, String>> es = paramMap.entrySet();
-        for (Entry<String, String> entry : es) {
+        Set<Entry<String, Object>> es = paramMap.entrySet();
+        for (Entry<String, Object> entry : es) {
             String k = (String) entry.getKey();
             String v = (String) entry.getValue();
             if (isNotBlank(charset)) {
@@ -78,7 +78,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     }
 
     @Override
-    public String buildRefundSign(SortedMap<String, String> paramsMap) {
+    public String buildRefundSign(SortedMap<String, Object> paramsMap) {
         String paramsStr = this.buildUrlParamsStr(paramsMap, null);
         String paternerKey = publicNoInfoService.getDefaultPaternerKey();
         String encryptStr = paramsStr + "&key=" + paternerKey;
@@ -89,12 +89,12 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     }
 
     @Override
-    public String buildPaySign(SortedMap<String, String> paramsMap) {
+    public String buildPaySign(SortedMap<String, Object> paramsMap) {
         return this.buildPaySign(paramsMap, "sha1");
     }
 
     @Override
-    public String buildPaySign(SortedMap<String, String> paramsMap, String signType) {
+    public String buildPaySign(SortedMap<String, Object> paramsMap, String signType) {
         if (log.isDebugEnabled()) {
             log.debug("buildPaySign, paySign params=" + paramsMap);
         }

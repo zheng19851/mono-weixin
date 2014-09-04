@@ -1,7 +1,6 @@
 package com.kongur.monolith.weixin.core.message.service;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.UUIDGenerator;
 import com.kongur.monolith.lang.StringUtil;
@@ -15,7 +14,7 @@ import com.kongur.monolith.weixin.core.message.domain.WrappedMessage;
  * @author zhengwei
  * @date 2014-2-19
  */
-@Service("messageService")
+//@Service("memoryMessageService")
 public class MemoryMessageService implements MessageService {
 
     private final Logger                           log      = Logger.getLogger(getClass());

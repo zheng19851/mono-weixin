@@ -41,7 +41,7 @@ public class DefaultDeliverNotifyService implements RemoteDeliverNotifyService {
 
         Result<Object> result = new Result<Object>();
 
-        SortedMap<String, String> paramsMap = new TreeMap<String, String>();
+        SortedMap<String, Object> paramsMap = new TreeMap<String, Object>();
         paramsMap.put("appid", deliverInfo.getAppId());
         paramsMap.put("openid", deliverInfo.getOpenId());
         paramsMap.put("transid", deliverInfo.getTransId());

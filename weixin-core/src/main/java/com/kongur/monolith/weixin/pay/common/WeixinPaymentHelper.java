@@ -16,7 +16,7 @@ public interface WeixinPaymentHelper {
      * @param charset 字符集，需要对value进行url encode，那么设置
      * @return
      */
-    String buildUrlParamsStr(SortedMap<String, String> paramsMap, String charset);
+    String buildUrlParamsStr(SortedMap<String, Object> paramsMap, String charset);
 
     /**
      * 生成随机字符串
@@ -32,7 +32,7 @@ public interface WeixinPaymentHelper {
      * @param paramMap
      * @return
      */
-    String buildPaySign(SortedMap<String, String> paramMap);
+    String buildPaySign(SortedMap<String, Object> paramMap);
 
     /**
      * 生成付款签名
@@ -41,7 +41,7 @@ public interface WeixinPaymentHelper {
      * @param signType
      * @return
      */
-    String buildPaySign(SortedMap<String, String> paramsMap, String signType);
+    String buildPaySign(SortedMap<String, Object> paramsMap, String signType);
 
     /**
      * 生成退款申请时的签名
@@ -49,5 +49,5 @@ public interface WeixinPaymentHelper {
      * @param paramsMap
      * @return
      */
-    String buildRefundSign(SortedMap<String, String> paramsMap);
+    String buildRefundSign(SortedMap<String, Object> paramsMap);
 }

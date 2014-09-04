@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.refund.RemoteRefundService;
 import com.kongur.monolith.weixin.client.refund.RefundApply;
 import com.kongur.monolith.weixin.client.refund.RefundInfo;
 import com.kongur.monolith.weixin.client.refund.RefundQuery;
+import com.kongur.monolith.weixin.client.refund.RemoteRefundService;
 import com.kongur.monolith.weixin.core.base.service.ApiService;
 import com.kongur.monolith.weixin.pay.common.WeixinPaymentHelper;
 
@@ -43,7 +43,7 @@ public class DefaultRefundService implements RemoteRefundService {
     public Result<RefundInfo> refund(RefundApply refundInfo) {
 
         Result<RefundInfo> result = new Result<RefundInfo>();
-        SortedMap<String, String> paramsMap = new TreeMap<String, String>();
+        SortedMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
         String sign = weixinPaymentHelper.buildRefundSign(paramsMap);
 
