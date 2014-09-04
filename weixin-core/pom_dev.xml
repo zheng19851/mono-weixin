@@ -9,6 +9,9 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
+
+		<spring.version>3.0.5.RELEASE</spring.version>
+
 		<system.devMode>true</system.devMode>
 		<log.level>debug</log.level>
 		<log.path>d:/temp/logs/weixin-core</log.path><!-- d:/temp/logs/weixin-core --><!-- /home/weixin/work/logs/weixin-core -->
@@ -19,14 +22,12 @@
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
 
-		<weixin.menus.conf>D:/temp/weixin/menus</weixin.menus.conf><!-- D:/temp/weixin/menus.xml --><!-- /home/weixin/work/conf/menus.xml -->
-		<weixin.subscribe.reply.conf>D:/temp/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf><!-- 
-			D:/temp/weixin/subscribe_reply.xml --><!-- 
-			/home/weixin/work/conf/subscribe_reply.xml -->
+		<weixin.menus.conf>D:/temp/weixin/menus</weixin.menus.conf><!--  D:/temp/weixin/menus --><!-- /home/weixin/work/conf/menus -->
+		<weixin.subscribe.reply.conf>D:/temp/weixin/subscribe_reply.xml</weixin.subscribe.reply.conf>
+		<!--  D:/temp/weixin/subscribe_reply.xml --><!--  /home/weixin/work/conf/subscribe_reply.xml -->
 		<weixin.reply.error.conf>D:/temp/weixin/default_reply.xml</weixin.reply.error.conf><!--D:/temp/weixin/default_reply.xml --><!-- 
 			/home/weixin/work/conf/default_reply.xml -->
-		<weixin.publicNo.conf>D:/temp/weixin/publicNo.xml</weixin.publicNo.conf><!-- 
-			/home/weixin/work/conf/default_reply.xml -->
+		<weixin.publicNo.conf>D:/temp/weixin/publicNo.xml</weixin.publicNo.conf>
 	</properties>
 
 	<build>
@@ -43,9 +44,11 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
+			<version>3.8.1</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>com.kongur.monolith</groupId>
 			<artifactId>monolith-common</artifactId>
@@ -73,25 +76,25 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -99,6 +102,20 @@
 			<artifactId>spring-ext</artifactId>
 			<version>3.0.1.RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.0.1.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
 
 		<dependency>
 			<groupId>xstream</groupId>
@@ -158,6 +175,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.32</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ibatis</groupId>
+			<artifactId>ibatis-sqlmap</artifactId>
+			<version>2.3.4.726</version>
 		</dependency>
 
 	</dependencies>

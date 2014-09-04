@@ -261,7 +261,7 @@ public class XmlMenuManager implements MenuManager {
         // this.menusCache = menus;
 
         // »º´æ»Ø¸´Êý¾Ý
-        if (!menus.isEmpty()) {
+        if (menus != null && !menus.isEmpty()) {
             Map<String, ReplyDO> replysMap = new HashMap<String, ReplyDO>();
             Map<String, MenuDO> menusMap = new HashMap<String, MenuDO>();
 

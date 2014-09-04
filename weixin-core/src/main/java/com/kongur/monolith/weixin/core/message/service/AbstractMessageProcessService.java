@@ -1,8 +1,7 @@
 package com.kongur.monolith.weixin.core.message.service;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
@@ -20,17 +19,19 @@ import com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilderResolver
  */
 public abstract class AbstractMessageProcessService<M extends Message> implements MessageProcessService<M> {
 
-    protected final Logger                     log = Logger.getLogger(getClass());
+    protected final Logger                     log   = Logger.getLogger(getClass());
 
     /**
      * ≈≈–Ú÷µ
      */
     private int                                order = Ordered.LOWEST_PRECEDENCE;
 
-    @Resource(name = "messageService")
+    // @Resource(name = "messageService")
+    @Autowired
     private MessageService                     messageService;
 
-    @Resource(name = "replyMessageBuilderResolver")
+    // @Resource(name = "replyMessageBuilderResolver")
+    @Autowired
     private ReplyMessageBuilderResolver<Reply> replyMessageBuilderResolver;
 
     public int getOrder() {
