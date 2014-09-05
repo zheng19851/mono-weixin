@@ -2,10 +2,12 @@ package com.kongur.monolith.weixin.core.message.domain;
 
 import java.util.Date;
 
+import com.kongur.monolith.common.DomainBase;
+
 /***
  *
  */
-public class WXMessageDO {
+public class WXMessageDO extends DomainBase {
 
     private Long    id;
 
@@ -36,6 +38,8 @@ public class WXMessageDO {
         this.fromUser = msg.getFromUserName();
         this.toUser = msg.getToUserName();
         this.createTime = msg.getCreateTime();
+        this.status = 0;
+        this.features = msg.getFeatures();
     }
 
     public WXMessageDO() {
@@ -191,25 +195,6 @@ public class WXMessageDO {
      */
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
-    }
-
-    /***
-	 * 
-	 */
-    @Override
-    public String toString() {
-        StringBuffer mb = new StringBuffer();
-        mb.append("id" + id);
-        mb.append("appId" + appId);
-        mb.append("msgId" + msgId);
-        mb.append("msgType" + msgType);
-        mb.append("fromUser" + fromUser);
-        mb.append("toUser" + toUser);
-        mb.append("createTime" + createTime);
-        mb.append("gmtCreate" + gmtCreate);
-        mb.append("gmtModify" + gmtModify);
-
-        return new StringBuilder().append("MessageDO").append(mb).toString();
     }
 
 }

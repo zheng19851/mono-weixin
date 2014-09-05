@@ -116,4 +116,9 @@ public class WrappedMessage extends DomainBase implements Message {
         return message.getAppId();
     }
 
+    @Override
+    public String getFeatures() {
+        return null;
+    }
+
 }

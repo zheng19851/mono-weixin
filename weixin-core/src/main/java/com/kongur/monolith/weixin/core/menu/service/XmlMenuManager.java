@@ -53,10 +53,19 @@ public class XmlMenuManager implements MenuManager {
     /**
      * 配置文件目录
      */
-    @Value("${weixin.menus.conf}")
+    // @Value("${weixin.menus.conf}")
+    @Value("${weixin.conf.rootDir}")
     private String                                                       confFileDir;
 
+    /**
+     * 前缀
+     */
     private String                                                       filePrefix       = "menu";
+
+    /**
+     * 文件后缀
+     */
+    private String                                                       fileSuffix       = ".xml";
 
     /**
      * 所有菜单缓存
@@ -218,7 +227,7 @@ public class XmlMenuManager implements MenuManager {
     }
 
     private String getConfFilePath(String appId) {
-        return this.confFileDir + filePrefix + "_" + appId + ".xml";
+        return this.confFileDir + filePrefix + "_" + appId + this.fileSuffix;
     }
 
     public void refresh() {

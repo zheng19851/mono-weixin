@@ -24,16 +24,21 @@ import com.thoughtworks.xstream.XStream;
  * 
  * @author zhengwei
  */
-@Service("xmlPublicNoManager")
+@Service("xmlPublicNoInfoManager")
 public class XmlPublicNoInfoManager implements PublicNoInfoManager {
 
     private final Logger                log                  = Logger.getLogger(getClass());
 
     /**
-     * Â·¾¶
+     * ÅäÖÃÄ¿Â¼Â·¾¶
      */
-    @Value("${weixin.publicNo.conf}")
+    // @Value("${weixin.publicNo.conf}")
+    @Value("${weixin.conf.rootDir}")
     private String                      confPath;
+
+    private String                      fileName             = "publicNo.xml";
+
+    private String                      fileRealPath;
 
     private File                        file                 = null;
 
@@ -45,7 +50,15 @@ public class XmlPublicNoInfoManager implements PublicNoInfoManager {
     @PostConstruct
     public void init() throws IOException {
         Assert.notNull(this.confPath, "the xml conf file of publicNo can not be null.");
-        File file = new File(this.confPath);
+        Assert.notNull(this.fileName, "the xml conf file name of publicNo can not be null.");
+
+        if (!this.confPath.endsWith("/")) {
+            this.confPath = this.confPath + "/";
+        }
+
+        this.fileRealPath = this.confPath + this.fileName;
+
+        File file = new File(this.fileRealPath);
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -53,7 +66,7 @@ public class XmlPublicNoInfoManager implements PublicNoInfoManager {
         this.file = file;
 
         if (log.isDebugEnabled()) {
-            log.debug("the xml conf file of publicNo is " + this.confPath);
+            log.debug("the xml conf file of publicNo is " + this.fileRealPath);
         }
 
         if (xStream == null) {
@@ -145,4 +158,13 @@ public class XmlPublicNoInfoManager implements PublicNoInfoManager {
     public boolean exists(String appId) {
         return this.publicNoInfoMapCache != null ? this.publicNoInfoMapCache.containsKey(appId) : false;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
 }

@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.menu.domain.ItemDO;
@@ -38,8 +39,13 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
     /**
      * Â·¾¶
      */
-    @Value("${weixin.subscribe.reply.conf}")
+    // @Value("${weixin.subscribe.reply.conf}")
+    @Value("${weixin.conf.rootDir}")
     private String                 confPath;
+
+    private String                 fileName      = "default_reply.xml";
+
+    private String                 fileRealPath;
 
     private File                   file;
 
@@ -61,7 +67,16 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
 
     @PostConstruct
     public void init() throws IOException {
-        this.file = new File(this.confPath);
+        Assert.notNull(this.confPath, "the xml conf file of default reply can not be null.");
+        Assert.notNull(this.fileName, "the xml conf file name of default reply can not be null.");
+
+        if (!this.confPath.endsWith("/")) {
+            this.confPath = this.confPath + "/";
+        }
+
+        this.fileRealPath = this.confPath + this.fileName;
+
+        this.file = new File(this.fileRealPath);
 
         if (!this.file.exists()) {
             this.file.createNewFile();

@@ -32,8 +32,13 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     /**
      * Â·¾¶
      */
-    @Value("${weixin.reply.error.conf}")
+    // @Value("${weixin.reply.error.conf}")
+    @Value("${weixin.conf.rootDir}")
     private String                      confPath;
+
+    private String                      fileName             = "default_reply.xml";
+
+    private String                      fileRealPath;
 
     private File                        file                 = null;
 
@@ -53,7 +58,16 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     public void init() throws IOException {
 
         Assert.notNull(this.confPath, "the xml conf file of default reply can not be null.");
-        File file = new File(this.confPath);
+        Assert.notNull(this.fileName, "the xml conf file name of default reply can not be null.");
+
+        if (!this.confPath.endsWith("/")) {
+            this.confPath = this.confPath + "/";
+        }
+
+        this.fileRealPath = this.confPath + this.fileName;
+
+        File file = new File(this.fileRealPath);
+
         if (!file.exists()) {
             file.createNewFile();
         }

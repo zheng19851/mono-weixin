@@ -163,4 +163,9 @@ public abstract class AbstractMessage extends DomainBase implements Message {
         this.appId = appId;
     }
 
+    @Override
+    public String getFeatures() {
+        return null;
+    }
+
 }

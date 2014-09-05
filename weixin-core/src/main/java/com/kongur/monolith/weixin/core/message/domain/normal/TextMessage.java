@@ -37,4 +37,9 @@ public class TextMessage extends NormalMessage {
         return this.getString("Content");
     }
 
+    @Override
+    public String getFeatures() {
+        return "{content:" + this.getContent() + "}";
+    }
+
 }

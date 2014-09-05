@@ -77,11 +77,19 @@ public interface Message {
                                  return false;
                              }
 
+                             @Override
+                             public String getAppId() {
+                                 // TODO Auto-generated method stub
+                                 return null;
+                             }
+
                             @Override
-                            public String getAppId() {
+                            public String getFeatures() {
                                 // TODO Auto-generated method stub
                                 return null;
                             }
+
+                           
 
                          };
 
@@ -178,4 +186,11 @@ public interface Message {
      * @return
      */
     boolean isValid();
+
+    /**
+     * 将消息各自的特殊属性，组装成json数据
+     * 
+     * @return
+     */
+    String getFeatures();
 }
