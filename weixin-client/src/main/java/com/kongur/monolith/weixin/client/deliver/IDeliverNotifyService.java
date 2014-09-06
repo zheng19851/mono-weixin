@@ -10,7 +10,7 @@ import com.kongur.monolith.common.result.Result;
  * 
  * @author zhengwei
  */
-public interface RemoteDeliverNotifyService {
+public interface IDeliverNotifyService {
 
     /**
      * ·¢ËÍÍ¨Öª

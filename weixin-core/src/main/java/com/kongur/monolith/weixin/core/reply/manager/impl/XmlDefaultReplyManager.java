@@ -47,9 +47,9 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     /**
      * »º´æ
      */
-    private DefaultReplysDO             defaultReplysCache;
+    private volatile DefaultReplysDO             defaultReplysCache;
 
-    private Map<String, DefaultReplyDO> defaultReplyMapCache = new HashMap<String, DefaultReplyDO>();
+    private volatile Map<String, DefaultReplyDO> defaultReplyMapCache = new HashMap<String, DefaultReplyDO>();
 
     @Autowired
     private RemoteAppEventService       remoteAppEventService;

@@ -8,7 +8,7 @@ import com.kongur.monolith.weixin.client.custom.message.CustomMessage;
  * 
  * @author zhengwei
  */
-public interface RemoteCustomMessageSendService {
+public interface ICustomMessageSendService {
 
     /**
      * ·¢ËÍ

@@ -10,7 +10,7 @@ import com.kongur.monolith.common.result.Result;
  * @author zhengwei
  * @date 2014-2-19
  */
-public interface RemoteMenuService {
+public interface IMenuService {
 
     void refresh(String appId);
 

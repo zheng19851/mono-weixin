@@ -7,7 +7,7 @@ import com.kongur.monolith.common.result.Result;
  * 
  * @author zhengwei
  */
-public interface RemoteAppEventService {
+public interface IAppEventService {
 
     /**
      * Í¶µÝÊÂ¼þ

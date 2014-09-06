@@ -7,7 +7,7 @@ import com.kongur.monolith.common.result.Result;
  * 
  * @author zhengwei
  */
-public interface RemoteUserService {
+public interface IUserService {
 
     /**
      * OAuth2.0 获取用户基本信息
