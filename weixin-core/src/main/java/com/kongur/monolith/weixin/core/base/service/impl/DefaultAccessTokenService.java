@@ -181,6 +181,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
                          + ", oldAccessToken=" + oldAccessToken + ", newAccessToken=" + newAccessToken);
             }
 
+            result.setSuccess(true);
             result.setResult(newAccessToken);
             return result;
         }

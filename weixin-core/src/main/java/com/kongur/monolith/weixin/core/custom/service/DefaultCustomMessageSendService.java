@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.custom.RemoteCustomMessageSendService;
+import com.kongur.monolith.weixin.client.custom.ICustomMessageSendService;
 import com.kongur.monolith.weixin.client.custom.message.CustomMessage;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 
@@ -15,7 +15,7 @@ import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
  *
  */
 @Service("customMessageSendService")
-public class DefaultCustomMessageSendService implements RemoteCustomMessageSendService {
+public class DefaultCustomMessageSendService implements ICustomMessageSendService {
     
     private String apiUrl = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${access_token}";
     

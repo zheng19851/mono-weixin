@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.kongur.monolith.common.result.Result;
+import com.kongur.monolith.weixin.client.menu.IMenuService;
 import com.kongur.monolith.weixin.client.menu.Menu;
-import com.kongur.monolith.weixin.client.menu.RemoteMenuService;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
 import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 
@@ -26,7 +26,7 @@ import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
  * @date 2014Äê2ÔÂ20ÈÕ
  */
 @Service("remoteMenuService")
-public class RemoteMenuServiceImpl implements RemoteMenuService {
+public class RemoteMenuServiceImpl implements IMenuService {
 
     private final Logger        log                   = Logger.getLogger(getClass());
 

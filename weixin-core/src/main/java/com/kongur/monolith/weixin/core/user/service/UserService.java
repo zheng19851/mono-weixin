@@ -1,7 +1,7 @@
 package com.kongur.monolith.weixin.core.user.service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.user.RemoteUserService;
+import com.kongur.monolith.weixin.client.user.IUserService;
 import com.kongur.monolith.weixin.client.user.User;
 
 
@@ -11,7 +11,7 @@ import com.kongur.monolith.weixin.client.user.User;
  * @author zhengwei
  *
  */
-public interface UserService extends RemoteUserService {
+public interface UserService extends IUserService {
 
     /**
      * OAuth2.0 获取用户基本信息，使用默认的appId

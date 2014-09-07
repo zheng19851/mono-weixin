@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
+import com.kongur.monolith.weixin.client.support.IAppEventService;
 import com.kongur.monolith.weixin.core.reply.domain.DefaultReplyDO;
 import com.kongur.monolith.weixin.core.reply.domain.DefaultReplysDO;
 import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
@@ -52,7 +52,7 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     private volatile Map<String, DefaultReplyDO> defaultReplyMapCache = new HashMap<String, DefaultReplyDO>();
 
     @Autowired
-    private RemoteAppEventService       remoteAppEventService;
+    private IAppEventService       remoteAppEventService;
 
     @PostConstruct
     public void init() throws IOException {

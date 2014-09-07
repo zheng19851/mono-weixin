@@ -189,7 +189,7 @@ public class DefaultWeixinApiService implements WeixinApiService {
                 // 前面是access_token错误才需要刷新
                 if (replaceAccessToken && WeixinApiHelper.isAccessTokenInvalid(result.getResult())) {
                     // 先刷新
-                    Result<String> refreshResult = accessTokenService.refresh();
+                    Result<String> refreshResult = accessTokenService.refresh(appId);
                     if (!refreshResult.isSuccess()) {
                         return result;
                     }

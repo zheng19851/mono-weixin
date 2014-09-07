@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eyeieye.skyjoo.util.StringUtil;
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.client.user.RemoteUserService;
+import com.kongur.monolith.weixin.client.user.IUserService;
 import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**
@@ -20,7 +20,7 @@ import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 public class OAuth2TestAction {
 
     @Autowired
-    private RemoteUserService   userSerivce;
+    private IUserService   userSerivce;
 
     // @Autowired
     // private WeixinConfigService weixinConfigService;

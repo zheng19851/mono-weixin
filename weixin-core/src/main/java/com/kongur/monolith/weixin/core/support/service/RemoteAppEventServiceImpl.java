@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.client.support.EnumAppEventType;
+import com.kongur.monolith.weixin.client.support.IAppEventService;
 import com.kongur.monolith.weixin.client.support.RemoteAppEvent;
-import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
 import com.kongur.monolith.weixin.core.mp.manager.PublicNoInfoManager;
 import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.kongur.monolith.weixin.core.reply.manager.SubscribeReplyManager;
@@ -23,7 +23,7 @@ import com.kongur.monolith.weixin.core.support.event.AppEventMulticaster;
  * @author zhengwei
  */
 @Service("remoteAppEventService")
-public class RemoteAppEventServiceImpl implements RemoteAppEventService {
+public class RemoteAppEventServiceImpl implements IAppEventService {
 
     private final Logger          log = Logger.getLogger(getClass());
 

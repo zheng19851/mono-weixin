@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.client.support.RemoteAppEventService;
+import com.kongur.monolith.weixin.client.support.IAppEventService;
 import com.kongur.monolith.weixin.core.menu.domain.ItemDO;
 import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 import com.kongur.monolith.weixin.core.reply.domain.ReplysDO;
@@ -63,7 +63,7 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
     private Map<String, ReplyDO>   replyMapCache = new HashMap<String, ReplyDO>();
 
     @Autowired
-    private RemoteAppEventService  remoteAppEventService;
+    private IAppEventService  remoteAppEventService;
 
     @PostConstruct
     public void init() throws IOException {

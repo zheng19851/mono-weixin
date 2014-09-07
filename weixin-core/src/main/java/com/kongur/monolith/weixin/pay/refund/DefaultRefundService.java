@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
+import com.kongur.monolith.weixin.client.refund.IRefundService;
 import com.kongur.monolith.weixin.client.refund.RefundApply;
 import com.kongur.monolith.weixin.client.refund.RefundInfo;
 import com.kongur.monolith.weixin.client.refund.RefundQuery;
-import com.kongur.monolith.weixin.client.refund.RemoteRefundService;
 import com.kongur.monolith.weixin.core.base.service.ApiService;
 import com.kongur.monolith.weixin.pay.common.WeixinPaymentHelper;
 
@@ -21,7 +21,7 @@ import com.kongur.monolith.weixin.pay.common.WeixinPaymentHelper;
  * @author zhengwei
  */
 @Service("refundService")
-public class DefaultRefundService implements RemoteRefundService {
+public class DefaultRefundService implements IRefundService {
 
     /**
      * ÕÀøÓ…Í«Îapi
