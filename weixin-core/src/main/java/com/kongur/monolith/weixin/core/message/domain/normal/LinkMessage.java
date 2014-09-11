@@ -2,18 +2,21 @@ package com.kongur.monolith.weixin.core.message.domain.normal;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.LinkFeatures;
+
 /**
  * 链接消息
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class LinkMessage extends NormalMessage {
+public class LinkMessage extends NormalMessage<LinkFeatures> {
 
     /**
      * 
      */
     private static final long serialVersionUID = 8811416273797547554L;
+
 
     /**
      * 链接消息
@@ -26,6 +29,9 @@ public class LinkMessage extends NormalMessage {
     public LinkMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
         setAppId(appId);
+        LinkFeatures features = new LinkFeatures(getString("Url"), getString("Title"), getString("Description"));
+        
+        this.setFeatures(features);
     }
 
     /**
@@ -34,7 +40,7 @@ public class LinkMessage extends NormalMessage {
      * @return
      */
     public String getUrl() {
-        return this.getString("Url");
+        return this.getFeatures().getUrl();
     }
 
     /**
@@ -43,7 +49,7 @@ public class LinkMessage extends NormalMessage {
      * @return
      */
     public String getTitle() {
-        return this.getString("Title");
+        return this.getFeatures().getTitle();
     }
 
     /**
@@ -52,7 +58,8 @@ public class LinkMessage extends NormalMessage {
      * @return
      */
     public String getDescription() {
-        return this.getString("Description");
+        return this.getFeatures().getDescription();
+
     }
 
 }

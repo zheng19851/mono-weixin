@@ -3,6 +3,7 @@ package com.kongur.monolith.weixin.core.message.domain.event;
 import java.util.Map;
 
 import com.kongur.monolith.weixin.core.message.domain.AbstractMessage;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /**
  * 事件推送的消息
@@ -10,7 +11,7 @@ import com.kongur.monolith.weixin.core.message.domain.AbstractMessage;
  * @author zhengwei
  * @date 2014-2-14
  */
-public class EventMessage extends AbstractMessage {
+public class EventMessage<F extends Features> extends AbstractMessage<F> {
 
     public EventMessage(String signature, String timestamp, String nonce) {
         super(signature, timestamp, nonce);

@@ -2,15 +2,17 @@ package com.kongur.monolith.weixin.core.message.domain;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
+
 /**
  * 接收到的消息
  * 
  * @author zhengwei
  * @date 2014-2-14
  */
-public interface Message {
+public interface Message<F extends Features> {
 
-    Message NULL_MESSAGE = new Message() {
+    Message<Features> NULL_MESSAGE = new Message<Features>() {
 
                              @Override
                              public String getToUserName() {
@@ -79,17 +81,13 @@ public interface Message {
 
                              @Override
                              public String getAppId() {
-                                 // TODO Auto-generated method stub
                                  return null;
                              }
 
-                            @Override
-                            public String getFeatures() {
-                                // TODO Auto-generated method stub
-                                return null;
-                            }
-
-                           
+                             @Override
+                             public Features getFeatures() {
+                                 return null;
+                             }
 
                          };
 
@@ -192,5 +190,5 @@ public interface Message {
      * 
      * @return
      */
-    String getFeatures();
+    F getFeatures();
 }

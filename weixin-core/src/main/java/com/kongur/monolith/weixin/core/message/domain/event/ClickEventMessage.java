@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain.event;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.ClickEventFeatures;
+
 /**
  * 自定义菜单事件
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class ClickEventMessage extends EventMessage {
+public class ClickEventMessage extends EventMessage<ClickEventFeatures> {
 
     /**
      * 
@@ -26,6 +28,7 @@ public class ClickEventMessage extends EventMessage {
     public ClickEventMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
         setAppId(appId);
+        this.setFeatures(new ClickEventFeatures(getEventType(), this.getString("EventKey")));
     }
 
     /**
@@ -34,7 +37,7 @@ public class ClickEventMessage extends EventMessage {
      * @return
      */
     public String getEventKey() {
-        return this.getString("EventKey");
+        return this.getFeatures().getEventKey();
     }
 
 }

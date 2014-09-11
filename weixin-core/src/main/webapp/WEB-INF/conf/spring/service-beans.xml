@@ -44,7 +44,9 @@
 	            <ref bean="scanQRCodeScanMessageProcessService"/>
 	            <ref bean="scanQRCodeSubscribeMessageProcessService"/>
 	            <ref bean="subscribeMessageProcessService"/>
+	            <!-- 
 	            <ref bean="developerValidateMessageProcessService"/>
+	             -->
 	            <ref bean="textMessageProcessService"/>
 	        </list>
 	    </property>

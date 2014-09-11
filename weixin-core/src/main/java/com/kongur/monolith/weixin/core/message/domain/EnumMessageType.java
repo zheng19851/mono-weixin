@@ -9,7 +9,7 @@ package com.kongur.monolith.weixin.core.message.domain;
 public enum EnumMessageType {
 
     // 开发者认证
-    DEVELOPER_VALIDATE("dvm", "开发者认证消息"),
+    //DEVELOPER_VALIDATE("dvm", "开发者认证消息"),
 
     // 普通消息
     TEXT("text", "文本消息"), 
@@ -57,9 +57,9 @@ public enum EnumMessageType {
         this.desc = desc;
     }
 
-    public static boolean isDeveloperValidate(String msgType) {
-        return DEVELOPER_VALIDATE.getValue().equalsIgnoreCase(msgType);
-    }
+    // public static boolean isDeveloperValidate(String msgType) {
+    // return DEVELOPER_VALIDATE.getValue().equalsIgnoreCase(msgType);
+    // }
 
     /**
      * 是否文本消息

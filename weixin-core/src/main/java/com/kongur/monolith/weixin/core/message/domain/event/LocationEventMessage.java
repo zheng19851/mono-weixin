@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain.event;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.LocationEventFeatures;
+
 /**
  * 上报地理位置事件
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class LocationEventMessage extends EventMessage {
+public class LocationEventMessage extends EventMessage<LocationEventFeatures> {
 
     /**
      * 
@@ -23,8 +25,13 @@ public class LocationEventMessage extends EventMessage {
      * @param nonce
      * @param params
      */
-    public LocationEventMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
+    public LocationEventMessage(String appId, String signature, String timestamp, String nonce,
+                                Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+
+        LocationEventFeatures features = new LocationEventFeatures(getEventType(), getString("Latitude"),
+                                                                   getString("Longitude"), getString("Precision"));
+        setFeatures(features);
     }
 
     /**
@@ -34,7 +41,7 @@ public class LocationEventMessage extends EventMessage {
      */
     public String getLatitude() {
 
-        return this.getString("Latitude");
+        return this.getFeatures().getLongitude();
     }
 
     /**
@@ -43,7 +50,7 @@ public class LocationEventMessage extends EventMessage {
      * @return
      */
     public String getLongitude() {
-        return this.getString("Longitude");
+        return this.getFeatures().getLongitude();
     }
 
     /**
@@ -52,6 +59,6 @@ public class LocationEventMessage extends EventMessage {
      * @return
      */
     public String getPrecision() {
-        return this.getString("Precision");
+        return this.getFeatures().getPrecision();
     }
 }

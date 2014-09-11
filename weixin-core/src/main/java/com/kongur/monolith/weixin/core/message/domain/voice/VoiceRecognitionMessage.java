@@ -3,6 +3,7 @@ package com.kongur.monolith.weixin.core.message.domain.voice;
 import java.util.Map;
 
 import com.kongur.monolith.weixin.core.message.domain.AbstractMessage;
+import com.kongur.monolith.weixin.core.message.domain.features.VoiceRecognitionFeatures;
 
 /**
  * 语言识别结果消息
@@ -10,7 +11,7 @@ import com.kongur.monolith.weixin.core.message.domain.AbstractMessage;
  * @author zhengwei
  * @date 2014-2-14
  */
-public class VoiceRecognitionMessage extends AbstractMessage {
+public class VoiceRecognitionMessage extends AbstractMessage<VoiceRecognitionFeatures> {
 
     /**
      * 
@@ -29,16 +30,10 @@ public class VoiceRecognitionMessage extends AbstractMessage {
                                    Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
         setAppId(appId);
+        VoiceRecognitionFeatures features = new VoiceRecognitionFeatures(getString("MediaId"), getString("Format"),
+                                                                         getString("Recognition"));
+        this.setFeatures(features);
     }
-
-    // /**
-    // * 消息id，64位整型
-    // *
-    // * @return
-    // */
-    // public String getMsgId() {
-    // return this.getString("MsgId");
-    // }
 
     /**
      * 语音消息媒体id，可以调用多媒体文件下载接口拉取该媒体
@@ -46,7 +41,7 @@ public class VoiceRecognitionMessage extends AbstractMessage {
      * @return
      */
     public String getMediaId() {
-        return this.getString("MediaId");
+        return this.getFeatures().getMediaId();
     }
 
     /**
@@ -55,7 +50,7 @@ public class VoiceRecognitionMessage extends AbstractMessage {
      * @return
      */
     public String getFormat() {
-        return this.getString("Format");
+        return this.getFeatures().getFormat();
     }
 
     /**
@@ -64,7 +59,7 @@ public class VoiceRecognitionMessage extends AbstractMessage {
      * @return
      */
     public String getRecognition() {
-        return this.getString("Recognition");
+        return this.getFeatures().getRecognition();
     }
 
 }

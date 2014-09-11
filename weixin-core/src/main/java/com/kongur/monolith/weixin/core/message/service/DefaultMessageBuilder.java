@@ -23,6 +23,7 @@ import com.kongur.monolith.weixin.core.message.domain.event.ScanQRCodeEventMessa
 import com.kongur.monolith.weixin.core.message.domain.event.SubscribeEventMessage;
 import com.kongur.monolith.weixin.core.message.domain.event.UnsubscribeEventMessage;
 import com.kongur.monolith.weixin.core.message.domain.event.ViewEventMessage;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 import com.kongur.monolith.weixin.core.message.domain.normal.ImageMessage;
 import com.kongur.monolith.weixin.core.message.domain.normal.LinkMessage;
 import com.kongur.monolith.weixin.core.message.domain.normal.LocationMessage;
@@ -43,7 +44,7 @@ public class DefaultMessageBuilder implements MessageBuilder {
     private final Logger log = Logger.getLogger(getClass());
 
     @Override
-    public Message build(HttpServletRequest req) {
+    public Message<Features> build(HttpServletRequest req) {
 
         String signature = req.getParameter("signature"); // Ç©Ãû
         String timestamp = req.getParameter("timestamp"); // Ê±¼ä´Á
@@ -84,7 +85,7 @@ public class DefaultMessageBuilder implements MessageBuilder {
     }
 
     @Override
-    public Message build(String appId, String signature, String timestamp, String nonce, String echostr,
+    public Message<Features> build(String appId, String signature, String timestamp, String nonce, String echostr,
                          HttpServletRequest req) {
         Message msg = Message.NULL_MESSAGE;
 

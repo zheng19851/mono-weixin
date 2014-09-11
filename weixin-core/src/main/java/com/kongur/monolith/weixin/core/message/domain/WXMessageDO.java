@@ -3,35 +3,49 @@ package com.kongur.monolith.weixin.core.message.domain;
 import java.util.Date;
 
 import com.kongur.monolith.common.DomainBase;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /***
- *
+ * 微信信息
  */
 public class WXMessageDO extends DomainBase {
 
-    private Long    id;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -232982866442196441L;
 
-    private String  appId;
+    private Long              id;
 
-    private String  msgId;
+    private String            appId;
 
-    private String  msgType;
+    private String            msgId;
 
-    private String  fromUser;
+    /**
+     * 消息类型
+     * 
+     * @see EnumMessageType
+     */
+    private String            msgType;
 
-    private String  toUser;
+    private String            fromUser;
 
-    private Long    createTime;
+    private String            toUser;
 
-    private String  features;
+    private Long              createTime;
 
-    private Integer status;
+    /**
+     * 消息特性，类型不同，存放的数据也不同
+     */
+    private String            features;
 
-    private Date    gmtCreate;
+    private Integer           status;
 
-    private Date    gmtModify;
+    private Date              gmtCreate;
 
-    public WXMessageDO(Message msg) {
+    private Date              gmtModify;
+
+    public WXMessageDO(Message<Features> msg) {
         this.appId = msg.getAppId();
         this.msgId = msg.getMsgId();
         this.msgType = msg.getMsgType();
@@ -39,7 +53,11 @@ public class WXMessageDO extends DomainBase {
         this.toUser = msg.getToUserName();
         this.createTime = msg.getCreateTime();
         this.status = 0;
-        this.features = msg.getFeatures();
+
+        Features features = msg.getFeatures();
+        if (features != null) {
+            this.features = msg.getFeatures().buildJson();
+        }
     }
 
     public WXMessageDO() {

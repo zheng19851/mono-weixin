@@ -7,6 +7,7 @@ import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.common.LRUCache;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.message.domain.WrappedMessage;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /**
  * 使用内存管理的MessageService
@@ -30,7 +31,7 @@ public class MemoryMessageService implements MessageService {
     private final LRUCache<String, WrappedMessage> cache    = new LRUCache<String, WrappedMessage>(capacity);
 
     @Override
-    public String store(Message msg) {
+    public String store(Message<Features> msg) {
 
         String key = genKey(msg);
 
@@ -53,7 +54,7 @@ public class MemoryMessageService implements MessageService {
      * @param msg
      * @return
      */
-    private String genKey(Message msg) {
+    private String genKey(Message<Features> msg) {
 
         String key = null;
 
@@ -68,7 +69,7 @@ public class MemoryMessageService implements MessageService {
     }
 
     @Override
-    public boolean contains(Message msg) {
+    public boolean contains(Message<Features> msg) {
 
         String key = genKey(msg);
 

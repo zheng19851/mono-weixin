@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain.normal;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.VoiceFeatures;
+
 /**
  * ”Ô“Ùœ˚œ¢
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class VoiceMessage extends NormalMessage {
+public class VoiceMessage extends NormalMessage<VoiceFeatures> {
 
     /**
      * 
@@ -25,6 +27,8 @@ public class VoiceMessage extends NormalMessage {
      */
     public VoiceMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
+        VoiceFeatures features = new VoiceFeatures(getString("MediaId"), getString("Format"));
+        this.setFeatures(features);
     }
 
     /**
@@ -33,7 +37,7 @@ public class VoiceMessage extends NormalMessage {
      * @return
      */
     public String getMediaId() {
-        return this.getString("MediaId");
+        return this.getFeatures().getMediaId();
     }
 
     /**
@@ -42,7 +46,7 @@ public class VoiceMessage extends NormalMessage {
      * @return
      */
     public String getFormat() {
-        return this.getString("Format");
+        return this.getFeatures().getFormat();
     }
 
 }

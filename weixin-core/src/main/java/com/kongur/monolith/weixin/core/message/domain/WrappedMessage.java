@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.kongur.monolith.common.DomainBase;
 import com.kongur.monolith.common.UUIDGenerator;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /**
  * 内部用message对象
@@ -11,7 +12,7 @@ import com.kongur.monolith.common.UUIDGenerator;
  * @author zhengwei
  * @date 2014-4-10
  */
-public class WrappedMessage extends DomainBase implements Message {
+public class WrappedMessage extends DomainBase implements Message<Features> {
 
     /**
      * 
@@ -23,9 +24,9 @@ public class WrappedMessage extends DomainBase implements Message {
      */
     private String            id;
 
-    private Message           message;
+    private Message<Features>           message;
 
-    public WrappedMessage(Message message) {
+    public WrappedMessage(Message<Features> message) {
         this(UUIDGenerator.generate(), message);
     }
 
@@ -33,7 +34,7 @@ public class WrappedMessage extends DomainBase implements Message {
      * @param id 内部消息ID
      * @param message 接收到的实际消息
      */
-    public WrappedMessage(String id, Message message) {
+    public WrappedMessage(String id, Message<Features> message) {
         this.id = id;
         this.message = message;
     }
@@ -117,8 +118,8 @@ public class WrappedMessage extends DomainBase implements Message {
     }
 
     @Override
-    public String getFeatures() {
-        return null;
+    public Features getFeatures() {
+        return message.getFeatures();
     }
 
 }

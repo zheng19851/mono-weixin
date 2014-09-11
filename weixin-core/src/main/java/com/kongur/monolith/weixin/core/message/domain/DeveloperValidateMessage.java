@@ -1,5 +1,7 @@
 package com.kongur.monolith.weixin.core.message.domain;
 
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
+
 
 /**
  * 开发者认证消息
@@ -7,7 +9,8 @@ package com.kongur.monolith.weixin.core.message.domain;
  * @author zhengwei
  * @date 2014-2-14
  */
-public class DeveloperValidateMessage extends AbstractMessage {
+@Deprecated
+public class DeveloperValidateMessage extends AbstractMessage<Features> {
 
     /**
      * 

@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
+
 /**
  * 默认的消息对象
  * 
  * @author zhengwei
  * @date 2014-2-17
  */
-public class DefaultMessage extends AbstractMessage {
+public class DefaultMessage extends AbstractMessage<Features> {
 
     /**
      * 

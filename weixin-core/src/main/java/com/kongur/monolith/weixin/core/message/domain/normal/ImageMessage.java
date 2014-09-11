@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain.normal;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.ImageFeatures;
+
 /**
  * Í¼Æ¬ÏûÏ¢
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class ImageMessage extends NormalMessage {
+public class ImageMessage extends NormalMessage<ImageFeatures> {
 
     /**
      * 
@@ -26,6 +28,8 @@ public class ImageMessage extends NormalMessage {
     public ImageMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
         setAppId(appId);
+        ImageFeatures features = new ImageFeatures(getString("MediaId"), getString("PicUrl"));
+        this.setFeatures(features);
     }
 
     /**
@@ -34,7 +38,7 @@ public class ImageMessage extends NormalMessage {
      * @return
      */
     public String getPicUrl() {
-        return this.getString("PicUrl");
+        return this.getFeatures().getPicUrl();
     }
 
     /**
@@ -43,7 +47,7 @@ public class ImageMessage extends NormalMessage {
      * @return
      */
     public String getMediaId() {
-        return this.getString("MediaId");
+        return this.getFeatures().getMediaId();
     }
 
 }

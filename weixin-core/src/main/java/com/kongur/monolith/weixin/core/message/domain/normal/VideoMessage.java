@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain.normal;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.VideoFeatures;
+
 /**
  *  ”∆µœ˚œ¢
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class VideoMessage extends NormalMessage {
+public class VideoMessage extends NormalMessage<VideoFeatures> {
 
     /**
      * 
@@ -26,6 +28,8 @@ public class VideoMessage extends NormalMessage {
     public VideoMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
         setAppId(appId);
+        VideoFeatures features = new VideoFeatures(getString("MediaId"), getString("ThumbMediaId"));
+        this.setFeatures(features);
     }
 
     /**
@@ -34,7 +38,7 @@ public class VideoMessage extends NormalMessage {
      * @return
      */
     public String getMediaId() {
-        return this.getString("MediaId");
+        return this.getFeatures().getMediaId();
     }
 
     /**
@@ -43,7 +47,7 @@ public class VideoMessage extends NormalMessage {
      * @return
      */
     public String getThumbMediaId() {
-        return this.getString("ThumbMediaId");
+        return this.getFeatures().getThumbMediaId();
     }
 
 }

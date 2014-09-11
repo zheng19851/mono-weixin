@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.kongur.monolith.common.DomainBase;
 import com.kongur.monolith.lang.StringUtil;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /**
  * 消息抽象类
@@ -11,7 +12,7 @@ import com.kongur.monolith.lang.StringUtil;
  * @author zhengwei
  * @date 2014-2-14
  */
-public abstract class AbstractMessage extends DomainBase implements Message {
+public abstract class AbstractMessage<F extends Features> extends DomainBase implements Message<F> {
 
     /**
      * 
@@ -44,6 +45,8 @@ public abstract class AbstractMessage extends DomainBase implements Message {
      * 业务数据
      */
     private Map<String, Object> params           = null;
+
+    private F                   features;
 
     public AbstractMessage(String signature, String timestamp, String nonce) {
         this(null, signature, timestamp, nonce, null);
@@ -123,6 +126,10 @@ public abstract class AbstractMessage extends DomainBase implements Message {
         return obj != null ? obj.toString() : null;
     }
 
+    public int getInt(String key) {
+        return Integer.valueOf(getString(key));
+    }
+
     @Override
     public Object getParam(String key) {
         return this.params.get(key);
@@ -164,8 +171,12 @@ public abstract class AbstractMessage extends DomainBase implements Message {
     }
 
     @Override
-    public String getFeatures() {
-        return null;
+    public F getFeatures() {
+        return this.features;
+    }
+
+    public void setFeatures(F features) {
+        this.features = features;
     }
 
 }

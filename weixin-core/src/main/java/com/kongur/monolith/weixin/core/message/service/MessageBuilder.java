@@ -3,6 +3,7 @@ package com.kongur.monolith.weixin.core.message.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /**
  * 创建消息对象
@@ -18,7 +19,7 @@ public interface MessageBuilder {
      * @param req
      * @return
      */
-    Message build(HttpServletRequest req);
+    Message<Features> build(HttpServletRequest req);
 
     /**
      * 组装消息对象
@@ -31,6 +32,6 @@ public interface MessageBuilder {
      * @param req
      * @return
      */
-    Message build( String appId,String signature, String timestamp, String nonce, String echostr, HttpServletRequest req);
+    Message<Features> build( String appId,String signature, String timestamp, String nonce, String echostr, HttpServletRequest req);
 
 }

@@ -1,10 +1,7 @@
 package com.kongur.monolith.weixin.core.message.service;
 
-import org.springframework.stereotype.Service;
-
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.core.message.domain.DeveloperValidateMessage;
-import com.kongur.monolith.weixin.core.message.domain.EnumMessageType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 
 /**
@@ -13,7 +10,8 @@ import com.kongur.monolith.weixin.core.message.domain.Message;
  * @author zhengwei
  * @date 2014-2-14
  */
-@Service("developerValidateMessageProcessService")
+//@Service("developerValidateMessageProcessService")
+@Deprecated
 public class DeveloperValidateMessageProcessService extends AbstractMessageProcessService<DeveloperValidateMessage> {
 
     @Override
@@ -25,7 +23,8 @@ public class DeveloperValidateMessageProcessService extends AbstractMessageProce
 
     @Override
     public boolean supports(Message msg) {
-        return EnumMessageType.isDeveloperValidate(msg.getMsgType());
+        // return EnumMessageType.isDeveloperValidate(msg.getMsgType());
+        return false;
     }
 
 }

@@ -2,13 +2,15 @@ package com.kongur.monolith.weixin.core.message.domain.normal;
 
 import java.util.Map;
 
+import com.kongur.monolith.weixin.core.message.domain.features.LocationFeatures;
+
 /**
  * 地理位置消息
  * 
  * @author zhengwei
  * @date 2014-2-19
  */
-public class LocationMessage extends NormalMessage {
+public class LocationMessage extends NormalMessage<LocationFeatures> {
 
     /**
      * 
@@ -26,6 +28,9 @@ public class LocationMessage extends NormalMessage {
     public LocationMessage(String appId, String signature, String timestamp, String nonce, Map<String, Object> params) {
         super(signature, timestamp, nonce, params);
         setAppId(appId);
+        LocationFeatures features = new LocationFeatures(getString("Location_X"), getString("Location_Y"),
+                                                         super.getInt("Scale"), getString("Label"));
+        this.setFeatures(features);
     }
 
     /**
@@ -34,7 +39,7 @@ public class LocationMessage extends NormalMessage {
      * @return
      */
     public String getLocationX() {
-        return this.getString("Location_X");
+        return this.getFeatures().getLocationX();
     }
 
     /**
@@ -43,7 +48,7 @@ public class LocationMessage extends NormalMessage {
      * @return
      */
     public String getLocationY() {
-        return this.getString("Location_Y");
+        return this.getFeatures().getLocationY();
     }
 
     /**
@@ -52,10 +57,7 @@ public class LocationMessage extends NormalMessage {
      * @return
      */
     public int getScale() {
-
-        String scale = this.getString("Scale");
-
-        return Integer.valueOf(scale);
+        return this.getFeatures().getScale();
     }
 
     /**
@@ -64,7 +66,7 @@ public class LocationMessage extends NormalMessage {
      * @return
      */
     public String getLabel() {
-        return this.getString("Label");
+        return this.getFeatures().getLabel();
     }
 
 }
