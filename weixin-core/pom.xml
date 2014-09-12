@@ -13,19 +13,32 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<jackson.version>1.8.11</jackson.version>
 		
-
+<!-- 
 		<system.devMode>true</system.devMode>
 		<log.level>debug</log.level>
-		<log.path>/home/weixin/work/logs/weixin-core</log.path><!-- d:/temp/logs/weixin-core --><!-- /home/weixin/work/logs/weixin-core -->
-		<app.server.host>183.129.158.42</app.server.host><!-- 183.129.158.42 -->
+		<log.path>/home/weixin/work/logs/weixin-core</log.path>
+		<app.server.host>183.129.158.42</app.server.host>
 		<app.server.port>80</app.server.port>
 
 		<weixin.appId>wxe58afcd99f7a997e</weixin.appId>
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
 
-
 		<weixin.conf.rootDir>/home/weixin/work/conf</weixin.conf.rootDir>
+		 -->
+		
+		<system.devMode>true</system.devMode>
+		<log.level>debug</log.level>
+		<log.path>d:/temp/logs/weixin-core</log.path>
+		<app.server.host>localhost</app.server.host>
+		<app.server.port>8080</app.server.port>
+
+		<weixin.appId>wxe58afcd99f7a997e</weixin.appId>
+		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
+		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
+
+		<weixin.conf.rootDir>D:/temp/weixin/</weixin.conf.rootDir>
+		
 	</properties>
 
 	<build>

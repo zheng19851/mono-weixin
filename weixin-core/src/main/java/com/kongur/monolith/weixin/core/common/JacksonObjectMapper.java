@@ -40,7 +40,7 @@ public abstract class JacksonObjectMapper {
         try {
             INSTANCE.writeValue(out, value);
         } catch (Exception e) {
-            log.error("write object to OutputStream error", e);
+            log.error("write object to Writer error", e);
         }
     }
 }
