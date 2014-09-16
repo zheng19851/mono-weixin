@@ -1,6 +1,6 @@
 package com.kongur.monolith.weixin.core.message.service;
 
-import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.UUIDGenerator;
 import com.kongur.monolith.lang.StringUtil;
@@ -10,15 +10,14 @@ import com.kongur.monolith.weixin.core.message.domain.WrappedMessage;
 import com.kongur.monolith.weixin.core.message.domain.features.Features;
 
 /**
- * 使用内存管理的MessageService
+ * 用内存实现的MessageStore
  * 
  * @author zhengwei
- * @date 2014-2-19
  */
-//@Service("memoryMessageService")
-public class MemoryMessageService implements MessageService {
+@Service("memoryMessageStore")
+public class MemoryMessageStore extends AbstractMessageStore {
 
-    private final Logger                           log      = Logger.getLogger(getClass());
+    private static final String                    NAME     = "memory";
 
     /**
      * 最大容量
@@ -29,6 +28,10 @@ public class MemoryMessageService implements MessageService {
      * 如果有消息ID则根据ID保存，没有则根据FromUserName + CreateTime保存
      */
     private final LRUCache<String, WrappedMessage> cache    = new LRUCache<String, WrappedMessage>(capacity);
+
+    public MemoryMessageStore() {
+        super(NAME);
+    }
 
     @Override
     public String store(Message<Features> msg) {

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.common.utils.XmlTools;
 import com.kongur.monolith.weixin.core.message.domain.DefaultMessage;
-import com.kongur.monolith.weixin.core.message.domain.DeveloperValidateMessage;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;
 import com.kongur.monolith.weixin.core.message.domain.EnumMessageType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
@@ -86,75 +85,70 @@ public class DefaultMessageBuilder implements MessageBuilder {
 
     @Override
     public Message<Features> build(String appId, String signature, String timestamp, String nonce, String echostr,
-                         HttpServletRequest req) {
+                                   HttpServletRequest req) {
         Message msg = Message.NULL_MESSAGE;
 
-        if (StringUtil.isNotBlank(echostr)) {
-            msg = new DeveloperValidateMessage(signature, timestamp, nonce, echostr);
-        } else {
-            String receivedMsg = readMsg(req);// 接收到的消息
-            if (StringUtil.isBlank(receivedMsg)) {
-                log.error("can not read receivedMsg from the request. req=" + req);
-                return msg;
-            }
+        String receivedMsg = readMsg(req);// 接收到的消息
+        if (StringUtil.isBlank(receivedMsg)) {
+            log.error("can not read receivedMsg from the request. req=" + req);
+            return msg;
+        }
 
-            Map<String, Object> params = null;
-            try {
-                params = XmlTools.toMap(receivedMsg);
-            } catch (DocumentException e) {
-                log.error("xml datas convert to Map error, receivedMsg=" + receivedMsg, e);
-                return msg;
-            }
+        Map<String, Object> params = null;
+        try {
+            params = XmlTools.toMap(receivedMsg);
+        } catch (DocumentException e) {
+            log.error("xml datas convert to Map error, receivedMsg=" + receivedMsg, e);
+            return msg;
+        }
 
-            // 消息类型
-            String msgType = (String) params.get("MsgType");
+        // 消息类型
+        String msgType = (String) params.get("MsgType");
 
-            if (EnumMessageType.isText(msgType)) {
-                msg = new TextMessage(appId, signature, timestamp, nonce, params);
-            } else if (EnumMessageType.isImage(msgType)) {
-                msg = new ImageMessage(appId, signature, timestamp, nonce, params);
-            } else if (EnumMessageType.isVoice(msgType)) {
-                // normal voice or Voice Recognition
-                String recognition = (String) params.get("Recognition"); // 语音识别结果
-                if (recognition != null) {
-                    msg = new VoiceRecognitionMessage(appId, signature, timestamp, nonce, params);
-                } else {
-                    msg = new VoiceMessage(appId, signature, timestamp, nonce, params);
-                }
-
-            } else if (EnumMessageType.isVideo(msgType)) {
-                msg = new VideoMessage(appId, signature, timestamp, nonce, params);
-            } else if (EnumMessageType.isLocation(msgType)) {
-                msg = new LocationMessage(appId, signature, timestamp, nonce, params);
-            } else if (EnumMessageType.isLink(msgType)) {
-                msg = new LinkMessage(appId, signature, timestamp, nonce, params);
-            } else if (EnumMessageType.isEvent(msgType)) {
-
-                // 事件类型
-                String eventType = (String) params.get("Event");
-                if (EnumEventType.isSubscribe(eventType)) {
-
-                    String ticket = (String) params.get("Ticket"); // 二维码的ticket，可用来换取二维码图片
-                    if (ticket != null) {
-                        msg = new ScanQRCodeEventMessage(appId, signature, timestamp, nonce, params);
-                    } else {
-                        msg = new SubscribeEventMessage(appId, signature, timestamp, nonce, params);
-                    }
-
-                } else if (EnumEventType.isUnSubscribe(eventType)) {
-                    msg = new UnsubscribeEventMessage(appId, signature, timestamp, nonce, params);
-                } else if (EnumEventType.isLocation(eventType)) {
-                    msg = new LocationEventMessage(appId, signature, timestamp, nonce, params);
-                } else if (EnumEventType.isClick(eventType)) {
-                    msg = new ClickEventMessage(appId, signature, timestamp, nonce, params);
-                } else if (EnumEventType.isView(eventType)) {
-                    msg = new ViewEventMessage(appId, signature, timestamp, nonce, params);
-                }
-
+        if (EnumMessageType.isText(msgType)) {
+            msg = new TextMessage(appId, signature, timestamp, nonce, params);
+        } else if (EnumMessageType.isImage(msgType)) {
+            msg = new ImageMessage(appId, signature, timestamp, nonce, params);
+        } else if (EnumMessageType.isVoice(msgType)) {
+            // normal voice or Voice Recognition
+            String recognition = (String) params.get("Recognition"); // 语音识别结果
+            if (recognition != null) {
+                msg = new VoiceRecognitionMessage(appId, signature, timestamp, nonce, params);
             } else {
-                msg = new DefaultMessage(appId, signature, timestamp, nonce, params);
+                msg = new VoiceMessage(appId, signature, timestamp, nonce, params);
             }
 
+        } else if (EnumMessageType.isVideo(msgType)) {
+            msg = new VideoMessage(appId, signature, timestamp, nonce, params);
+        } else if (EnumMessageType.isLocation(msgType)) {
+            msg = new LocationMessage(appId, signature, timestamp, nonce, params);
+        } else if (EnumMessageType.isLink(msgType)) {
+            msg = new LinkMessage(appId, signature, timestamp, nonce, params);
+        } else if (EnumMessageType.isEvent(msgType)) {
+
+            // 事件类型
+            String eventType = (String) params.get("Event");
+            if (EnumEventType.isSubscribe(eventType)) {
+
+                String ticket = (String) params.get("Ticket"); // 二维码的ticket，可用来换取二维码图片
+                if (ticket != null) {
+                    msg = new ScanQRCodeEventMessage(appId, signature, timestamp, nonce, params);
+                } else {
+                    msg = new SubscribeEventMessage(appId, signature, timestamp, nonce, params);
+                }
+
+            } else if (EnumEventType.isUnSubscribe(eventType)) {
+                msg = new UnsubscribeEventMessage(appId, signature, timestamp, nonce, params);
+            } else if (EnumEventType.isLocation(eventType)) {
+                msg = new LocationEventMessage(appId, signature, timestamp, nonce, params);
+            } else if (EnumEventType.isClick(eventType)) {
+                msg = new ClickEventMessage(appId, signature, timestamp, nonce, params);
+            } else if (EnumEventType.isView(eventType)) {
+                msg = new ViewEventMessage(appId, signature, timestamp, nonce, params);
+            }
+
+        } else {
+            msg = new DefaultMessage(appId, signature, timestamp, nonce, params);
         }
 
         if (msg.isValid()) {

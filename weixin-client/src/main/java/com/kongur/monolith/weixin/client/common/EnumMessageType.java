@@ -14,7 +14,10 @@ import java.util.Map;
 public enum EnumMessageType {
 
     TEXT("text", "文本消息"), IMAGE("image", "图片消息"), VOICE("voice", "语音消息"), VEDIO("vedio", "视频消息"),
-    MUSIC("music", "音乐消息"), NEWS("news", "图文消息")
+    MUSIC("music", "音乐消息"), NEWS("news", "图文消息"),
+    
+    // 事件推送消息
+    EVENT("event", "事件消息"),
 
     ;
 

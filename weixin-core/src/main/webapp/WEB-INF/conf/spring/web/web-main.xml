@@ -78,7 +78,7 @@
 	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
 	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
 	<bean
-		class="com.eyeieye.skyjoo.web.adapter.ExtendableAnnotationMethodHandlerAdapter">
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
 				<bean class="com.eyeieye.skyjoo.web.adapter.converter.StringHttpMessageConverter" />
@@ -91,15 +91,9 @@
 				<bean class="com.eyeieye.skyjoo.web.cookyjar.CookyjarArgumentResolver"></bean>
 			</list>
 		</property>
-		<property name="methodInvokeInterceptors">
-			<list>
-			</list>
-		</property>
 	</bean>
 
 	<!-- url mapping -->
-
-
 	<bean
 		class="com.eyeieye.skyjoo.web.handler.ShortcutExceptAnnotationHandlerMapping">
 		<property name="order" value="200" />

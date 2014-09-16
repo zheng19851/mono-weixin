@@ -9,6 +9,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.kongur.monolith.lang.StringUtil;
+
 /**
  * jackson ObjectMapper 为线程安全对象，所以只要一处创建即可
  * 
@@ -25,6 +27,9 @@ public abstract class JacksonObjectMapper {
     }
 
     public static JsonNode readTree(String json) throws JsonProcessingException, IOException {
+        if (StringUtil.isBlank(json)) {
+            return null;
+        }
         return INSTANCE.readTree(json);
     }
 
