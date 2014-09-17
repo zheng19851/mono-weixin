@@ -64,16 +64,8 @@
 		<property name="devMode" value="${system.devMode}"></property>
 	</bean>
 
-	<!-- interceptors -->
-	<bean id="brokersInterceptor"
-		class="com.eyeieye.skyjoo.web.url.URLBrokerLauncherInterceptor">
-		<property name="brokers">
-			<map>
-				<entry key="appServer" value-ref="appServerBroker"></entry>
-			</map>
-		</property>
-	</bean>
 	
+	 
 	<!-- adapters -->
 	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
 	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
@@ -85,23 +77,20 @@
 				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 			</list>
 		</property>
+		<!-- 
 		<property name="customArgumentResolvers">
 			<list>
-				<!-- 只要在method声明Cookyjar对象,则自动注入 -->
-				<bean class="com.eyeieye.skyjoo.web.cookyjar.CookyjarArgumentResolver"></bean>
+				<bean class="com.xxx.XxArgumentResolver"></bean>
 			</list>
 		</property>
+		 -->
 	</bean>
 
 	<!-- url mapping -->
 	<bean
 		class="com.eyeieye.skyjoo.web.handler.ShortcutExceptAnnotationHandlerMapping">
 		<property name="order" value="200" />
-		<property name="interceptors">
-			<list>
-				<ref bean="brokersInterceptor" />
-			</list>
-		</property>
+		
 	</bean>
 
 	<bean id="lastHandlerMapping"
@@ -111,28 +100,13 @@
 			<bean
 				class="org.springframework.web.servlet.mvc.UrlFilenameViewController"></bean>
 		</property>
-		<property name="interceptors">
-			<list>
-				<ref bean="brokersInterceptor" />
-			</list>
-		</property>
+		
 	</bean>
 
 	<!-- 文件上传解析-->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="${web.encoding}" />
 	</bean>
-	
-	<!-- exception resolver 
-	<bean class="com.eyeieye.skyjoo.demo.web.resolver.MelodyDmoExceptionResolver">
-		<property name="webEncoding" value="${web.encoding}"></property>
-		<property name="errorPage" value="/error"></property>
-		<property name="adminLoginPath" value="/admin/login.htm"></property>
-		<property name="adminDeniedPage" value="/admin/accessDenied"></property>
-		<property name="adminLoginReturnParameterName" value="returnurl"></property>
-	</bean>
-	-->
-	
 	
 	<!-- rpc -->
 	<bean

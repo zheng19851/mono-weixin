@@ -37,15 +37,14 @@
 		</property>
 		<property name="target" ref="basicDataSource">
 		</property>
+		<!-- 
 		<property name="interceptorNames">
 			<list>
 				<value>dataSouceInterceptor</value>
 			</list>
 		</property>
+		 -->
 	</bean>
-
-
-	<bean id="dataSouceInterceptor" class="com.eyeieye.skyjoo.profiler.jdbc.DataSouceInterceptor" />
 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

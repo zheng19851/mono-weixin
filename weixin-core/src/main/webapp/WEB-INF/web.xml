@@ -30,16 +30,16 @@
 	</context-param>
 	
 	<filter>
-		<filter-name>simpleOncePerRequestFilterChain</filter-name>
+		<filter-name>oncePerRequestFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>
 			<param-name>targetBeanName</param-name>
-			<param-value>simpleOncePerRequestFilterChainBean</param-value>
+			<param-value>oncePerRequestFilterChainBean</param-value>
 		</init-param>
 	</filter>
 
 	<filter-mapping>
-		<filter-name>simpleOncePerRequestFilterChain</filter-name>
+		<filter-name>oncePerRequestFilterChain</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
 	
