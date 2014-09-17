@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.eyeieye.skyjoo.util.StringUtil;
 import com.kongur.monolith.common.result.Result;
+import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.client.user.IUserService;
 import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 
