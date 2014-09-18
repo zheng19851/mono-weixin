@@ -10,32 +10,27 @@
 
 	<properties>
 
-		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring.version>3.2.11.RELEASE</spring.version>
 		<jackson.version>1.8.11</jackson.version>
-		
+
 		<system.devMode>true</system.devMode>
 		<log.level>debug</log.level>
-		
+
 		<weixin.appId>wxe58afcd99f7a997e</weixin.appId>
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
-		
-		<velocity.cache.enable>false</velocity.cache.enable>
-		
-		<!-- 
-		<log.path>/home/weixin/work/logs/weixin-core</log.path>
-		<app.server.host>183.129.158.42</app.server.host>
-		<app.server.port>80</app.server.port>
 
-		<weixin.conf.rootDir>/home/weixin/work/conf</weixin.conf.rootDir>
- -->
- 
+		<velocity.cache.enable>false</velocity.cache.enable>
+
+		<!-- <log.path>/home/weixin/work/logs/weixin-core</log.path> <app.server.host>183.129.158.42</app.server.host> 
+			<app.server.port>80</app.server.port> <weixin.conf.rootDir>/home/weixin/work/conf</weixin.conf.rootDir> -->
+
 		<log.path>d:/temp/logs/weixin-core</log.path>
 		<app.server.host>localhost</app.server.host>
 		<app.server.port>8080</app.server.port>
 
 		<weixin.conf.rootDir>D:/temp/weixin/</weixin.conf.rootDir>
-		
+
 	</properties>
 
 	<build>
@@ -142,7 +137,7 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.9</version>
 		</dependency>
- 
+
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
@@ -167,18 +162,33 @@
 			<version>5.1.32</version>
 		</dependency>
 
+<!-- 
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-sqlmap</artifactId>
 			<version>2.3.4.726</version>
 		</dependency>
+ -->
+ 
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-lgpl</artifactId>
@@ -190,6 +200,6 @@
 			<artifactId>jackson-mapper-lgpl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 	</dependencies>
 </project>

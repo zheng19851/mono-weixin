@@ -2,6 +2,7 @@ package com.kongur.monolith.weixin.core.test.dao;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
 import com.kongur.monolith.weixin.core.message.dao.WXMessageDAO;
 import com.kongur.monolith.weixin.core.message.domain.WXMessageDO;
@@ -13,6 +14,7 @@ public class MessageDAOTest extends DAOTestBase {
     private WXMessageDAO messageDAO;
     
     @Test
+    @Rollback(value = false)
     public void testInsert() {
         WXMessageDO msg = new WXMessageDO();
         msg.setAppId("fafa");
@@ -26,10 +28,11 @@ public class MessageDAOTest extends DAOTestBase {
         messageDAO.insertMessage(msg);
     }
     
-//    @Test
+    @Test
     public void testSelect() {
-        messageDAO.selectMessageByMsgId("fafa");
-        
+//        WXMessageDO message = messageDAO.selectMessageByMsgId("fafa");
+        WXMessageDO message = messageDAO.selectMessage("fafaf", 82382389L);
+        System.out.println(message);
     }
     
 }
