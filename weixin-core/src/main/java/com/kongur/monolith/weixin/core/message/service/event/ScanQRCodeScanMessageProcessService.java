@@ -1,5 +1,8 @@
 package com.kongur.monolith.weixin.core.message.service.event;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
@@ -11,7 +14,8 @@ import com.kongur.monolith.weixin.core.message.domain.event.ScanQRCodeEventMessa
  * @author zhengwei
  * @date 2014-2-19
  */
-// @Service("scanQRCodeScanMessageProcessService")
+@Service("scanQRCodeScanMessageProcessService")
+@Order(21)
 public class ScanQRCodeScanMessageProcessService extends AbstractEventMessageProcessService<ScanQRCodeEventMessage> {
 
     @Override

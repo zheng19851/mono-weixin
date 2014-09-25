@@ -3,22 +3,18 @@ package com.kongur.monolith.weixin.core.reply.service;
 import org.apache.log4j.Logger;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.core.common.Ordered;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
 /**
+ * ReplyMessageBuilder抽象实现
+ * 
  * @author zhengwei
  * @date 2014年2月21日
  */
 public abstract class AbstractReplyMessageBuilder<R extends Reply> implements ReplyMessageBuilder<R> {
 
-    protected final Logger log   = Logger.getLogger(getClass());
-
-    /**
-     * 排序用
-     */
-    private int            order = Ordered.LOWEST_PRECEDENCE;
+    protected final Logger log = Logger.getLogger(getClass());
 
     public AbstractReplyMessageBuilder() {
 
@@ -90,14 +86,6 @@ public abstract class AbstractReplyMessageBuilder<R extends Reply> implements Re
         if (!result.isSuccess()) {
             return;
         }
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
     }
 
 }

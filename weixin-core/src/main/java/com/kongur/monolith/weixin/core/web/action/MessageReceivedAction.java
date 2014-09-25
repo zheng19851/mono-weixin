@@ -1,6 +1,5 @@
 package com.kongur.monolith.weixin.core.web.action;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -29,10 +28,12 @@ public class MessageReceivedAction {
 
     private final Logger                  log = Logger.getLogger(getClass());
 
-    @Resource(name = "defaultMessageProcessServiceResolver")
+    // @Resource(name = "defaultMessageProcessServiceResolver")
+    @Autowired
     private MessageProcessServiceResolver messageProcessServiceResolver;
 
-    @Resource(name = "defaultMessageBuilder")
+    // @Resource(name = "defaultMessageBuilder")
+    @Autowired
     private MessageBuilder                messageBuilder;
 
     @Autowired

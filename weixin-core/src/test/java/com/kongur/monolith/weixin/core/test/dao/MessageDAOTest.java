@@ -13,7 +13,7 @@ public class MessageDAOTest extends DAOTestBase {
     @Autowired
     private WXMessageDAO messageDAO;
     
-    @Test
+//    @Test
     @Rollback(value = false)
     public void testInsert() {
         WXMessageDO msg = new WXMessageDO();
@@ -28,10 +28,11 @@ public class MessageDAOTest extends DAOTestBase {
         messageDAO.insertMessage(msg);
     }
     
+    
     @Test
     public void testSelect() {
-//        WXMessageDO message = messageDAO.selectMessageByMsgId("fafa");
-        WXMessageDO message = messageDAO.selectMessage("fafaf", 82382389L);
+//        WXMessageDO message = messageDAO.selectMessageByMsgId("fafajlflja");
+        WXMessageDO message = messageDAO.selectMessage("", 82382389L);
         System.out.println(message);
     }
     

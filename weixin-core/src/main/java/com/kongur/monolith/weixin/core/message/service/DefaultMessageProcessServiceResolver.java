@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.util.Assert;
 
-import com.kongur.monolith.weixin.core.common.OrderComparator;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 
 /**
@@ -36,32 +36,29 @@ public class DefaultMessageProcessServiceResolver implements MessageProcessServi
 
         Assert.notNull(this.defaultMessageProcessService, "the default MessageProcessService can not be null.");
 
-        OrderComparator.sort(this.messageProcessServices);
+        AnnotationAwareOrderComparator.sort(this.messageProcessServices);
+
+        if (log.isInfoEnabled()) {
+            log.info("init MessageProcessServiceResolver, messageProcessServices=" + messageProcessServices);
+        }
     }
 
     @Override
     public MessageProcessService<Message> resolve(Message msg) {
 
-        MessageProcessService<Message> service = null;
-
         for (MessageProcessService<Message> messageProcessService : this.messageProcessServices) {
             if (messageProcessService.supports(msg)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("find MessageProcessService, name=" + messageProcessService.getClass().getSimpleName());
+                if (log.isInfoEnabled()) {
+                    log.info("find MessageProcessService, name=" + messageProcessService.getClass().getSimpleName());
                 }
-                service = messageProcessService;
-                break;
+                return messageProcessService;
             }
         }
 
-        if (service == null) {
+        log.warn("can not find a supported MessageProcessService, so will use the default MessageProcessService="
+                 + this.defaultMessageProcessService.getClass().getSimpleName());
 
-            log.warn("can not find a MessageProcessService, so will use the default MessageProcessService="
-                     + this.defaultMessageProcessService.getClass().getSimpleName());
-            service = this.defaultMessageProcessService;
-        }
-
-        return service;
+        return this.defaultMessageProcessService;
     }
 
     @Override

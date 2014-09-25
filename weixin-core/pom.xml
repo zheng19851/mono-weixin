@@ -50,8 +50,6 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
-			<version>3.8.1</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>com.kongur.monolith</groupId>
 			<artifactId>monolith-common</artifactId>
@@ -109,10 +107,9 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>3.0.1.RELEASE</version>
+			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 
 		<dependency>
 			<groupId>xstream</groupId>
@@ -162,14 +159,6 @@
 			<version>5.1.32</version>
 		</dependency>
 
-<!-- 
-		<dependency>
-			<groupId>org.apache.ibatis</groupId>
-			<artifactId>ibatis-sqlmap</artifactId>
-			<version>2.3.4.726</version>
-		</dependency>
- -->
- 
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -181,7 +170,6 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>

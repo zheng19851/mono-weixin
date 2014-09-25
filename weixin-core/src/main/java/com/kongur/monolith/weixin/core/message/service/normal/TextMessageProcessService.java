@@ -1,6 +1,8 @@
 package com.kongur.monolith.weixin.core.message.service.normal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.message.domain.EnumMessageType;
@@ -18,7 +20,8 @@ import com.kongur.monolith.weixin.core.reply.manager.DefaultReplyManager;
  * @author zhengwei
  * @date 2014-2-18
  */
-// @Service("textMessageProcessService")
+@Service("textMessageProcessService")
+@Order(1)
 public class TextMessageProcessService extends AbstractMessageProcessService<TextMessage> {
 
     @Autowired
@@ -45,8 +48,8 @@ public class TextMessageProcessService extends AbstractMessageProcessService<Tex
 
     /**
      * 创建默认的回复
-     * @param msg 
      * 
+     * @param msg
      * @return
      */
     private Reply createDefaultReply(TextMessage msg) {

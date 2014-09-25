@@ -1,6 +1,8 @@
 package com.kongur.monolith.weixin.core.message.service.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.weixin.core.menu.service.MenuManager;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;
@@ -15,7 +17,8 @@ import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
  * @author zhengwei
  * @date 2014Äê2ÔÂ21ÈÕ
  */
-// @Service("menuClickEventMessageProcessService")
+@Service("menuClickEventMessageProcessService")
+@Order(27)
 public class MenuClickEventMessageProcessService extends AbstractEventMessageProcessService<ClickEventMessage> {
 
     @Autowired

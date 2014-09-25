@@ -36,49 +36,54 @@
 		</property>
 	</bean>
 	
-	
-	<bean id="defaultMessageProcessServiceResolver" class="com.kongur.monolith.weixin.core.message.service.DefaultMessageProcessServiceResolver" init-method="init">
+	<bean id="messageProcessServiceResolver" class="com.kongur.monolith.weixin.core.message.service.MessageProcessServiceResolverFeactoryBean">
 	    <property name="messageProcessServices">
 	        <list>
 	        	<ref bean="menuClickEventMessageProcessService"/>
 	            <ref bean="scanQRCodeScanMessageProcessService"/>
 	            <ref bean="scanQRCodeSubscribeMessageProcessService"/>
 	            <ref bean="subscribeMessageProcessService"/>
-	            <!-- 
-	            <ref bean="developerValidateMessageProcessService"/>
-	             -->
 	            <ref bean="textMessageProcessService"/>
 	        </list>
 	    </property>
 	    <property name="defaultMessageProcessService" ref="discardMessageProcessService"></property>
 	</bean>
 	
-	
+	<!-- 
 	<bean id="textMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.normal.TextMessageProcessService">
 		<property name="order" value="1"></property>
 	</bean>
-	
+	 
 	<bean id="scanQRCodeScanMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.ScanQRCodeScanMessageProcessService">
 		<property name="order" value="21"></property>
 	</bean>
+	 -->
 	
 	<!-- 扫描订阅配置在普通订阅服务之前  -->
+	<!-- 
 	<bean id="scanQRCodeSubscribeMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.ScanQRCodeSubscribeMessageProcessService">
 		<property name="order" value="23"></property>
 	</bean>
+	 -->
 	
 	<!-- 普通订阅 -->
+	<!-- 
 	<bean id="subscribeMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.SubscribeMessageProcessService">
 		<property name="order" value="25"></property>
 	</bean>
+	 -->
 	
+	<!-- 
 	<bean id="menuClickEventMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.event.MenuClickEventMessageProcessService">
 		<property name="order" value="27"></property>
 	</bean>
+	 -->
 	
+	<!-- 
 	<bean id="discardMessageProcessService" class="com.kongur.monolith.weixin.core.message.service.DiscardMessageProcessService">
-		<property name="order" value="999999"></property><!-- 最低优先级 -->
+		<property name="order" value="999999"></property>
 	</bean>
+	 -->
 	
 	
 	<!-- 回复用的 Velocity模板解析引擎 -->	
@@ -92,15 +97,10 @@
 		</property>
 	</bean>
 	
-	<!-- 
-	<bean id="defaultReplyMessageBuilderResolver" class="com.kongur.monolith.weixin.core.service.reply.DefaultReplyMessageBuilderResolver">
-		<property name="replyMessageBuilders">
-			<list>
-				<ref/>
-			</list>
-		</property>
+	<bean id="defaultReplyMessageBuilderResolver" class="com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilderResolverFactoryBean">
+		<property name="autoCollect" value="true"/>
+		<property name="defaultReplyMessageBuilder" ref="discardReplyMessageBuilder" />
 	</bean>
-	 -->
 	 
 	 <!-- 创建文本被动回复消息 -->
 	 <bean id="textReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.TextReplyMessageBuilder">

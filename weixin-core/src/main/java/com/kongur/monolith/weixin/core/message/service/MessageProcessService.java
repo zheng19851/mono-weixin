@@ -1,7 +1,6 @@
 package com.kongur.monolith.weixin.core.message.service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.core.common.Ordered;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 
 /**
@@ -13,7 +12,7 @@ import com.kongur.monolith.weixin.core.message.domain.Message;
  * @author zhengwei
  * @date 2014-2-14
  */
-public interface MessageProcessService<M extends Message> extends Ordered {
+public interface MessageProcessService<M extends Message> {
 
     /**
      * 处理收到的消息数据

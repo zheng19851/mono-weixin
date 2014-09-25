@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
-import com.kongur.monolith.weixin.core.common.Ordered;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
 import com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilder;
@@ -19,12 +18,7 @@ import com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilderResolver
  */
 public abstract class AbstractMessageProcessService<M extends Message> implements MessageProcessService<M> {
 
-    protected final Logger                     log   = Logger.getLogger(getClass());
-
-    /**
-     * ≈≈–Ú÷µ
-     */
-    private int                                order = Ordered.LOWEST_PRECEDENCE;
+    protected final Logger                     log = Logger.getLogger(getClass());
 
     // @Resource(name = "messageService")
     @Autowired
@@ -33,14 +27,6 @@ public abstract class AbstractMessageProcessService<M extends Message> implement
     // @Resource(name = "replyMessageBuilderResolver")
     @Autowired
     private ReplyMessageBuilderResolver<Reply> replyMessageBuilderResolver;
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
 
     @Override
     public Result<String> process(M msg) {

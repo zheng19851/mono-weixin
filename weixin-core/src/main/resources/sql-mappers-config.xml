@@ -3,11 +3,19 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
-        <setting name="cacheEnabled" value="false"/>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="false"/>
+      	<setting name="defaultExecutorType" value="REUSE" />
+        <setting name="defaultStatementTimeout" value="5000"/>
     </settings>
+    
+    <typeAliases>
+    	<typeAlias alias="WXMessageDOAlias" type="com.kongur.monolith.weixin.core.message.domain.WXMessageDO"/>
+    </typeAliases>
+    
     <!-- 
     <mappers>
-        <mapper resource="sqlmap/message/wx_message_mapper.xml"/>
+        <mapper resource="sqlmappers/message/wx_message_mapper.xml"/>
     </mappers>
      -->
 </configuration>

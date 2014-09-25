@@ -4,8 +4,8 @@
      
 <mapper namespace="WX_MESSAGE">
    
-	<resultMap id="WXMessageResultMap" type="com.kongur.monolith.weixin.core.message.domain.WXMessageDO">
-		<result column="id" property="id" />
+	<resultMap id="WXMessageResultMap" type="WXMessageDOAlias">
+		<id column="id" property="id" />
 		<result column="app_id" property="appId" />
 		<result column="msg_id" property="msgId" />
 		<result column="msg_type" property="msgType" />
@@ -22,7 +22,7 @@
 		app_id, msg_id, msg_type, from_user, to_user, create_time, features, status, gmt_create, gmt_modify
 	</sql>
 
-	<insert id="WX_MESSAGE.insertMessage"  parameterType="com.kongur.monolith.weixin.core.message.domain.WXMessageDO">
+	<insert id="WX_MESSAGE.insertMessage"  parameterType="WXMessageDOAlias">
 		INSERT INTO wx_message(<include refid="WXMessage-columns-without-id" />)
 		VALUES(#{appId}, #{msgId}, #{msgType}, #{fromUser}, #{toUser}, #{createTime}, #{features}, #{status}, now(), now())
 		<selectKey resultType="long" keyProperty="id">
@@ -30,8 +30,8 @@
 		</selectKey>
 	</insert>
 	
-	
-	<update id="WX_MESSAGE.updateMessage"  parameterType="com.kongur.monolith.weixin.core.message.domain.WXMessageDO">
+	<!-- 
+	<update id="WX_MESSAGE.updateMessage"  parameterType="WXMessageDOAlias">
 		UPDATE wx_message set gmt_modify = now()
 	        <if test="appId != null">  
 	            , app_id = #{appId}
@@ -42,7 +42,7 @@
 	        <if test="msgType != null">  
 	            , msg_type = #{msgType}
 	        </if>
-	        <if test="fromUser != null">  
+	        <if test="fromUser != null and fromUser != '' ">  
 	            , from_user = #{fromUser}
 	        </if> 
 	        <if test="toUser != null">  
@@ -64,23 +64,25 @@
 		 
 	     WHERE id = #{id}
 	</update>
-
+ -->
+ 
 	<sql id="WX_MESSAGE.dynamicQuery">
-		<trim prefix="where" prefixOverrides="and | or">
-			 <if test="appId != null">  
+		<!-- <trim prefix="where" prefixOverrides="and | or"> -->
+		<where>
+			 <if test="appId != null and appId != '' ">  
 	            app_id = #{appId}
 	        </if> 
-	        <if test="msgId != null">  
+	        <if test="msgId != null and msgId != '' ">  
 	           and msg_id = #{msgId}
 	        </if>
-	        <if test="msgType != null">  
+	        <if test="msgType != null and msgType != '' ">  
 	           and msg_type = #{msgType}
 	        </if>
 	        
-	        <if test="fromUser != null">  
+	        <if test="fromUser != null and fromUser != '' ">  
 	           and from_user = #{fromUser}
 	        </if>   
-	         <if test="to_user != null">  
+	         <if test="toUser != null and toUser != '' ">  
 	           and toUser = #{toUser}
 	        </if>
 	         <if test="createTime != null">  
@@ -89,7 +91,7 @@
 	         <if test="status != null">  
 	           and status = #{status}
 	        </if>  
-		</trim>
+		</where>
                   
 	</sql>
 
@@ -97,10 +99,12 @@
 		SELECT  id, <include refid="WXMessage-columns-without-id"/>  FROM wx_message <include refid="WX_MESSAGE.dynamicQuery"/> 
   	</select>
 
+<!-- 
   	<select id="WX_MESSAGE.selectMessageById" resultMap="WXMessageResultMap" parameterType="java.lang.Long">
 		SELECT  id, <include refid="WXMessage-columns-without-id"/>  FROM wx_message where id = #{id}
   	</select>
-  	
+  -->
+   	
   	<select id="WX_MESSAGE.selectMessageByMsgId" resultMap="WXMessageResultMap" >
 		SELECT  id, <include refid="WXMessage-columns-without-id"/> FROM wx_message where msg_id = #{msgId}
   	</select>

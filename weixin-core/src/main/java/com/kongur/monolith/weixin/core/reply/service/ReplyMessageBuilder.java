@@ -1,7 +1,6 @@
 package com.kongur.monolith.weixin.core.reply.service;
 
 import com.kongur.monolith.common.result.Result;
-import com.kongur.monolith.weixin.core.common.Ordered;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
 
@@ -11,7 +10,7 @@ import com.kongur.monolith.weixin.core.reply.domain.Reply;
  * @author zhengwei
  * @date 2014年2月21日
  */
-public interface ReplyMessageBuilder<R extends Reply> extends Ordered {
+public interface ReplyMessageBuilder<R extends Reply> {
 
     /**
      * 是否支持处理当前回复消息

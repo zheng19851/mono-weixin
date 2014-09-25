@@ -1,5 +1,9 @@
 package com.kongur.monolith.weixin.core.message.service;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.core.message.domain.Message;
 
@@ -9,7 +13,8 @@ import com.kongur.monolith.weixin.core.message.domain.Message;
  * @author zhengwei
  * @date 2014-2-14
  */
-// @Service("discardMessageProcessService")
+@Service("discardMessageProcessService")
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class DiscardMessageProcessService extends AbstractMessageProcessService<Message> {
 
     @Override

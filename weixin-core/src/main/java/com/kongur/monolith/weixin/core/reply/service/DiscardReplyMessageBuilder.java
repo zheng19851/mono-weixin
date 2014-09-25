@@ -1,5 +1,7 @@
 package com.kongur.monolith.weixin.core.reply.service;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
@@ -13,11 +15,12 @@ import com.kongur.monolith.weixin.core.reply.domain.Reply;
  * @date 2014Äê2ÔÂ21ÈÕ
  */
 @Service("discardReplyMessageBuilder")
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class DiscardReplyMessageBuilder extends AbstractReplyMessageBuilder<Reply> {
 
     @Override
     public boolean supports(Reply reply) {
-        return false;
+        return true;
     }
 
     @Override

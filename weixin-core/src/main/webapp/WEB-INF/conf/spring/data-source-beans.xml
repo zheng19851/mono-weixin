@@ -13,7 +13,7 @@
 		</property>
 	</bean>
 	
-	<bean id="basicDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
@@ -30,22 +30,21 @@
 		<property name="defaultAutoCommit" value="true" />
 	</bean>
 
-
+<!-- 
 	<bean id="dataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="proxyInterfaces">
 			<value>javax.sql.DataSource</value>
 		</property>
 		<property name="target" ref="basicDataSource">
 		</property>
-		<!-- 
 		<property name="interceptorNames">
 			<list>
 				<value>dataSouceInterceptor</value>
 			</list>
 		</property>
-		 -->
 	</bean>
-
+ -->
+ 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
@@ -71,10 +70,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  <property name="dataSource" ref="dataSource"/>
 	  <property name="configLocation" value="classpath:sql-mappers-config.xml"/>
-	  <property name="mapperLocations">
-		<value>classpath:sqlmappers/**/*_mapper.xml
-			</value>
-		</property>
+	  <property name="mapperLocations" value="classpath:sqlmappers/**/*_mapper.xml" />
 	</bean>
 
 </beans>
