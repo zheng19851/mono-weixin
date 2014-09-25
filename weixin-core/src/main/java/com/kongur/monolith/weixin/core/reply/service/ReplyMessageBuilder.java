@@ -18,7 +18,7 @@ public interface ReplyMessageBuilder<R extends Reply> {
      * @param reply
      * @return
      */
-    boolean supports(R reply);
+    boolean supports(Reply reply);
 
     /**
      * 创建回复消息，也可以创建主动发送的消息

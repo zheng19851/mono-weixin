@@ -11,7 +11,7 @@ import com.kongur.monolith.weixin.core.reply.domain.Reply;
 public abstract class UnactiveResourceReplyMessageBuilder<R extends Reply> extends UnactiveVelocityReplyMessageBuilder<R> {
 
     @Override
-    public boolean supports(R reply) {
+    public boolean supports(Reply reply) {
         return super.supports(reply) && reply.isResource();
     }
 

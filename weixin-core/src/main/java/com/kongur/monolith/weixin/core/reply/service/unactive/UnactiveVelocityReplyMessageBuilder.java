@@ -12,7 +12,7 @@ import com.kongur.monolith.weixin.core.reply.service.VelocityReplyMessageBuilder
 public abstract class UnactiveVelocityReplyMessageBuilder<R extends Reply> extends VelocityReplyMessageBuilder<R> {
 
     @Override
-    public boolean supports(R reply) {
+    public boolean supports(Reply reply) {
         return !reply.isActive();
     }
 

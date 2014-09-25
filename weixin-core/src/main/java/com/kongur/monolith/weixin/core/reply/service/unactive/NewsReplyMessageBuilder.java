@@ -5,6 +5,7 @@ import java.util.Map;
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.client.common.EnumMessageType;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.domain.Reply;
 import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 
 /**
@@ -17,7 +18,7 @@ import com.kongur.monolith.weixin.core.reply.domain.ReplyDO;
 public class NewsReplyMessageBuilder extends UnactiveVelocityReplyMessageBuilder<ReplyDO> {
 
     @Override
-    public boolean supports(ReplyDO reply) {
+    public boolean supports(Reply reply) {
         return super.supports(reply) && EnumMessageType.isNews(reply.getType());
     }
 
