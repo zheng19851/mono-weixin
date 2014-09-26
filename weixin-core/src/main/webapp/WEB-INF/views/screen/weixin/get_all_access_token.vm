@@ -1,0 +1,11 @@
+<table border="1">
+	<tr>
+        <td>appid</td><td>accessToken</td>
+    </tr>
+	#foreach($entry in ${accessTokens.entrySet()})
+		<tr>
+            <td>$!{entry.key}</td><td>$!{entry.value}</td>
+        </tr>
+    	
+	#end	
+</table>

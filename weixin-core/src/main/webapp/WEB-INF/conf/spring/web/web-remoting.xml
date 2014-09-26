@@ -16,4 +16,8 @@
     	<property name="serviceInterface" value="com.kongur.monolith.weixin.client.user.IUserService"/>
 	</bean>
    
+   <bean id="customMessageSendService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
+    	<property name="service" ref="customMessageSendService"/>
+    	<property name="serviceInterface" value="com.kongur.monolith.weixin.client.custom.ICustomMessageSendService"/>
+	</bean>
 </beans>

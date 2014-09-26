@@ -1,0 +1,8 @@
+{
+    "touser":"$!{reply.customMessage.toUser}",
+    "msgtype":"text",
+    "text":
+    {
+         "content":"$!{reply.customMessage.content}"
+    }
+}

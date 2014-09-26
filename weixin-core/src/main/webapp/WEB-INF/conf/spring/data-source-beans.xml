@@ -6,15 +6,7 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.2.xsd" default-lazy-init="false">
 
-	<bean id="ResourceConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:server.properties</value>
-			</list>
-		</property>
-	</bean>
-	
+
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
@@ -75,4 +67,5 @@
 	  <property name="mapperLocations" value="classpath:sqlmappers/**/*_mapper.xml" />
 	</bean>
 
+	<import resource="env-conf.xml"/>
 </beans>

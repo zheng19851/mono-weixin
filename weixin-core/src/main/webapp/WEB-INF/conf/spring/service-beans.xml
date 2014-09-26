@@ -93,4 +93,10 @@
 		<constructor-arg index="1" value="}"></constructor-arg>	
 	 </bean>
 	 
+	 <bean id="textCustomVelocityReplyMessageBuilder" class="com.kongur.monolith.weixin.core.custom.builder.TextCustomVelocityReplyMessageBuilder">
+	 	<property name="velocityEngine" ref="messageVelocityEngine" />
+	 	<property name="template" value="custom/text.vm"></property>
+	 </bean>
+	 
+	 
 </beans>

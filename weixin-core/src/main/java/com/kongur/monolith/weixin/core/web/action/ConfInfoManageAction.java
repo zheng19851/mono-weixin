@@ -1,13 +1,17 @@
 package com.kongur.monolith.weixin.core.web.action;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kongur.monolith.common.result.Result;
+import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
 import com.kongur.monolith.weixin.core.menu.domain.MenusDO;
 import com.kongur.monolith.weixin.core.menu.service.MenuManager;
@@ -39,13 +43,26 @@ public class ConfInfoManageAction {
      * @return
      */
     @RequestMapping("get_access_token.htm")
-    public String viewAccessToken(Model model) {
-
-        String accessToken = accessTokenService.getAccessToken();
+    public String viewAccessToken(@RequestParam(value = "appId", required = false) String appId, Model model) {
+        String accessToken = null;
+        if (StringUtil.isNotBlank(appId)) {
+            accessToken = accessTokenService.getAccessToken(appId);
+        } else {
+            accessToken = accessTokenService.getAccessToken();
+        }
 
         model.addAttribute("accessToken", accessToken);
 
         return "weixin/get_access_token";
+    }
+
+    @RequestMapping("get_all_access_token.htm")
+    public String viewAllAccessToken(Model model) {
+        Map<String, String> accessTokens = accessTokenService.getAllAccessToken();
+
+        model.addAttribute("accessTokens", accessTokens);
+
+        return "weixin/get_all_access_token";
     }
 
     /**
@@ -57,7 +74,7 @@ public class ConfInfoManageAction {
     @RequestMapping("refresh_access_token.htm")
     public String refreshAccessToken(Model model) {
 
-        Result<String> result = accessTokenService.refresh();
+        Result<Map<String, String>> result = accessTokenService.refresh();
 
         model.addAttribute("result", result);
 
@@ -70,10 +87,13 @@ public class ConfInfoManageAction {
      * @param model
      * @return
      */
-    @RequestMapping("refresh.htm")
-    public String refresh(String type, Model model) {
+    @RequestMapping("refresh_curr_access_token.htm")
+    public String refresh(@RequestParam(value = "appId") String appId, Model model) {
 
-        return "success";
+        Result<String> result = accessTokenService.refresh(appId);
+        model.addAttribute("result", result);
+
+        return "weixin/refresh_curr_access_token";
     }
 
     /**

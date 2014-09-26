@@ -54,11 +54,12 @@ public abstract class VelocityReplyMessageBuilder<R extends Reply> extends Abstr
      * @param model
      */
     protected void buildDefaultModelParams(R reply, Message msg, Map model) {
-        model.put("toUser", msg.getFromUserName());
-        model.put("fromUser", msg.getToUserName());
+        if (msg != null) {
+            model.put("toUser", msg.getFromUserName());
+            model.put("fromUser", msg.getToUserName());
+        }
 
         model.put("createTime", new Date().getTime());
-
         model.put("reply", reply);
 
     }

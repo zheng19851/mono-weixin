@@ -21,6 +21,11 @@ public abstract class AbstractReplyMessageBuilder<R extends Reply> implements Re
     }
 
     @Override
+    public Result<String> build(R reply) {
+        return this.build(reply, null);
+    }
+
+    @Override
     public Result<String> build(R reply, Message msg) {
         Result<String> result = new Result<String>();
         result.setSuccess(true);

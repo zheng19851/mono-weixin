@@ -7,9 +7,18 @@ package com.kongur.monolith.weixin.client.custom.message;
  */
 public abstract class AbstractCustomMessage implements CustomMessage {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6860325594955423864L;
+
     private String msgType;
 
     private String toUser;
+
+    public AbstractCustomMessage(String msgType) {
+        this.msgType = msgType;
+    }
 
     @Override
     public String getMsgType() {

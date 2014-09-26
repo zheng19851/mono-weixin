@@ -28,4 +28,6 @@ public interface ReplyMessageBuilder<R extends Reply> {
      */
     Result<String> build(R reply, Message msg);
 
+    Result<String> build(R reply);
+
 }

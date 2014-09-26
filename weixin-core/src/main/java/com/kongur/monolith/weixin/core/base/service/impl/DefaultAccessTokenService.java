@@ -201,13 +201,13 @@ public class DefaultAccessTokenService implements AccessTokenService {
     /**
      * 刷新AccessToken
      */
-    public Result<String> refresh() {
+    public Result<Map<String, String>> refresh() {
 
         if (log.isInfoEnabled()) {
             log.info("refresh access token start");
         }
 
-        final Result<String> result = new Result<String>();
+        final Result<Map<String, String>> result = new Result<Map<String, String>>();
 
         // 刷新默认的公众号accessToken
         // if (StringUtil.isNotBlank(this.appId)) {
@@ -239,6 +239,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
             log.info("refresh access token end.");
         }
 
+        result.setResult(this.accessTokenCache);
         result.setSuccess(true);
         return result;
 
@@ -275,6 +276,11 @@ public class DefaultAccessTokenService implements AccessTokenService {
         AtomicReference<String> ref = new AtomicReference<String>();
 
         System.out.println(ref.compareAndSet(null, "new"));
+    }
+
+    @Override
+    public Map<String, String> getAllAccessToken() {
+        return this.accessTokenCache;
     }
 
 }

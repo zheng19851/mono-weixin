@@ -1,5 +1,7 @@
 package com.kongur.monolith.weixin.core.base.service;
 
+import java.util.Map;
+
 import com.kongur.monolith.common.result.Result;
 
 /**
@@ -23,7 +25,7 @@ public interface AccessTokenService {
      * 
      * @return
      */
-    Result<String> refresh();
+    Result<Map<String, String>> refresh();
 
     /**
      * 获取默认公众号的AccessToken
@@ -39,5 +41,12 @@ public interface AccessTokenService {
      * @return
      */
     String getAccessToken(String appId);
+
+    /**
+     * 所有accessToken
+     * 
+     * @return
+     */
+    Map<String, String> getAllAccessToken();
 
 }

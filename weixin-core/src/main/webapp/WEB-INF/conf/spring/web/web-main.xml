@@ -13,15 +13,6 @@
 
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.web" />
 
-	<bean id="ResourceConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:server.properties</value>
-			</list>
-		</property>
-	</bean>
- 
 	<!-- view -->
 	<bean id="velocityConfigurer"
 		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
@@ -101,11 +92,14 @@
 		<property name="urlMap">
 			<map>
                 <entry key="/remoting/hessian/menuService.htm" value-ref="menuService-hessian" />
-                 <entry key="/remoting/hessian/appEventService.htm" value-ref="appEventService-hessian" />
+                <entry key="/remoting/hessian/appEventService.htm" value-ref="appEventService-hessian" />
                 <entry key="/remoting/hessian/userService.htm" value-ref="userService-hessian" />
+                <entry key="/remoting/hessian/customMessageSendService.htm" value-ref="customMessageSendService-hessian" />
+                
 			</map>
 		</property>
 	</bean>
 	
 	<import resource="web-remoting.xml" />
+	<import resource="../env-conf.xml"/>
 </beans>
