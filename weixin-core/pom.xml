@@ -20,17 +20,16 @@
 		<weixin.appSecret>5dcf8eac1e99e983fc58e42376ab0267</weixin.appSecret>
 		<weixin.token>382uyhjfjd838329k82uyhjfjd838329</weixin.token>
 
-		<velocity.cache.enable>false</velocity.cache.enable>
+		<velocity.cache.enable>true</velocity.cache.enable>
+		
+		<weixin.workDir>/home/spark/work</weixin.workDir>
+		<weixin.conf.rootDir>${weixin.workDir}/conf</weixin.conf.rootDir>
+		<log.path>${weixin.workDir}/logs/weixin-core</log.path>
+		<app.server.host>183.129.158.42</app.server.host>
+		<app.server.port>80</app.server.port>
 
-		<!-- <log.path>/home/weixin/work/logs/weixin-core</log.path> <app.server.host>183.129.158.42</app.server.host> 
-			<app.server.port>80</app.server.port> <weixin.conf.rootDir>/home/weixin/work/conf</weixin.conf.rootDir> -->
-
-		<log.path>d:/temp/logs/weixin-core</log.path>
-		<app.server.host>localhost</app.server.host>
-		<app.server.port>8080</app.server.port>
-
-		<weixin.conf.rootDir>D:/temp/weixin/</weixin.conf.rootDir>
-
+		<!-- <log.path>d:/temp/logs/weixin-core</log.path> <app.server.host>localhost</app.server.host> 
+			<app.server.port>8080</app.server.port> <weixin.conf.rootDir>D:/temp/weixin/</weixin.conf.rootDir> -->
 	</properties>
 
 	<build>

@@ -52,6 +52,10 @@ public class XmlPublicNoInfoManager implements PublicNoInfoManager {
         Assert.notNull(this.confPath, "the xml conf file of publicNo can not be null.");
         Assert.notNull(this.fileName, "the xml conf file name of publicNo can not be null.");
 
+        if (!new File(this.confPath).exists()) {
+            throw new FileNotFoundException("can not found the dir '" + this.confPath + "'");
+        }
+
         if (!this.confPath.endsWith("/")) {
             this.confPath = this.confPath + "/";
         }

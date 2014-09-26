@@ -2,6 +2,7 @@ package com.kongur.monolith.weixin.core.reply.manager.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
     @Value("${weixin.conf.rootDir}")
     private String                 confPath;
 
-    private String                 fileName      = "default_reply.xml";
+    private String                 fileName      = "subscribe_reply.xml";
 
     private String                 fileRealPath;
 
@@ -63,12 +64,16 @@ public class XmlSubscribeReplyManager implements SubscribeReplyManager {
     private Map<String, ReplyDO>   replyMapCache = new HashMap<String, ReplyDO>();
 
     @Autowired
-    private IAppEventService  remoteAppEventService;
+    private IAppEventService       remoteAppEventService;
 
     @PostConstruct
     public void init() throws IOException {
         Assert.notNull(this.confPath, "the xml conf file of default reply can not be null.");
         Assert.notNull(this.fileName, "the xml conf file name of default reply can not be null.");
+
+        if (!new File(this.confPath).exists()) {
+            throw new FileNotFoundException("can not found the dir '" + this.confPath + "'");
+        }
 
         if (!this.confPath.endsWith("/")) {
             this.confPath = this.confPath + "/";

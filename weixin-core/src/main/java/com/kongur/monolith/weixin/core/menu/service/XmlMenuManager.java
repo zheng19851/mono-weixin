@@ -98,6 +98,11 @@ public class XmlMenuManager implements MenuManager {
     @PostConstruct
     public void init() throws IOException {
         Assert.notNull(this.confFileDir, "the xml conf of menus file dir can not be null.");
+
+        if (!new File(this.confFileDir).exists()) {
+            throw new FileNotFoundException("can not found the dir '" + this.confFileDir + "'");
+        }
+
         if (!this.confFileDir.endsWith("/")) {
             this.confFileDir = this.confFileDir + "/";
         }

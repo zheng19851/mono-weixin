@@ -27,22 +27,22 @@ import com.thoughtworks.xstream.XStream;
 @Service("defaultReplyManager")
 public class XmlDefaultReplyManager implements DefaultReplyManager {
 
-    private final Logger                log                  = Logger.getLogger(getClass());
+    private final Logger                         log                  = Logger.getLogger(getClass());
 
     /**
      * Â·¾¶
      */
     // @Value("${weixin.reply.error.conf}")
     @Value("${weixin.conf.rootDir}")
-    private String                      confPath;
+    private String                               confPath;
 
-    private String                      fileName             = "default_reply.xml";
+    private String                               fileName             = "default_reply.xml";
 
-    private String                      fileRealPath;
+    private String                               fileRealPath;
 
-    private File                        file                 = null;
+    private File                                 file                 = null;
 
-    private XStream                     xStream;
+    private XStream                              xStream;
 
     /**
      * »º´æ
@@ -52,13 +52,17 @@ public class XmlDefaultReplyManager implements DefaultReplyManager {
     private volatile Map<String, DefaultReplyDO> defaultReplyMapCache = new HashMap<String, DefaultReplyDO>();
 
     @Autowired
-    private IAppEventService       remoteAppEventService;
+    private IAppEventService                     remoteAppEventService;
 
     @PostConstruct
     public void init() throws IOException {
 
         Assert.notNull(this.confPath, "the xml conf file of default reply can not be null.");
         Assert.notNull(this.fileName, "the xml conf file name of default reply can not be null.");
+
+        if (!new File(this.confPath).exists()) {
+            throw new FileNotFoundException("can not found the dir '" + this.confPath + "'");
+        }
 
         if (!this.confPath.endsWith("/")) {
             this.confPath = this.confPath + "/";
