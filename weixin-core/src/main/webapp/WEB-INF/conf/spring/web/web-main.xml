@@ -21,7 +21,7 @@
 			</list>
 		</property>
 	</bean>
-	
+ 
 	<!-- view -->
 	<bean id="velocityConfigurer"
 		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
@@ -108,5 +108,4 @@
 	</bean>
 	
 	<import resource="web-remoting.xml" />
-
 </beans>

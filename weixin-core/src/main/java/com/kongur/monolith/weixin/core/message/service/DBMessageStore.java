@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.lang.StringUtil;
@@ -21,6 +22,7 @@ import com.kongur.monolith.weixin.core.message.domain.features.Features;
  * @author zhengwei
  */
 @Service("dbMessageStore")
+@Profile("msgUseDB")
 public class DBMessageStore extends AbstractMessageStore {
 
     private static final String NAME                       = "db";

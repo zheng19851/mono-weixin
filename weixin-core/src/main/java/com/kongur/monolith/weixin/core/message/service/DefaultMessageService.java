@@ -1,7 +1,6 @@
 package com.kongur.monolith.weixin.core.message.service;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.weixin.core.message.domain.Message;
@@ -14,8 +13,9 @@ import com.kongur.monolith.weixin.core.message.domain.features.Features;
  */
 @Service("defaultMessageService")
 public class DefaultMessageService implements MessageService {
-    
-    @Resource(name = "dbMessageStore")
+
+    // @Resource(name = "dbMessageStore")
+    @Autowired
     private MessageStore defaultMessageStore;
 
     @Override

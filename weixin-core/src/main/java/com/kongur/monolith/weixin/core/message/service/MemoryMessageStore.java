@@ -1,5 +1,6 @@
 package com.kongur.monolith.weixin.core.message.service;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.UUIDGenerator;
@@ -15,6 +16,7 @@ import com.kongur.monolith.weixin.core.message.domain.features.Features;
  * @author zhengwei
  */
 @Service("memoryMessageStore")
+@Profile("msgUseMemory")
 public class MemoryMessageStore extends AbstractMessageStore {
 
     private static final String                    NAME     = "memory";
