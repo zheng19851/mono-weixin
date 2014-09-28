@@ -57,28 +57,28 @@ public enum EnumMessageType {
         return desc;
     }
 
-    public static boolean isText(String replyType) {
-        return TEXT.getValue().equals(replyType);
+    public static boolean isText(String type) {
+        return TEXT.getValue().equals(type);
     }
 
-    public static boolean isImage(String replyType) {
-        return IMAGE.getValue().equals(replyType);
+    public static boolean isImage(String type) {
+        return IMAGE.getValue().equals(type);
     }
 
-    public static boolean isVoice(String replyType) {
-        return VOICE.getValue().equals(replyType);
+    public static boolean isVoice(String type) {
+        return VOICE.getValue().equals(type);
     }
 
-    public static boolean isVedio(String replyType) {
-        return VEDIO.getValue().equals(replyType);
+    public static boolean isVedio(String type) {
+        return VEDIO.getValue().equals(type);
     }
 
-    public static boolean isMusic(String replyType) {
-        return MUSIC.getValue().equals(replyType);
+    public static boolean isMusic(String type) {
+        return MUSIC.getValue().equals(type);
     }
 
-    public static boolean isNews(String replyType) {
-        return NEWS.getValue().equals(replyType);
+    public static boolean isNews(String type) {
+        return NEWS.getValue().equals(type);
     }
 
     /**

@@ -2,10 +2,10 @@ package com.kongur.monolith.weixin.core.custom.builder;
 
 import java.util.Map;
 
-import com.kongur.monolith.weixin.core.custom.domain.CustomReply;
+import com.kongur.monolith.weixin.core.custom.CustomReply;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.builder.VelocityReplyMessageBuilder;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
-import com.kongur.monolith.weixin.core.reply.service.VelocityReplyMessageBuilder;
 
 /**
  * 客服消息回复抽象接口

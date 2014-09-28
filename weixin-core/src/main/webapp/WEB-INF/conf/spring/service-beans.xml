@@ -6,14 +6,14 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-<!-- 
+	 <!-- 
 <context:component-scan base-package="com.kongur.monolith.weixin.core" />
-	 -->
+ -->
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.base.service,com.kongur.monolith.weixin.core.event.service" />
-	<context:component-scan base-package="com.kongur.monolith.weixin.core.custom.service,com.kongur.monolith.weixin.core.menu.service" />
-	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.service,com.kongur.monolith.weixin.core.user.service" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.custom,com.kongur.monolith.weixin.core.menu.service" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply,com.kongur.monolith.weixin.core.user" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.support,com.kongur.monolith.weixin.core.message.service" />
-	<context:component-scan base-package="com.kongur.monolith.weixin.core.reply.manager,com.kongur.monolith.weixin.core.conf" />
+	<context:component-scan base-package="com.kongur.monolith.weixin.core.conf,com.kongur.monolith.weixin.core.template" />
 	<context:component-scan base-package="com.kongur.monolith.weixin.core.mp" />
 
 	<bean id="messageSource"
@@ -62,28 +62,28 @@
 		</property>
 	</bean>
 	
-	<bean id="defaultReplyMessageBuilderResolver" class="com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilderResolverFactoryBean">
+	<bean id="defaultReplyMessageBuilderResolver" class="com.kongur.monolith.weixin.core.reply.builder.ReplyMessageBuilderResolverFactoryBean">
 		<property name="autoCollect" value="true"/>
 		<property name="defaultReplyMessageBuilder" ref="discardReplyMessageBuilder" />
 	</bean>
 	 
 	 <!-- 创建文本被动回复消息 -->
-	 <bean id="textReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.TextReplyMessageBuilder">
+	 <bean id="textReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.builder.unactive.TextReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/text.vm"></property>
 	 </bean>
 	 
-	  <bean id="newsReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.NewsReplyMessageBuilder">
+	  <bean id="newsReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.builder.unactive.NewsReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/news.vm"></property>
 	 </bean>
 	 
-	 <bean id="imageResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.ImageResourceReplyMessageBuilder">
+	 <bean id="imageResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.builder.unactive.ImageResourceReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/image.vm"></property>
 	 </bean>
 	 
-	 <bean id="voiceResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.service.unactive.VoiceResourceReplyMessageBuilder">
+	 <bean id="voiceResourceReplyMessageBuilder" class="com.kongur.monolith.weixin.core.reply.builder.unactive.VoiceResourceReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/voice.vm"></property>
 	 </bean>
@@ -98,5 +98,14 @@
 	 	<property name="template" value="custom/text.vm"></property>
 	 </bean>
 	 
+	  <bean id="newsCustomVelocityReplyMessageBuilder" class="com.kongur.monolith.weixin.core.custom.builder.NewsCustomVelocityReplyMessageBuilder">
+	 	<property name="velocityEngine" ref="messageVelocityEngine" />
+	 	<property name="template" value="custom/news.vm"></property>
+	 </bean>
+	 
+	 <bean id="templateVelocityReplyMessageBuilder" class="com.kongur.monolith.weixin.core.template.TemplateVelocityReplyMessageBuilder">
+	 	<property name="velocityEngine" ref="messageVelocityEngine" />
+	 	<property name="template" value="template/msg.vm"></property>
+	 </bean>
 	 
 </beans>

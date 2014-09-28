@@ -1,7 +1,5 @@
 package com.kongur.monolith.weixin.core.message.service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +9,7 @@ import org.dom4j.DocumentException;
 import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.lang.StringUtil;
+import com.kongur.monolith.weixin.core.common.utils.HttpRequestUtils;
 import com.kongur.monolith.weixin.core.common.utils.XmlTools;
 import com.kongur.monolith.weixin.core.message.domain.DefaultMessage;
 import com.kongur.monolith.weixin.core.message.domain.EnumEventType;
@@ -53,42 +52,12 @@ public class DefaultMessageBuilder implements MessageBuilder {
         return this.build(appId, signature, timestamp, nonce, echostr, req);
     }
 
-    private String readMsg(HttpServletRequest req) {
-        String receivedMsg = null;
-
-        int len = req.getContentLength();
-
-        if (len <= 0) {
-            log.error("can not find any content in the request. len=" + len);
-            return null;
-        }
-
-        try {
-
-            InputStream in = req.getInputStream();
-            byte[] dataBytes = new byte[len];
-            in.read(dataBytes);
-
-            receivedMsg = new String(dataBytes);
-            if (log.isDebugEnabled()) {
-                log.debug("received message->" + receivedMsg + "<-");
-            }
-
-        } catch (IOException e) {
-            log.error("read receivedMsg error, req=" + req, e);
-            return null;
-        }
-
-        return receivedMsg;
-
-    }
-
     @Override
     public Message<Features> build(String appId, String signature, String timestamp, String nonce, String echostr,
                                    HttpServletRequest req) {
         Message msg = Message.NULL_MESSAGE;
 
-        String receivedMsg = readMsg(req);// 接收到的消息
+        String receivedMsg = HttpRequestUtils.readMsg(req);// 接收到的消息
         if (StringUtil.isBlank(receivedMsg)) {
             log.error("can not read receivedMsg from the request. req=" + req);
             return msg;

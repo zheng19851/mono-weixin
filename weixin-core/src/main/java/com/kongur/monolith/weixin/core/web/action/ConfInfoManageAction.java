@@ -71,7 +71,7 @@ public class ConfInfoManageAction {
      * @param model
      * @return
      */
-    @RequestMapping("refresh_access_token.htm")
+    @RequestMapping("refresh_all_access_token.htm")
     public String refreshAccessToken(Model model) {
 
         Result<Map<String, String>> result = accessTokenService.refresh();
@@ -87,7 +87,7 @@ public class ConfInfoManageAction {
      * @param model
      * @return
      */
-    @RequestMapping("refresh_curr_access_token.htm")
+    @RequestMapping("refresh_access_token.htm")
     public String refresh(@RequestParam(value = "appId") String appId, Model model) {
 
         Result<String> result = accessTokenService.refresh(appId);

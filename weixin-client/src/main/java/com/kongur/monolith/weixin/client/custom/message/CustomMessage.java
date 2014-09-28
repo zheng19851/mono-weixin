@@ -8,6 +8,13 @@ import java.io.Serializable;
  * @author zhengwei
  */
 public interface CustomMessage extends Serializable {
+    
+    /**
+     * 微信公众号appid
+     * 
+     * @return
+     */
+    String getAppId();
 
     /**
      * 消息类型

@@ -1,0 +1,20 @@
+{
+    "touser":"$!{reply.customMessage.toUser}",
+    "msgtype":"news",
+    "news":{
+        "articles": [
+		#foreach($article in $!{reply.customMessage.articles})
+             {
+                 "title":"$!{article.title}",
+                 "description":"$!{article.description}",
+                 "url":"$!{article.url}",
+                 "picurl":"$!{article.picUrl}"
+             }
+    		 #if($velocityCount < $!{reply.customMessage.articles.size()})
+    		 ,
+    		 #end
+		 #end
+         
+         ]
+    }
+}

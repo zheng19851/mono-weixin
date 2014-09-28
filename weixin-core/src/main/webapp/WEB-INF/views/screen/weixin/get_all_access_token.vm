@@ -1,10 +1,14 @@
 <table border="1">
 	<tr>
-        <td>appid</td><td>accessToken</td>
+        <td>appid</td><td>accessToken</td><td >²Ù×÷</td>
     </tr>
 	#foreach($entry in ${accessTokens.entrySet()})
 		<tr>
-            <td>$!{entry.key}</td><td>$!{entry.value}</td>
+            <td>$!{entry.key}</td>
+			<td>$!{entry.value}</td>
+			<td>
+                <a href="$!{appServer}/refresh_access_token.htm?appId=$!{entry.key}">Ë¢ÐÂ</a>
+            </td>
         </tr>
     	
 	#end	

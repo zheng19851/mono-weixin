@@ -15,4 +15,15 @@
 			</list>
 		</property>
 	</bean>
+	
+	
+	<bean id="appServerBroker" class="com.kongur.monolith.weixin.core.web.url.URLBroker">
+		<property name="config">
+			<bean class="com.kongur.monolith.weixin.core.web.url.URLConfig">
+				<property name="host" value="${app.server.host}"></property>
+				<property name="port" value="${app.server.port}"></property>
+				<property name="followContextPath" value="true"></property>
+			</bean>
+		</property>
+	</bean>
 </beans>

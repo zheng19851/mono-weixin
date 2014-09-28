@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.message.domain.Message;
+import com.kongur.monolith.weixin.core.reply.builder.ReplyMessageBuilder;
+import com.kongur.monolith.weixin.core.reply.builder.ReplyMessageBuilderResolver;
 import com.kongur.monolith.weixin.core.reply.domain.Reply;
-import com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilder;
-import com.kongur.monolith.weixin.core.reply.service.ReplyMessageBuilderResolver;
 
 /**
  * 消息处理服务

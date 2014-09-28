@@ -1,0 +1,27 @@
+ {
+           "touser":"$!{reply.msg.toUser}",
+           "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",
+           "url":"$!{appServer}/cgi/template_msg/callback.htm",
+           "topcolor":"$!{reply.msg.topColor}",
+           "data":{
+                   "first": {
+                       "value":"$!{reply.msg.first.value}",
+                       "color":"$!{reply.msg.first.color}"
+                   },
+				   #foreach($keyNote in $!{reply.msg.keyNotes})
+                       "keynote1":{
+                           "value":"$!{keyNote.value}",
+                           "color":"$!{keyNote.color}"
+                       }
+					   #if($velocityCount < $!{reply.msg.keyNotes.size()})
+        				   ,
+					   #end
+						
+				   #end
+				   ,
+                   "remark":{
+                       "value":"$!{reply.msg.remark.value}",
+                       "color":"$!{reply.msg.remark.color}"
+                   }
+           }
+       }
