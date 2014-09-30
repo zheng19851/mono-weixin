@@ -108,8 +108,5 @@
 	 	<property name="template" value="template/msg.vm"></property>
 	 </bean>
 	 
-	 <bean id="weixinApiService" class="com.kongur.monolith.weixin.core.base.service.WeixinApiServiceFactoryBean">
-	 
-	 </bean>
-	 
+	
 </beans>

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.PropertyPlaceholderHelper;
 
@@ -14,6 +15,7 @@ import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 /**
  * @author zhengwei
  */
+@Service("weixinApiService")
 public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService>, InitializingBean {
 
     /**
