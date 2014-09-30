@@ -49,4 +49,11 @@ public interface AccessTokenService {
      */
     Map<String, String> getAllAccessTokens();
 
+    /**
+     * 刷新默认的公众号acces token
+     * 
+     * @return
+     */
+    Result<String> refreshDefault();
+
 }

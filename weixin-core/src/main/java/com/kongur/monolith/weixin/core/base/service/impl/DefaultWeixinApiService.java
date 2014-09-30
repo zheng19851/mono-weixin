@@ -6,7 +6,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.PropertyPlaceholderHelper;
 import org.springframework.util.PropertyPlaceholderHelper.PlaceholderResolver;
 
@@ -23,10 +22,15 @@ import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
  * @author zhengwei
  * @date 2014Äê2ÔÂ26ÈÕ
  */
-@Service("defaultWeixinApiService")
+// @Service("defaultWeixinApiService")
 public class DefaultWeixinApiService implements WeixinApiService {
 
     private final Logger              log            = Logger.getLogger(getClass());
+
+    /**
+     * access_token_key
+     */
+    private String                    accessTokenKey = "access_token";
 
     @Autowired
     private ApiService                apiService;
@@ -39,11 +43,6 @@ public class DefaultWeixinApiService implements WeixinApiService {
 
     @Autowired
     private AccessTokenService        accessTokenService;
-
-    /**
-     * access_token_key
-     */
-    private String                    accessTokenKey = "access_token";
 
     @Autowired
     private PublicNoInfoService       publicNoInfoService;
@@ -63,7 +62,7 @@ public class DefaultWeixinApiService implements WeixinApiService {
     @Override
     public Result<JSONObject> doPost(String apiUrl, final String postParams, boolean replaceAccessToken)
                                                                                                         throws ApiException {
-      
+
         return this.doPost(this.publicNoInfoService.getDefaultAppId(), apiUrl, postParams, replaceAccessToken);
 
     }
@@ -131,6 +130,46 @@ public class DefaultWeixinApiService implements WeixinApiService {
     @Override
     public Result<JSONObject> doGet(String appId, String apiUrl) {
         return this.doGet(appId, apiUrl, null, true);
+    }
+
+    public String getAccessTokenKey() {
+        return accessTokenKey;
+    }
+
+    public void setAccessTokenKey(String accessTokenKey) {
+        this.accessTokenKey = accessTokenKey;
+    }
+
+    public ApiService getApiService() {
+        return apiService;
+    }
+
+    public void setApiService(ApiService apiService) {
+        this.apiService = apiService;
+    }
+
+    public PropertyPlaceholderHelper getPropertyPlaceholderHelper() {
+        return propertyPlaceholderHelper;
+    }
+
+    public void setPropertyPlaceholderHelper(PropertyPlaceholderHelper propertyPlaceholderHelper) {
+        this.propertyPlaceholderHelper = propertyPlaceholderHelper;
+    }
+
+    public AccessTokenService getAccessTokenService() {
+        return accessTokenService;
+    }
+
+    public void setAccessTokenService(AccessTokenService accessTokenService) {
+        this.accessTokenService = accessTokenService;
+    }
+
+    public PublicNoInfoService getPublicNoInfoService() {
+        return publicNoInfoService;
+    }
+
+    public void setPublicNoInfoService(PublicNoInfoService publicNoInfoService) {
+        this.publicNoInfoService = publicNoInfoService;
     }
 
 }

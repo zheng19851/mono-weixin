@@ -283,4 +283,9 @@ public class DefaultAccessTokenService implements AccessTokenService {
         return this.accessTokenCache;
     }
 
+    @Override
+    public Result<String> refreshDefault() {
+        return this.refresh(this.publicNoInfoService.getDefaultAppId());
+    }
+
 }

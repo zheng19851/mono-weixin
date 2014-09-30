@@ -10,13 +10,12 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
+import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
 import com.kongur.monolith.weixin.core.base.service.ApiException;
 import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
-import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.kongur.monolith.weixin.core.support.WeixinApiHelper;
 
 /**
@@ -24,32 +23,33 @@ import com.kongur.monolith.weixin.core.support.WeixinApiHelper;
  * 
  * @author zhengwei
  */
-@Service("weixinApiService")
+// @Service("weixinApiService")
 public class RetryWeixinApiService implements WeixinApiService {
 
-    private final Logger        log           = Logger.getLogger(getClass());
+    private final Logger       log           = Logger.getLogger(getClass());
 
     /**
      * 默认重试一次
      */
-    private int                 retryCount    = 1;
+    private int                retryCount    = 1;
 
     /**
      * 重试等待间隔，默认300毫秒
      */
     @Value("${weixin.api.retry.period}")
-    private long                retryWait     = 300;
+    private long               retryWait     = 300;
 
     @Resource(name = "defaultWeixinApiService")
-    private WeixinApiService    delegate;
+    private WeixinApiService   delegate;
 
-    private RetryTemplate       retryTemplate = new RetryTemplate();
-
-    @Autowired
-    private PublicNoInfoService publicNoInfoService;
+    private RetryTemplate      retryTemplate = new RetryTemplate();
 
     @Autowired
-    private AccessTokenService  accessTokenService;
+    private AccessTokenService accessTokenService;
+
+    public RetryWeixinApiService(WeixinApiService weixinApiService) {
+        this.delegate = weixinApiService;
+    }
 
     @Override
     public Result<JSONObject> doGet(String apiUrl) throws ApiException {
@@ -58,34 +58,67 @@ public class RetryWeixinApiService implements WeixinApiService {
     }
 
     @Override
-    public Result<JSONObject> doGet(String apiUrl, boolean replaceAccessToken) throws ApiException {
-        return this.doGet(apiUrl, null, replaceAccessToken);
+    public Result<JSONObject> doGet(final String apiUrl, final boolean replaceAccessToken) throws ApiException {
+        return this.retryTemplate.execute(null, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction() {
+                return delegate.doGet(apiUrl, replaceAccessToken);
+            }
+        });
     }
 
     @Override
-    public Result<JSONObject> doGet(String apiUrl, Map<String, String> getParams, boolean replaceAccessToken)
-                                                                                                             throws ApiException {
-        return this.doGet(this.publicNoInfoService.getDefaultAppId(), apiUrl, getParams, replaceAccessToken);
+    public Result<JSONObject> doGet(final String apiUrl, final Map<String, String> getParams,
+                                    final boolean replaceAccessToken) throws ApiException {
+        return this.retryTemplate.execute(null, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction() {
+                return delegate.doGet(apiUrl, getParams, replaceAccessToken);
+            }
+        });
     }
 
     @Override
-    public Result<JSONObject> doPost(String apiUrl, String postParams, boolean replaceAccessToken) throws ApiException {
-        return this.doPost(this.publicNoInfoService.getDefaultAppId(), apiUrl, postParams, replaceAccessToken);
+    public Result<JSONObject> doPost(final String apiUrl, final String postParams, final boolean replaceAccessToken)
+                                                                                                                    throws ApiException {
+
+        return this.retryTemplate.execute(null, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction() {
+                return delegate.doPost(apiUrl, postParams, replaceAccessToken);
+            }
+        });
     }
 
     @Override
-    public Result<JSONObject> doPost(String apiUrl, String postParams) throws ApiException {
-        return this.doPost(apiUrl, postParams, true);
+    public Result<JSONObject> doPost(final String apiUrl, final String postParams) throws ApiException {
+        return this.retryTemplate.execute(null, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction() {
+                return delegate.doPost(apiUrl, postParams);
+            }
+        });
     }
 
     @Override
-    public Result<JSONObject> doPost(String appId, String apiUrl, String postParams) throws ApiException {
-        return this.doPost(appId, apiUrl, postParams, true);
+    public Result<JSONObject> doPost(final String appId, final String apiUrl, final String postParams)
+                                                                                                      throws ApiException {
+        return this.retryTemplate.execute(null, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction() {
+                return delegate.doPost(appId, apiUrl, postParams);
+            }
+        });
     }
 
     public Result<JSONObject> doPost(final String appId, final String apiUrl, final String postParams,
                                      final boolean replaceAccessToken) {
-        return retryTemplate.execute(appId, apiUrl, replaceAccessToken, new Callback() {
+        return retryTemplate.execute(appId, new Callback() {
 
             @Override
             public Result<JSONObject> doAction() {
@@ -97,7 +130,7 @@ public class RetryWeixinApiService implements WeixinApiService {
     @Override
     public Result<JSONObject> doGet(final String appId, final String apiUrl, final Map<String, String> getParams,
                                     final boolean replaceAccessToken) {
-        return this.retryTemplate.execute(appId, apiUrl, replaceAccessToken, new Callback() {
+        return this.retryTemplate.execute(appId, new Callback() {
 
             @Override
             public Result<JSONObject> doAction() {
@@ -107,8 +140,14 @@ public class RetryWeixinApiService implements WeixinApiService {
     }
 
     @Override
-    public Result<JSONObject> doGet(String appId, String apiUrl) {
-        return this.doGet(appId, apiUrl, null, true);
+    public Result<JSONObject> doGet(final String appId, final String apiUrl) {
+        return this.retryTemplate.execute(appId, new Callback() {
+
+            @Override
+            public Result<JSONObject> doAction() {
+                return delegate.doGet(appId, apiUrl);
+            }
+        });
     }
 
     /**
@@ -118,11 +157,24 @@ public class RetryWeixinApiService implements WeixinApiService {
      */
     private class RetryTemplate {
 
-        public Result<JSONObject> execute(String appId, String apiUrl, boolean replaceAccessToken, Callback callback) {
+        public Result<JSONObject> execute(String appId, Callback callback) {
             Result<JSONObject> result = null;
 
             // 一次是肯定要执行的
             for (int i = 0; i <= retryCount; i++) {
+
+                if (i > 0) {
+                    log.warn("retry execute api (" + i + "), previous result=" + result);
+
+                    if (retryWait > 0) {
+                        // 等待一会再重试，间隔太短，没什么效果
+                        try {
+                            Thread.sleep(retryWait);
+                        } catch (InterruptedException e) {
+                            log.warn("retry wait is interrupted,", e);
+                        }
+                    }
+                }
 
                 try {
 
@@ -132,9 +184,16 @@ public class RetryWeixinApiService implements WeixinApiService {
                     }
 
                     if (isAccessTokenInvalid(result)) {
-                        log.warn("access token is invalid, so refresh. appId=" + appId);
+                        if (log.isInfoEnabled()) {
+                            log.info("access token is invalid, so refresh. appId=" + appId);
+                        }
+
                         // 刷新access token
-                        accessTokenService.refresh(appId);
+                        if (StringUtil.isNotBlank(appId)) {
+                            accessTokenService.refresh(appId);
+                        } else {
+                            accessTokenService.refreshDefault();
+                        }
                     } else {
                         return result;
                     }
@@ -144,15 +203,6 @@ public class RetryWeixinApiService implements WeixinApiService {
                     if (!supports(e)) { // 是这个错误么，就重试..
                         throw e;
                     }
-                }
-
-                log.warn("retry execute api (" + i + "), previous result=" + result);
-
-                // 等待一会再重试，间隔太短，没什么效果
-                try {
-                    Thread.sleep(retryWait);
-                } catch (InterruptedException e) {
-                    log.warn("retry wait is interrupted,", e);
                 }
 
             }
@@ -195,6 +245,14 @@ public class RetryWeixinApiService implements WeixinApiService {
 
     public void setRetryWait(long retryWait) {
         this.retryWait = retryWait;
+    }
+
+    public AccessTokenService getAccessTokenService() {
+        return accessTokenService;
+    }
+
+    public void setAccessTokenService(AccessTokenService accessTokenService) {
+        this.accessTokenService = accessTokenService;
     }
 
 }
