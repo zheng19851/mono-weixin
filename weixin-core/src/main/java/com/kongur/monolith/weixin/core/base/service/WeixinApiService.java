@@ -30,7 +30,7 @@ public interface WeixinApiService {
      * @return
      * @throws ApiException
      */
-    Result<JSONObject> doGet(String apiUrl, boolean appendAccessToken) throws ApiException;
+    Result<JSONObject> doGet(String apiUrl, boolean replaceAccessToken) throws ApiException;
 
     /**
      * 发起get请求，返回结果为JSONObject
@@ -39,7 +39,7 @@ public interface WeixinApiService {
      * @param getParams get请求参数
      * @return
      */
-    Result<JSONObject> doGet(String apiUrl, Map<String, String> getParams, boolean appendAccessToken)
+    Result<JSONObject> doGet(String apiUrl, Map<String, String> getParams, boolean replaceAccessToken)
                                                                                                      throws ApiException;
 
     /**
@@ -49,7 +49,7 @@ public interface WeixinApiService {
      * @param postParams post参数
      * @return
      */
-    Result<JSONObject> doPost(String apiUrl, String postParams, boolean appendAccessToken) throws ApiException;
+    Result<JSONObject> doPost(String apiUrl, String postParams, boolean replaceAccessToken) throws ApiException;
 
     /**
      * 发起post请求，默认会加上access_token，返回结果为JSONObject
@@ -79,7 +79,7 @@ public interface WeixinApiService {
      * @param appendAccessToken
      * @return
      */
-    Result<JSONObject> doGet(String appId, String apiUrl, Map<String, String> getParams, boolean appendAccessToken);
+    Result<JSONObject> doGet(String appId, String apiUrl, Map<String, String> getParams, boolean replaceAccessToken);
 
     /**
      * 发起get请求，默认加上access_token，返回结果为JSONObject
@@ -89,5 +89,7 @@ public interface WeixinApiService {
      * @return
      */
     Result<JSONObject> doGet(String appId, String removeMenuUrl);
+
+    Result<JSONObject> doPost(String appId, String apiUrl, String postParams, boolean replaceAccessToken);
 
 }

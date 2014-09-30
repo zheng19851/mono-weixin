@@ -27,7 +27,7 @@ public class DefaultDeliverNotifyService implements IDeliverNotifyService {
 
     private String              deliverNotifyTemplate = "deliver/notify.vm";
 
-    @Autowired
+    @Resource(name = "weixinApiService")
     private WeixinApiService    weixinApiService;
 
     @Autowired

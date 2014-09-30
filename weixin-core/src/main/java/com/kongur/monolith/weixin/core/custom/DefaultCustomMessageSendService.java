@@ -1,5 +1,7 @@
 package com.kongur.monolith.weixin.core.custom;
 
+import javax.annotation.Resource;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class DefaultCustomMessageSendService implements ICustomMessageSendServic
 
     private String                             apiUrl = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${access_token}";
 
-    @Autowired
+    @Resource(name = "weixinApiService")
     private WeixinApiService                   weixinApiService;
 
     @Autowired

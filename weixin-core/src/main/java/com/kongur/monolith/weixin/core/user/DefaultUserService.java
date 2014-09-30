@@ -3,6 +3,7 @@ package com.kongur.monolith.weixin.core.user;
 import java.text.MessageFormat;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
 
@@ -27,7 +28,7 @@ public class DefaultUserService implements UserService {
 
     private final Logger        log                  = Logger.getLogger(getClass());
 
-    @Autowired
+    @Resource(name = "weixinApiService")
     private WeixinApiService    weixinApiService;
 
     @Autowired

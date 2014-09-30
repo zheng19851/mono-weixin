@@ -49,7 +49,7 @@ public class DefaultMenuService implements IMenuService {
      */
     private String              getMenusUrlPattern    = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${access_token}";
 
-    @Resource(name = "defaultWeixinApiService")
+    @Resource(name = "weixinApiService")
     private WeixinApiService    weixinApiService;
 
     @Resource(name = "messageVelocityEngine")

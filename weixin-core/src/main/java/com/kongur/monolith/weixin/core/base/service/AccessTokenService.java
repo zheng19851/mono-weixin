@@ -47,6 +47,6 @@ public interface AccessTokenService {
      * 
      * @return
      */
-    Map<String, String> getAllAccessToken();
+    Map<String, String> getAllAccessTokens();
 
 }

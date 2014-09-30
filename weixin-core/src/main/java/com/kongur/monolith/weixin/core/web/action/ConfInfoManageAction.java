@@ -58,7 +58,7 @@ public class ConfInfoManageAction {
 
     @RequestMapping("get_all_access_token.htm")
     public String viewAllAccessToken(Model model) {
-        Map<String, String> accessTokens = accessTokenService.getAllAccessToken();
+        Map<String, String> accessTokens = accessTokenService.getAllAccessTokens();
 
         model.addAttribute("accessTokens", accessTokens);
 

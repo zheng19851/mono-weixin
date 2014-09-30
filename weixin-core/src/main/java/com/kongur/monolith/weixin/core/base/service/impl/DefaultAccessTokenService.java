@@ -66,7 +66,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
     @Value("${weixin.api.token.url}")
     private String                   apiTokenUrl;
 
-    @Resource(name = "defaultWeixinApiService")
+    @Resource(name = "weixinApiService")
     private WeixinApiService         apiService;
 
     /**
@@ -279,7 +279,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
     }
 
     @Override
-    public Map<String, String> getAllAccessToken() {
+    public Map<String, String> getAllAccessTokens() {
         return this.accessTokenCache;
     }
 

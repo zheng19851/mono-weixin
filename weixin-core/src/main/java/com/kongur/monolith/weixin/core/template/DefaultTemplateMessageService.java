@@ -1,5 +1,7 @@
 package com.kongur.monolith.weixin.core.template;
 
+import javax.annotation.Resource;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import com.kongur.monolith.weixin.core.reply.builder.ReplyMessageBuilderResolver
 @Service("templateMessageService")
 public class DefaultTemplateMessageService implements ITemplateMessageService {
 
-    @Autowired
+    @Resource(name = "weixinApiService")
     private WeixinApiService                                  weixinApiService;
 
     @Autowired
