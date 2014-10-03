@@ -3,7 +3,6 @@ package com.kongur.monolith.weixin.core.base.service;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.PropertyPlaceholderHelper;
@@ -24,20 +23,14 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
     private WeixinApiService          weixinApiService;
 
     /**
-     * access_token_key
-     */
-    private String                    accessTokenKey = "access_token";
-
-    /**
      * 默认重试一次
      */
     private int                       retryCount     = 1;
 
     /**
-     * 重试等待间隔，默认300毫秒
+     * access_token_key
      */
-    @Value("${weixin.api.retry.period}")
-    private long                      retryWait      = 300;
+    private String                    accessTokenKey = "access_token";
 
     @Autowired
     private ApiService                apiService;
@@ -57,7 +50,7 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        Assert.isTrue(this.retryCount >= 0, "retryCount must >= 0");
+        // Assert.isTrue(this.retryCount >= 0, "retryCount must >= 0");
         Assert.notNull(accessTokenKey, "accessTokenKey can not be null.");
 
         DefaultWeixinApiService defaultWeixinApiService = new DefaultWeixinApiService();
@@ -69,10 +62,9 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
 
         RetryWeixinApiService weixinApiService = new RetryWeixinApiService(defaultWeixinApiService);
         weixinApiService.setRetryCount(retryCount);
-        weixinApiService.setRetryWait(retryWait);
         weixinApiService.setAccessTokenService(accessTokenService);
 
-        this.weixinApiService = weixinApiService;
+        this.weixinApiService = defaultWeixinApiService;
     }
 
     @Override
@@ -106,22 +98,6 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
         this.accessTokenKey = accessTokenKey;
     }
 
-    public int getRetryCount() {
-        return retryCount;
-    }
-
-    public void setRetryCount(int retryCount) {
-        this.retryCount = retryCount;
-    }
-
-    public long getRetryWait() {
-        return retryWait;
-    }
-
-    public void setRetryWait(long retryWait) {
-        this.retryWait = retryWait;
-    }
-
     public ApiService getApiService() {
         return apiService;
     }
@@ -152,6 +128,14 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
 
     public void setPublicNoInfoService(PublicNoInfoService publicNoInfoService) {
         this.publicNoInfoService = publicNoInfoService;
+    }
+
+    public int getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
     }
 
 }

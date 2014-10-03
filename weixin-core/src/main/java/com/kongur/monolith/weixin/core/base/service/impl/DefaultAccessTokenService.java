@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
 
@@ -24,7 +23,7 @@ import org.springframework.util.Assert;
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.lang.StringUtil;
 import com.kongur.monolith.weixin.core.base.service.AccessTokenService;
-import com.kongur.monolith.weixin.core.base.service.WeixinApiService;
+import com.kongur.monolith.weixin.core.base.service.ApiService;
 import com.kongur.monolith.weixin.core.mp.domain.PublicNoInfoDO;
 import com.kongur.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.kongur.monolith.weixin.core.support.WeixinApiHelper;
@@ -66,8 +65,8 @@ public class DefaultAccessTokenService implements AccessTokenService {
     @Value("${weixin.api.token.url}")
     private String                   apiTokenUrl;
 
-    @Resource(name = "weixinApiService")
-    private WeixinApiService         apiService;
+    @Autowired
+    private ApiService         apiService;
 
     /**
      * 定时刷新accessToken用
@@ -155,7 +154,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
         // 替换appId和appSecret
         apiTokenUrl = MessageFormat.format(apiTokenUrl, appId, appSecret);
 
-        Result<JSONObject> apiResult = apiService.doGet(apiTokenUrl, false);
+        Result<JSONObject> apiResult = apiService.doGet(apiTokenUrl);
 
         if (!apiResult.isSuccess()) {
             log.error("refresh access token error, apiTokenUrl=" + apiTokenUrl + ", errorCode="

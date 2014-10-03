@@ -1,6 +1,5 @@
 package com.kongur.monolith.weixin.core.base.service.impl;
 
-import java.net.UnknownHostException;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -176,33 +175,24 @@ public class RetryWeixinApiService implements WeixinApiService {
                     }
                 }
 
-                try {
+                result = callback.doAction();
+                if (result.isSuccess()) {
+                    return result;
+                }
 
-                    result = callback.doAction();
-                    if (result.isSuccess()) {
-                        return result;
+                if (isAccessTokenInvalid(result)) {
+                    if (log.isInfoEnabled()) {
+                        log.info("access token is invalid, so refresh. appId=" + appId);
                     }
 
-                    if (isAccessTokenInvalid(result)) {
-                        if (log.isInfoEnabled()) {
-                            log.info("access token is invalid, so refresh. appId=" + appId);
-                        }
-
-                        // 刷新access token
-                        if (StringUtil.isNotBlank(appId)) {
-                            accessTokenService.refresh(appId);
-                        } else {
-                            accessTokenService.refreshDefault();
-                        }
+                    // 刷新access token
+                    if (StringUtil.isNotBlank(appId)) {
+                        accessTokenService.refresh(appId);
                     } else {
-                        return result;
+                        accessTokenService.refreshDefault();
                     }
-
-                } catch (ApiException e) {
-                    // 你妹的，测试的时候经常会出java.net.UnknownHostException: api.weixin.qq.com
-                    if (!supports(e)) { // 是这个错误么，就重试..
-                        throw e;
-                    }
+                } else {
+                    return result;
                 }
 
             }
@@ -224,11 +214,6 @@ public class RetryWeixinApiService implements WeixinApiService {
      */
     private boolean isAccessTokenInvalid(Result<JSONObject> result) {
         return WeixinApiHelper.isAccessTokenInvalid(result.getResult());
-    }
-
-    private boolean supports(Exception e) {
-        // 你妹的，测试的时候经常会出java.net.UnknownHostException: api.weixin.qq.com
-        return e.getCause() instanceof UnknownHostException;
     }
 
     public int getRetryCount() {

@@ -14,7 +14,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
 
 import com.kongur.monolith.common.result.Result;
 import com.kongur.monolith.weixin.core.base.service.ApiException;
@@ -27,10 +26,18 @@ import com.kongur.monolith.weixin.core.support.WeixinApiHelper;
  * @author zhengwei
  * @date 2014-2-17
  */
-@Service("defaultApiService")
+// @Service("defaultApiService")
 public class DefaultApiService implements ApiService {
 
-    private final Logger log = Logger.getLogger(getClass());
+    private HttpClient   httpClient = new DefaultHttpClient();
+
+    private final Logger log        = Logger.getLogger(getClass());
+
+    public void close() {
+        if (this.httpClient != null) {
+            httpClient.getConnectionManager().shutdown(); // 关闭连接,释放资源
+        }
+    }
 
     public Result<String> executeGet(String apiUrl) throws ApiException {
 
@@ -63,8 +70,6 @@ public class DefaultApiService implements ApiService {
             }
         }
 
-        HttpClient httpClient = new DefaultHttpClient();
-
         HttpGet httpGet = new HttpGet(internalApiUrl);
         try {
 
@@ -86,8 +91,6 @@ public class DefaultApiService implements ApiService {
         } catch (Exception e) {
             log.error("http get error, apiUrl=" + internalApiUrl, e);
             throw new ApiException("http get error", e);
-        } finally {
-            httpClient.getConnectionManager().shutdown(); // 关闭连接,释放资源
         }
 
         if (log.isDebugEnabled()) {
@@ -110,7 +113,6 @@ public class DefaultApiService implements ApiService {
         String internalApiUrl = apiUrl;
 
         String retData = null;
-        HttpClient httpClient = new DefaultHttpClient();
 
         HttpPost httpPost = new HttpPost(internalApiUrl);
         httpPost.setEntity(new StringEntity(postParams, "UTF-8"));
@@ -134,8 +136,6 @@ public class DefaultApiService implements ApiService {
         } catch (Exception e) {
             log.error("http post error, apiUrl=" + internalApiUrl, e);
             throw new ApiException("http post error", e);
-        } finally {
-            httpClient.getConnectionManager().shutdown(); // 关闭连接,释放资源
         }
 
         if (log.isDebugEnabled()) {
@@ -215,6 +215,11 @@ public class DefaultApiService implements ApiService {
 
         result.setSuccess(true);
         return result;
+
+    }
+
+    @Override
+    public void init() {
 
     }
 

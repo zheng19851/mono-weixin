@@ -12,7 +12,7 @@ import com.kongur.monolith.common.result.Result;
  * @author zhengwei
  * @date 2014-2-17
  */
-public interface ApiService {
+public interface ApiService  extends LifeCycle {
 
     /**
      * ·¢ÆðgetÇëÇó
