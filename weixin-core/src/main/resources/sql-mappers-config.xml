@@ -10,7 +10,7 @@
     </settings>
     
     <typeAliases>
-    	<typeAlias alias="WXMessageDOAlias" type="com.kongur.monolith.weixin.core.message.domain.WXMessageDO"/>
+    	<typeAlias alias="WXMessageDOAlias" type="com.runssnail.monolith.weixin.core.message.domain.WXMessageDO"/>
     </typeAliases>
     
     <!-- 

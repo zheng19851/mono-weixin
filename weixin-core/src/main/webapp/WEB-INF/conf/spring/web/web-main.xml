@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 
-	<context:component-scan base-package="com.kongur.monolith.weixin.core.web" />
+	<context:component-scan base-package="com.runssnail.monolith.weixin.core.web" />
 
 	<!-- view -->
 	<bean id="velocityConfigurer"
@@ -50,7 +50,7 @@
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
-				<bean class="com.kongur.monolith.weixin.core.web.converter.StringHttpMessageConverter" />
+				<bean class="com.runssnail.monolith.weixin.core.web.converter.StringHttpMessageConverter" />
 				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 			</list>
 		</property>
@@ -108,7 +108,7 @@
 		</property>
 	</bean>
 	
-	<bean id="urlBrokerInterceptor" class="com.kongur.monolith.weixin.core.web.url.URLBrokerLauncherInterceptor">
+	<bean id="urlBrokerInterceptor" class="com.runssnail.monolith.weixin.core.web.url.URLBrokerLauncherInterceptor">
 		<property name="brokers">
 			<map>
 				<entry key="appServer" value-ref="appServerBroker"></entry>

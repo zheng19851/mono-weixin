@@ -8,7 +8,7 @@
 	</bean>
 
 	<bean id="oncePerRequestFilterChainBean"
-		class="com.kongur.monolith.weixin.core.web.filter.OncePerRequestFilterChain">
+		class="com.runssnail.monolith.weixin.core.web.filter.OncePerRequestFilterChain">
 		<property name="filters">
 			<list>
 				<ref local="encodingFilterBean" />
@@ -17,9 +17,9 @@
 	</bean>
 	
 	
-	<bean id="appServerBroker" class="com.kongur.monolith.weixin.core.web.url.URLBroker">
+	<bean id="appServerBroker" class="com.runssnail.monolith.weixin.core.web.url.URLBroker">
 		<property name="config">
-			<bean class="com.kongur.monolith.weixin.core.web.url.URLConfig">
+			<bean class="com.runssnail.monolith.weixin.core.web.url.URLConfig">
 				<property name="host" value="${app.server.host}"></property>
 				<property name="port" value="${app.server.port}"></property>
 				<property name="followContextPath" value="true"></property>
