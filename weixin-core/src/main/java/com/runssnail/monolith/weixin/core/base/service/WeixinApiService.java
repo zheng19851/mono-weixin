@@ -88,7 +88,7 @@ public interface WeixinApiService {
      * @param apiUrl
      * @return
      */
-    Result<JSONObject> doGet(String appId, String removeMenuUrl);
+    Result<JSONObject> doGet(String appId, String apiUrl);
 
     Result<JSONObject> doPost(String appId, String apiUrl, String postParams, boolean replaceAccessToken);
 

@@ -17,7 +17,7 @@ public class DefaultReplyMessageBuilderResolver implements ReplyMessageBuilderRe
 
     private final Logger                     log = Logger.getLogger(getClass());
 
-    private List<ReplyMessageBuilder<Reply>> replyMessageBuilders;
+    private List<ReplyMessageBuilder> replyMessageBuilders;
 
     /**
      * 默认 的创建器
@@ -43,11 +43,11 @@ public class DefaultReplyMessageBuilderResolver implements ReplyMessageBuilderRe
         return this.defaultReplyMessageBuilder;
     }
 
-    public List<ReplyMessageBuilder<Reply>> getReplyMessageBuilders() {
+    public List<ReplyMessageBuilder> getReplyMessageBuilders() {
         return replyMessageBuilders;
     }
 
-    public void setReplyMessageBuilders(List<ReplyMessageBuilder<Reply>> replyMessageBuilders) {
+    public void setReplyMessageBuilders(List<ReplyMessageBuilder> replyMessageBuilders) {
         this.replyMessageBuilders = replyMessageBuilders;
     }
 

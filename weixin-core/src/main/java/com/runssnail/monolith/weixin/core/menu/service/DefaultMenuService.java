@@ -1,12 +1,15 @@
 package com.runssnail.monolith.weixin.core.menu.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -19,6 +22,7 @@ import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.weixin.client.menu.IMenuService;
 import com.runssnail.monolith.weixin.client.menu.Menu;
 import com.runssnail.monolith.weixin.core.base.service.WeixinApiService;
+import com.runssnail.monolith.weixin.core.message.domain.EnumEventType;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**
@@ -128,7 +132,7 @@ public class DefaultMenuService implements IMenuService {
             log.debug("invoke createMenus successfully, appId=" + appId + " menus=" + menus);
         }
 
-//        this.menuManager.refresh(appId);
+        // this.menuManager.refresh(appId);
 
         result.setSuccess(true);
         return result;
@@ -140,22 +144,62 @@ public class DefaultMenuService implements IMenuService {
         return this.removeMenus(this.publicNoInfoService.getDefaultAppId());
     }
 
-    // @Override
-    public Result<List<Menu>> getMenus() {
-        // Result<List<Menu>> result = new Result<List<Menu>>();
-        //
-        // String getMenusUrl = this.getMenusUrlPattern;
-        //
-        // Result<JSONObject> apiResult = apiService.doGet(getMenusUrl);
-        //
-        // if (!apiResult.isSuccess()) {
-        // result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
-        // return result;
-        // }
-        //
-        // result.setSuccess(true);
-        // return result;
-        throw new UnsupportedOperationException("unsupport this operation of getMenus()");
+    @Override
+    public Result<List<Menu>> getMenus(String appId) {
+        Result<List<Menu>> result = new Result<List<Menu>>();
+
+        String getMenusUrl = this.getMenusUrlPattern;
+
+        Result<JSONObject> apiResult = this.weixinApiService.doGet(appId, getMenusUrl);
+
+        if (!apiResult.isSuccess()) {
+            result.setError(apiResult.getResultCode(), apiResult.getResultInfo());
+            return result;
+        }
+
+        JSONObject jsonObj = apiResult.getResult();
+        JSONArray menus = jsonObj.getJSONObject("menu").getJSONArray("button");
+
+        Iterator it = menus.iterator();
+        List<Menu> menuList = new ArrayList<Menu>(menus.size());
+        while (it.hasNext()) {
+            JSONObject menuObj = (JSONObject) it.next();
+            Menu menu = genMenu(menuObj);
+            menuList.add(menu);
+        }
+
+        result.setResult(menuList);
+        result.setSuccess(true);
+        return result;
+    }
+
+    private Menu genMenu(JSONObject menuObj) {
+
+        Menu menu = new Menu();
+        menu.setName(menuObj.getString("name"));
+        if (menuObj.has("type")) {
+            String type = menuObj.getString("type");
+            menu.setType(type);
+            if (EnumEventType.isView(type)) {
+                menu.setUrl(menuObj.getString("url"));
+            } else if (EnumEventType.isClick(type)) {
+                menu.setEventKey(menuObj.getString("key"));
+            }
+        }
+
+        JSONArray subMenusArr = menuObj.getJSONArray("sub_button");
+        if (subMenusArr.size() > 0) {
+            Iterator it = subMenusArr.iterator();
+            List<Menu> subMenuList = new ArrayList<Menu>(subMenusArr.size());
+            while (it.hasNext()) {
+                JSONObject subMenuObj = (JSONObject) it.next();
+                Menu subMenu = genMenu(subMenuObj);
+                subMenuList.add(subMenu);
+            }
+            menu.setSubMenus(subMenuList);
+        }
+
+        return menu;
     }
 
     public void setCreateMenuUrlPattern(String createMenuUrlPattern) {
@@ -210,7 +254,7 @@ public class DefaultMenuService implements IMenuService {
             return result;
         }
 
-//        this.menuManager.refresh(appId);
+        // this.menuManager.refresh(appId);
 
         if (log.isDebugEnabled()) {
             log.debug("invoke removeMenus successfully, appid=" + appId);

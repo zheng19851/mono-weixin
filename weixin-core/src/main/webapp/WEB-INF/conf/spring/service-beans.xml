@@ -37,7 +37,7 @@
 		</property>
 	</bean>
  -->
-
+<!-- 
 	<bean id="messageProcessServiceResolver" class="com.runssnail.monolith.weixin.core.message.service.MessageProcessServiceResolverFeactoryBean">
 	    <property name="messageProcessServices">
 	        <list>
@@ -50,6 +50,7 @@
 	    </property>
 	    <property name="defaultMessageProcessService" ref="discardMessageProcessService"></property>
 	</bean>
+	 -->
 	
 	<!-- 回复用的 Velocity模板解析引擎 -->	
 	<bean id="messageVelocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
@@ -63,8 +64,6 @@
 	</bean>
 	
 	<bean id="defaultReplyMessageBuilderResolver" class="com.runssnail.monolith.weixin.core.reply.builder.ReplyMessageBuilderResolverFactoryBean">
-		<property name="autoCollect" value="true"/>
-		<property name="defaultReplyMessageBuilder" ref="discardReplyMessageBuilder" />
 	</bean>
 	 
 	 <!-- 创建文本被动回复消息 -->

@@ -20,7 +20,7 @@ public class DefaultMessageProcessServiceResolver implements MessageProcessServi
 
     private final Logger                         log = Logger.getLogger(getClass());
 
-    private List<MessageProcessService<Message>> messageProcessServices;
+    private List<MessageProcessService> messageProcessServices;
 
     /**
      * 默认的MessageProcessService，找不到匹配的service时，就默认用这个
@@ -31,7 +31,7 @@ public class DefaultMessageProcessServiceResolver implements MessageProcessServi
     // @PostConstruct
     public void init() {
         if (this.messageProcessServices == null) {
-            this.messageProcessServices = new ArrayList<MessageProcessService<Message>>();
+            this.messageProcessServices = new ArrayList<MessageProcessService>();
         }
 
         Assert.notNull(this.defaultMessageProcessService, "the default MessageProcessService can not be null.");
@@ -79,11 +79,11 @@ public class DefaultMessageProcessServiceResolver implements MessageProcessServi
         this.defaultMessageProcessService = defaultMessageProcessService;
     }
 
-    public void setMessageProcessServices(List<MessageProcessService<Message>> messageProcessServices) {
+    public void setMessageProcessServices(List<MessageProcessService> messageProcessServices) {
         this.messageProcessServices = messageProcessServices;
     }
 
-    public List<MessageProcessService<Message>> getMessageProcessServices() {
+    public List<MessageProcessService> getMessageProcessServices() {
         return messageProcessServices;
     }
 

@@ -31,4 +31,11 @@ public interface IMenuService {
      */
     Result<Object> removeMenus(String appId);
 
+    /**
+     * ≤È—Ø≤Àµ•
+     * 
+     * @return
+     */
+    Result<List<Menu>> getMenus(String appId);
+
 }
