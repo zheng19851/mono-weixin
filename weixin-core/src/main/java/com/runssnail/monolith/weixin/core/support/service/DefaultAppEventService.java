@@ -10,6 +10,7 @@ import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.weixin.client.support.EnumAppEventType;
 import com.runssnail.monolith.weixin.client.support.IAppEventService;
 import com.runssnail.monolith.weixin.client.support.RemoteAppEvent;
+import com.runssnail.monolith.weixin.core.base.service.AccessTokenService;
 import com.runssnail.monolith.weixin.core.mp.manager.PublicNoInfoManager;
 import com.runssnail.monolith.weixin.core.reply.manager.DefaultReplyManager;
 import com.runssnail.monolith.weixin.core.reply.manager.SubscribeReplyManager;
@@ -38,6 +39,9 @@ public class DefaultAppEventService implements IAppEventService {
 
     @Autowired
     private AppEventMulticaster   appEventMulticaster;
+
+    @Autowired
+    private AccessTokenService    accessTokenService;
 
     @PostConstruct
     public void init() {
@@ -84,6 +88,7 @@ public class DefaultAppEventService implements IAppEventService {
             @Override
             public void onEvent(AppEvent event) {
                 publicNoInfoManager.refresh();
+                accessTokenService.refresh();
             }
         });
 
