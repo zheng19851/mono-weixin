@@ -79,4 +79,12 @@ public interface PublicNoInfoService {
      */
     boolean isDefaultAppId(String appId);
 
+    /**
+     *  «∑Ò“—º§ªÓ
+     * 
+     * @param appId
+     * @return
+     */
+    boolean isEnabled(String appId);
+
 }

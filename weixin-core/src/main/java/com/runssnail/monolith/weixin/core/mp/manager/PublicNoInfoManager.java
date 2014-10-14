@@ -39,6 +39,8 @@ public interface PublicNoInfoManager {
      * @return
      */
     boolean exists(String appId);
+
+    boolean isEnabled(String appId);
     
     
 }

@@ -16,6 +16,7 @@ import com.runssnail.monolith.weixin.core.message.domain.Message;
 import com.runssnail.monolith.weixin.core.message.service.MessageBuilder;
 import com.runssnail.monolith.weixin.core.message.service.MessageProcessService;
 import com.runssnail.monolith.weixin.core.message.service.MessageProcessServiceResolver;
+import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**
  * 微信消息接收服务
@@ -38,6 +39,9 @@ public class MessageReceivedAction {
 
     @Autowired
     private SignatureValidator            signatureValidator;
+
+    @Autowired
+    private PublicNoInfoService           publicNoInfoService;
 
     /**
      * 接收微信推送消息
@@ -64,6 +68,11 @@ public class MessageReceivedAction {
         if (log.isDebugEnabled()) {
             log.debug("signature=" + signature + ", timestamp=" + timestamp + ", nonce=" + nonce + ", echostr="
                       + echostr + ", appId=" + appId);
+        }
+
+        if (!publicNoInfoService.isEnabled(appId)) {
+            log.error("the publicNo has not enabled, appId=" + appId);
+            return null;
         }
 
         if (!signatureValidator.validate(appId, signature, timestamp, nonce)) {

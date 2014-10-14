@@ -171,4 +171,10 @@ public class XmlPublicNoInfoManager implements PublicNoInfoManager {
         this.fileName = fileName;
     }
 
+    @Override
+    public boolean isEnabled(String appId) {
+
+        PublicNoInfoDO info = getPublicNoInfoByAppId(appId);
+        return info != null && info.isEnabled();
+    }
 }

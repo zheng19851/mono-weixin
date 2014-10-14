@@ -102,4 +102,8 @@ public class PublicNoInfoDO extends DomainBase {
         this.status = status;
     }
 
+    public boolean isEnabled() {
+        return EnumPublicNoStatus.isEnabled(this.status);
+    }
+
 }
