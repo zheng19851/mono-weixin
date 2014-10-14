@@ -85,6 +85,6 @@ public interface PublicNoInfoService {
      * @param appId
      * @return
      */
-    boolean isEnabled(String appId);
+    boolean hasEnabled(String appId);
 
 }

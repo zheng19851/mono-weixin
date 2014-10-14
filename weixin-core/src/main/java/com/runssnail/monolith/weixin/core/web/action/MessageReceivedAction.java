@@ -70,7 +70,7 @@ public class MessageReceivedAction {
                       + echostr + ", appId=" + appId);
         }
 
-        if (!publicNoInfoService.isEnabled(appId)) {
+        if (!publicNoInfoService.hasEnabled(appId)) {
             log.error("the publicNo has not enabled, appId=" + appId);
             return null;
         }

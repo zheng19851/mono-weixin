@@ -88,7 +88,8 @@ public class DefaultAppEventService implements IAppEventService {
             @Override
             public void onEvent(AppEvent event) {
                 publicNoInfoManager.refresh();
-                accessTokenService.refresh();
+                RemoteAppEvent source = (RemoteAppEvent) event.getSource();
+                accessTokenService.refresh(source.getResourceId());
             }
         });
 

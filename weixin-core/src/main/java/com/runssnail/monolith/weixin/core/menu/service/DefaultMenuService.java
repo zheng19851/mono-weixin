@@ -87,6 +87,11 @@ public class DefaultMenuService implements IMenuService {
 
         Result<Object> result = new Result<Object>();
 
+        if (!publicNoInfoService.exists(appId)) {
+            result.setError("1000", "公众号不存在.");
+            return result;
+        }
+
         if (menus == null || menus.isEmpty()) {
             result.setError("1001", "菜单数据不能为空.");
             return result;
@@ -147,6 +152,11 @@ public class DefaultMenuService implements IMenuService {
     @Override
     public Result<List<Menu>> getMenus(String appId) {
         Result<List<Menu>> result = new Result<List<Menu>>();
+
+        if (!publicNoInfoService.exists(appId)) {
+            result.setError("1000", "公众号不存在.");
+            return result;
+        }
 
         String getMenusUrl = this.getMenusUrlPattern;
 
@@ -243,6 +253,11 @@ public class DefaultMenuService implements IMenuService {
 
         Result<Object> result = new Result<Object>();
 
+        if (!publicNoInfoService.exists(appId)) {
+            result.setError("1000", "公众号不存在.");
+            return result;
+        }
+
         String removeMenuUrl = this.removeMenusUrlPattern;
 
         Result<JSONObject> apiResult = weixinApiService.doGet(appId, removeMenuUrl);
@@ -266,6 +281,9 @@ public class DefaultMenuService implements IMenuService {
 
     @Override
     public void refresh(String appId) {
+        if (!publicNoInfoService.exists(appId)) {
+            throw new IllegalArgumentException("微信公众号不存在");
+        }
         this.menuManager.refresh(appId);
     }
 

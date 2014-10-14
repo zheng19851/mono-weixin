@@ -116,7 +116,7 @@ public class DefaultPublicNoInfoService implements PublicNoInfoService {
     }
 
     @Override
-    public boolean isEnabled(String appId) {
+    public boolean hasEnabled(String appId) {
         if(isDefaultAppId(appId)) {
             return this.defaultPublicNoInfoCache.isEnabled();
         }
