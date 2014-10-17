@@ -1,6 +1,7 @@
 package com.runssnail.monolith.weixin.core.reply.builder;
 
 import org.apache.log4j.Logger;
+import org.springframework.core.Ordered;
 
 import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.weixin.core.message.domain.Message;
@@ -12,12 +13,22 @@ import com.runssnail.monolith.weixin.core.reply.domain.Reply;
  * @author zhengwei
  * @date 2014Äê2ÔÂ21ÈÕ
  */
-public abstract class AbstractReplyMessageBuilder<R extends Reply> implements ReplyMessageBuilder<R> {
+public abstract class AbstractReplyMessageBuilder<R extends Reply> implements ReplyMessageBuilder<R>, Ordered {
 
-    protected final Logger log = Logger.getLogger(getClass());
+    protected final Logger log   = Logger.getLogger(getClass());
+
+    /**
+     * ÅÅÐò×Ö¶Î
+     */
+    private int            order = LOWEST_PRECEDENCE;
 
     public AbstractReplyMessageBuilder() {
 
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
     }
 
     @Override
@@ -91,6 +102,10 @@ public abstract class AbstractReplyMessageBuilder<R extends Reply> implements Re
         if (!result.isSuccess()) {
             return;
         }
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
 }

@@ -70,21 +70,25 @@
 	 <bean id="textReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.reply.builder.unactive.TextReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/text.vm"></property>
+	 	<property name="order" value="2"></property>
 	 </bean>
 	 
 	  <bean id="newsReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.reply.builder.unactive.NewsReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/news.vm"></property>
+	 	<property name="order" value="4"></property>
 	 </bean>
 	 
 	 <bean id="imageResourceReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.reply.builder.unactive.ImageResourceReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/image.vm"></property>
+	 	<property name="order" value="6"></property>
 	 </bean>
 	 
 	 <bean id="voiceResourceReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.reply.builder.unactive.VoiceResourceReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="reply/unactive/voice.vm"></property>
+	 	<property name="order" value="8"></property>
 	 </bean>
 	 
 	 <bean id="propertyPlaceholderHelper" class="org.springframework.util.PropertyPlaceholderHelper">
@@ -95,16 +99,19 @@
 	 <bean id="textCustomVelocityReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.custom.builder.TextCustomVelocityReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="custom/text.vm"></property>
+	 	<property name="order" value="10"></property>
 	 </bean>
 	 
 	  <bean id="newsCustomVelocityReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.custom.builder.NewsCustomVelocityReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="custom/news.vm"></property>
+	 	<property name="order" value="12"></property>
 	 </bean>
 	 
 	 <bean id="templateVelocityReplyMessageBuilder" class="com.runssnail.monolith.weixin.core.template.TemplateVelocityReplyMessageBuilder">
 	 	<property name="velocityEngine" ref="messageVelocityEngine" />
 	 	<property name="template" value="template/msg.vm"></property>
+	 	<property name="order" value="14"></property>
 	 </bean>
 	 
 	

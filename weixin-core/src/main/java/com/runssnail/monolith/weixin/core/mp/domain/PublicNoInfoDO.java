@@ -31,11 +31,24 @@ public class PublicNoInfoDO extends DomainBase {
      */
     private String            paternerKey;
 
+    /**
+     * 微信平台上设置的EncodingAESKey
+     */
+    private String            encodingAesKey;
+
     private Integer           status           = 1;
 
     private Date              gmtCreate;
 
     public PublicNoInfoDO() {
+    }
+
+    public String getEncodingAesKey() {
+        return encodingAesKey;
+    }
+
+    public void setEncodingAesKey(String encodingAesKey) {
+        this.encodingAesKey = encodingAesKey;
     }
 
     public String getId() {

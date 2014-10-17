@@ -35,11 +35,25 @@ public class DefaultWeixinConfigService implements WeixinConfigService {
     @Value("${weixin.token}")
     private String token;
 
+    /**
+     * EncodingAesKey
+     */
+    @Value("${weixin.encodingAesKey}")
+    private String encodingAesKey;
+
     @PostConstruct
     public void init() {
 
         Assert.notNull(this.appId, "«Î…Ë÷√appId");
         Assert.notNull(this.paternerKey, "«Î…Ë÷√paternerKey");
+    }
+
+    public String getEncodingAesKey() {
+        return encodingAesKey;
+    }
+
+    public void setEncodingAesKey(String encodingAesKey) {
+        this.encodingAesKey = encodingAesKey;
     }
 
     public String getAppId() {

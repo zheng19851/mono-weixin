@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.runssnail.monolith.lang.StringUtil;
@@ -39,7 +40,10 @@ import com.runssnail.monolith.weixin.core.message.domain.voice.VoiceRecognitionM
 @Service("defaultMessageBuilder")
 public class DefaultMessageBuilder implements MessageBuilder {
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Logger        log = Logger.getLogger(getClass());
+
+    @Autowired
+    private MessageCryptoService messageCryptoService;
 
     @Override
     public Message<Features> build(HttpServletRequest req) {
@@ -63,11 +67,22 @@ public class DefaultMessageBuilder implements MessageBuilder {
             return msg;
         }
 
+        String encryptType = req.getParameter("encrypt_type");
+        String msgSignature = req.getParameter("msg_signature");
+        String decryptedMsg = receivedMsg;
+
+        try {
+            decryptedMsg = messageCryptoService.decryptMsg(appId, encryptType, msgSignature, timestamp, nonce, receivedMsg);
+        } catch (AesException e) {
+            log.error("decryptMsg error", e);
+            return msg;
+        }
+
         Map<String, Object> params = null;
         try {
-            params = XmlTools.toMap(receivedMsg);
+            params = XmlTools.toMap(decryptedMsg);
         } catch (DocumentException e) {
-            log.error("xml datas convert to Map error, receivedMsg=" + receivedMsg, e);
+            log.error("xml datas convert to Map error, decryptedMsg=" + decryptedMsg, e);
             return msg;
         }
 

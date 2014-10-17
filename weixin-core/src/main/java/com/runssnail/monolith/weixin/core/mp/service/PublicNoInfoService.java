@@ -87,4 +87,20 @@ public interface PublicNoInfoService {
      */
     boolean hasEnabled(String appId);
 
+    /**
+     * 获取EncodingAesKey
+     * 
+     * @param appId
+     * @return
+     */
+    String getEncodingAesKey(String appId);
+
+    /**
+     * 加解密是否激活
+     * 
+     * @param appId
+     * @return
+     */
+    boolean hasCryptEnabled(String appId);
+
 }

@@ -42,4 +42,11 @@ public interface WeixinConfigService {
      * @return
      */
     boolean isDefaultAppId(String appId);
+
+    /**
+     * 微信平台上设置的EncodingAesKey
+     * 
+     * @return
+     */
+    String getEncodingAesKey();
 }

@@ -1,5 +1,7 @@
 package com.runssnail.monolith.weixin.core.web.action;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -13,7 +15,9 @@ import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.base.service.SignatureValidator;
 import com.runssnail.monolith.weixin.core.message.domain.Message;
+import com.runssnail.monolith.weixin.core.message.service.AesException;
 import com.runssnail.monolith.weixin.core.message.service.MessageBuilder;
+import com.runssnail.monolith.weixin.core.message.service.MessageCryptoService;
 import com.runssnail.monolith.weixin.core.message.service.MessageProcessService;
 import com.runssnail.monolith.weixin.core.message.service.MessageProcessServiceResolver;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
@@ -42,6 +46,9 @@ public class MessageReceivedAction {
 
     @Autowired
     private PublicNoInfoService           publicNoInfoService;
+
+    @Autowired
+    private MessageCryptoService           messageCryptoService;
 
     /**
      * 接收微信推送消息
@@ -108,6 +115,20 @@ public class MessageReceivedAction {
             log.info("===========================message process successfully================================");
         }
 
-        return result.getResult();
+        if (StringUtil.isBlank(result.getResult())) {
+            return null;
+        }
+
+        String encryptType = req.getParameter("encrypt_type");
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        String replyMsg = null;
+        try {
+            replyMsg = messageCryptoService.encryptMsg(appId, encryptType, result.getResult(), timeStamp,
+                                                      String.valueOf(new Random().nextInt(10000)));
+        } catch (AesException e) {
+            log.error("encryptMsg error", e);
+        }
+
+        return replyMsg;
     }
 }

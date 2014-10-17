@@ -29,7 +29,7 @@ public class HttpRequestUtils {
 
             receivedMsg = new String(dataBytes);
             if (log.isDebugEnabled()) {
-                log.debug("received message->" + receivedMsg + "<-");
+                log.debug("received message->\n" + receivedMsg);
             }
 
         } catch (IOException e) {

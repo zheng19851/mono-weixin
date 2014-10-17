@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.conf.WeixinConfigService;
 import com.runssnail.monolith.weixin.core.mp.domain.PublicNoInfoDO;
 import com.runssnail.monolith.weixin.core.mp.manager.PublicNoInfoManager;
@@ -38,7 +39,7 @@ public class DefaultPublicNoInfoService implements PublicNoInfoService {
         defaultPublicNo.setAppSecret(weixinConfigService.getAppSecret());
         defaultPublicNo.setToken(weixinConfigService.getToken());
         defaultPublicNo.setPaternerKey(weixinConfigService.getPaternerKey());
-
+        defaultPublicNo.setEncodingAesKey(weixinConfigService.getEncodingAesKey());
         this.defaultPublicNoInfoCache = defaultPublicNo;
     }
 
@@ -117,11 +118,25 @@ public class DefaultPublicNoInfoService implements PublicNoInfoService {
 
     @Override
     public boolean hasEnabled(String appId) {
-        if(isDefaultAppId(appId)) {
+        if (isDefaultAppId(appId)) {
             return this.defaultPublicNoInfoCache.isEnabled();
         }
-        
+
         return publicNoInfoManager.isEnabled(appId);
+    }
+
+    @Override
+    public String getEncodingAesKey(String appId) {
+
+        if (isDefaultAppId(appId)) {
+            return this.defaultPublicNoInfoCache.getEncodingAesKey();
+        }
+        return this.publicNoInfoManager.getPublicNoInfoByAppId(appId).getEncodingAesKey();
+    }
+
+    @Override
+    public boolean hasCryptEnabled(String appId) {
+        return StringUtil.isNotBlank(this.getEncodingAesKey(appId));
     }
 
 }
