@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.runssnail.monolith.weixin.core.message.EnumEncryptType;
+import com.runssnail.monolith.weixin.core.message.crypto.AesException;
+import com.runssnail.monolith.weixin.core.message.crypto.WXBizMsgCrypt;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**

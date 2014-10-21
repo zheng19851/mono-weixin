@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.core.message.service;
+package com.runssnail.monolith.weixin.core.message.crypto;
 
 @SuppressWarnings("serial")
 public class AesException extends Exception {

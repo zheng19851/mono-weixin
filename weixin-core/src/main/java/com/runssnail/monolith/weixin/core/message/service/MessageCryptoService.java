@@ -1,5 +1,7 @@
 package com.runssnail.monolith.weixin.core.message.service;
 
+import com.runssnail.monolith.weixin.core.message.crypto.AesException;
+
 /**
  * 消息加解密服务
  * 
@@ -17,7 +19,8 @@ public interface MessageCryptoService {
      * @return 包含密文的xml数据
      * @throws AesException
      */
-    String encryptMsg(String appId, String encryptType, String replyMsg, String timeStamp, String nonce) throws AesException;
+    String encryptMsg(String appId, String encryptType, String replyMsg, String timeStamp, String nonce)
+                                                                                                        throws AesException;
 
     /**
      * 解密

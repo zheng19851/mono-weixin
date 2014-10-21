@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.common.utils.HttpRequestUtils;
 import com.runssnail.monolith.weixin.core.common.utils.XmlTools;
+import com.runssnail.monolith.weixin.core.message.crypto.AesException;
 import com.runssnail.monolith.weixin.core.message.domain.DefaultMessage;
 import com.runssnail.monolith.weixin.core.message.domain.EnumEventType;
 import com.runssnail.monolith.weixin.core.message.domain.EnumMessageType;

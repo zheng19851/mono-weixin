@@ -10,9 +10,8 @@
  * 针对org.apache.commons.codec.binary.Base64， 需要导入架包commons-codec-1.9（或commons-codec-1.8等其他版本）
  * 官方下载地址：http://commons.apache.org/proper/commons-codec/download_codec.cgi
  */
-package com.runssnail.monolith.weixin.core.message.service;
+package com.runssnail.monolith.weixin.core.message.crypto;
 
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -39,11 +38,11 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class WXBizMsgCrypt {
 
-    static Charset CHARSET = Charset.forName("utf-8");
-    Base64         base64  = new Base64();
-    byte[]         aesKey;
-    String         token;
-    String         appId;
+    // static Charset CHARSET = Charset.forName("utf-8");
+    Base64 base64 = new Base64();
+    byte[] aesKey;
+    String token;
+    String appId;
 
     /**
      * 构造函数
@@ -104,10 +103,10 @@ public class WXBizMsgCrypt {
      */
     String encrypt(String randomStr, String text) throws AesException {
         ByteGroup byteCollector = new ByteGroup();
-        byte[] randomStrBytes = randomStr.getBytes(CHARSET);
-        byte[] textBytes = text.getBytes(CHARSET);
+        byte[] randomStrBytes = randomStr.getBytes(Constants.CHARSET);
+        byte[] textBytes = text.getBytes(Constants.CHARSET);
         byte[] networkBytesOrder = getNetworkBytesOrder(textBytes.length);
-        byte[] appidBytes = appId.getBytes(CHARSET);
+        byte[] appidBytes = appId.getBytes(Constants.CHARSET);
 
         // randomStr + networkBytesOrder + text + appid
         byteCollector.addBytes(randomStrBytes);
@@ -137,7 +136,7 @@ public class WXBizMsgCrypt {
 
             return base64Encrypted;
         } catch (Exception e) {
-//            e.printStackTrace();
+            // e.printStackTrace();
             throw new AesException(AesException.EncryptAESError, e);
         }
     }
@@ -178,8 +177,8 @@ public class WXBizMsgCrypt {
 
             int xmlLength = recoverNetworkBytesOrder(networkOrder);
 
-            xmlContent = new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength), CHARSET);
-            from_appid = new String(Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length), CHARSET);
+            xmlContent = new String(Arrays.copyOfRange(bytes, 20, 20 + xmlLength), Constants.CHARSET);
+            from_appid = new String(Arrays.copyOfRange(bytes, 20 + xmlLength, bytes.length), Constants.CHARSET);
         } catch (Exception e) {
             // e.printStackTrace();
             throw new AesException(AesException.IllegalBuffer, e);
