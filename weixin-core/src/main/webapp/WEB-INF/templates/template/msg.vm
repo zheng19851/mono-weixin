@@ -1,7 +1,7 @@
  {
            "touser":"$!{reply.msg.toUser}",
-           "template_id":"ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY",
-           "url":"$!{appServer}/cgi/template_msg/callback.htm",
+           "template_id":"$!{reply.msg.templateId}",
+           "url":"$!{reply.msg.url}",
            "topcolor":"$!{reply.msg.topColor}",
            "data":{
                    "first": {

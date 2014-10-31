@@ -22,6 +22,13 @@ public class TemplateMessage implements Serializable {
     private String            appId;
 
     /**
+     * 模板id
+     */
+    private String            templateId;
+
+    private String            url;
+
+    /**
      * 接受方openid
      */
     private String            toUser;
@@ -33,6 +40,22 @@ public class TemplateMessage implements Serializable {
     private List<KeyNote>     keyNotes         = new ArrayList<KeyNote>();
 
     private KeyNote           remark;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
+    }
 
     public String getAppId() {
         return appId;

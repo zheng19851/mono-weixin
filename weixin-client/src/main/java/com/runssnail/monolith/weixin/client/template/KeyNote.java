@@ -11,7 +11,7 @@ public class KeyNote implements Serializable {
 
     private String value;
 
-    private String color;
+    private String color = "#CCCCCC";
 
     public KeyNote(String value, String color) {
         this.value = value;

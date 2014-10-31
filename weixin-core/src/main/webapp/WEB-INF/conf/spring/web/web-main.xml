@@ -94,6 +94,7 @@
 	</bean>
 	
 	<!-- rpc -->
+	<!-- 
 	<bean
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="order" value="100" />
@@ -107,6 +108,7 @@
 			</map>
 		</property>
 	</bean>
+	 -->
 	
 	<bean id="urlBrokerInterceptor" class="com.runssnail.monolith.weixin.core.web.url.URLBrokerLauncherInterceptor">
 		<property name="brokers">

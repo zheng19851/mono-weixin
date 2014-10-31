@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="GB2312"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:momo="http://momo.runssnail.com/schema/momo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://momo.runssnail.com/schema/momo http://momo.runssnail.com/schema/momo/momo.xsd">
+
+<!-- 
 	<bean id="menuService-hessian" class="org.springframework.remoting.caucho.HessianServiceExporter">
     	<property name="service" ref="menuService"/>
     	<property name="serviceInterface" value="com.runssnail.monolith.weixin.client.menu.IMenuService"/>
@@ -20,4 +23,14 @@
     	<property name="service" ref="customMessageSendService"/>
     	<property name="serviceInterface" value="com.runssnail.monolith.weixin.client.custom.ICustomMessageSendService"/>
 	</bean>
+	 -->
+	 
+	 
+	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.menu.IMenuService" serviceRef="menuService"/>
+	
+	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.support.IAppEventService" serviceRef="appEventService"/>
+	
+	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.user.IUserService" serviceRef="userService"/>
+	
+	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.custom.ICustomMessageSendService" serviceRef="customMessageSendService"/>
 </beans>

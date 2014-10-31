@@ -1,5 +1,5 @@
 /**
- * å¯¹å…¬ä¼—å¹³å°å‘é€ç»™å…¬ä¼—è´¦å·çš„æ¶ˆæ¯åŠ è§£å¯†ç¤ºä¾‹ä»£ç .
+ * ¶Ô¹«ÖÚÆ½Ì¨·¢ËÍ¸ø¹«ÖÚÕËºÅµÄÏûÏ¢¼Ó½âÃÜÊ¾Àı´úÂë.
  * 
  * @copyright Copyright (c) 1998-2014 Tencent Inc.
  */
@@ -11,25 +11,25 @@ package com.runssnail.monolith.weixin.core.message.crypto;
 import java.util.Arrays;
 
 /**
- * æä¾›åŸºäºPKCS7ç®—æ³•çš„åŠ è§£å¯†æ¥å£.
+ * Ìá¹©»ùÓÚPKCS7Ëã·¨µÄ¼Ó½âÃÜ½Ó¿Ú.
  */
 class PKCS7Encoder {
 	
 	static int BLOCK_SIZE = 32;
 
 	/**
-	 * è·å¾—å¯¹æ˜æ–‡è¿›è¡Œè¡¥ä½å¡«å……çš„å­—èŠ‚.
+	 * »ñµÃ¶ÔÃ÷ÎÄ½øĞĞ²¹Î»Ìî³äµÄ×Ö½Ú.
 	 * 
-	 * @param count éœ€è¦è¿›è¡Œå¡«å……è¡¥ä½æ“ä½œçš„æ˜æ–‡å­—èŠ‚ä¸ªæ•°
-	 * @return è¡¥é½ç”¨çš„å­—èŠ‚æ•°ç»„
+	 * @param count ĞèÒª½øĞĞÌî³ä²¹Î»²Ù×÷µÄÃ÷ÎÄ×Ö½Ú¸öÊı
+	 * @return ²¹ÆëÓÃµÄ×Ö½ÚÊı×é
 	 */
 	static byte[] encode(int count) {
-		// è®¡ç®—éœ€è¦å¡«å……çš„ä½æ•°
+		// ¼ÆËãĞèÒªÌî³äµÄÎ»Êı
 		int amountToPad = BLOCK_SIZE - (count % BLOCK_SIZE);
 		if (amountToPad == 0) {
 			amountToPad = BLOCK_SIZE;
 		}
-		// è·å¾—è¡¥ä½æ‰€ç”¨çš„å­—ç¬¦
+		// »ñµÃ²¹Î»ËùÓÃµÄ×Ö·û
 		char padChr = chr(amountToPad);
 		String tmp = new String();
 		for (int index = 0; index < amountToPad; index++) {
@@ -39,10 +39,10 @@ class PKCS7Encoder {
 	}
 
 	/**
-	 * åˆ é™¤è§£å¯†åæ˜æ–‡çš„è¡¥ä½å­—ç¬¦
+	 * É¾³ı½âÃÜºóÃ÷ÎÄµÄ²¹Î»×Ö·û
 	 * 
-	 * @param decrypted è§£å¯†åçš„æ˜æ–‡
-	 * @return åˆ é™¤è¡¥ä½å­—ç¬¦åçš„æ˜æ–‡
+	 * @param decrypted ½âÃÜºóµÄÃ÷ÎÄ
+	 * @return É¾³ı²¹Î»×Ö·ûºóµÄÃ÷ÎÄ
 	 */
 	static byte[] decode(byte[] decrypted) {
 		int pad = (int) decrypted[decrypted.length - 1];
@@ -53,10 +53,10 @@ class PKCS7Encoder {
 	}
 
 	/**
-	 * å°†æ•°å­—è½¬åŒ–æˆASCIIç å¯¹åº”çš„å­—ç¬¦ï¼Œç”¨äºå¯¹æ˜æ–‡è¿›è¡Œè¡¥ç 
+	 * ½«Êı×Ö×ª»¯³ÉASCIIÂë¶ÔÓ¦µÄ×Ö·û£¬ÓÃÓÚ¶ÔÃ÷ÎÄ½øĞĞ²¹Âë
 	 * 
-	 * @param a éœ€è¦è½¬åŒ–çš„æ•°å­—
-	 * @return è½¬åŒ–å¾—åˆ°çš„å­—ç¬¦
+	 * @param a ĞèÒª×ª»¯µÄÊı×Ö
+	 * @return ×ª»¯µÃµ½µÄ×Ö·û
 	 */
 	static char chr(int a) {
 		byte target = (byte) (a & 0xFF);
