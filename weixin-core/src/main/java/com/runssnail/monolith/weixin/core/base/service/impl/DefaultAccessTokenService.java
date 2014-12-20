@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
 import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.base.service.AccessTokenService;
-import com.runssnail.monolith.weixin.core.base.service.ApiService;
+import com.runssnail.monolith.weixin.core.base.service.HttpClientService;
 import com.runssnail.monolith.weixin.core.mp.domain.PublicNoInfoDO;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.runssnail.monolith.weixin.core.support.WeixinApiHelper;
@@ -66,7 +66,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
     private String                   apiTokenUrl;
 
     @Autowired
-    private ApiService         apiService;
+    private HttpClientService         apiService;
 
     /**
      * 定时刷新accessToken用

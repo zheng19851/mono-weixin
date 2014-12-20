@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.base.service.AccessTokenService;
-import com.runssnail.monolith.weixin.core.base.service.ApiException;
+import com.runssnail.monolith.weixin.core.base.service.HttpException;
 import com.runssnail.monolith.weixin.core.base.service.WeixinApiService;
 import com.runssnail.monolith.weixin.core.support.WeixinApiHelper;
 
@@ -51,13 +51,13 @@ public class RetryWeixinApiService implements WeixinApiService {
     }
 
     @Override
-    public Result<JSONObject> doGet(String apiUrl) throws ApiException {
+    public Result<JSONObject> doGet(String apiUrl) throws HttpException {
 
         return this.doGet(apiUrl, true);
     }
 
     @Override
-    public Result<JSONObject> doGet(final String apiUrl, final boolean replaceAccessToken) throws ApiException {
+    public Result<JSONObject> doGet(final String apiUrl, final boolean replaceAccessToken) throws HttpException {
         return this.retryTemplate.execute(null, new Callback() {
 
             @Override
@@ -69,7 +69,7 @@ public class RetryWeixinApiService implements WeixinApiService {
 
     @Override
     public Result<JSONObject> doGet(final String apiUrl, final Map<String, String> getParams,
-                                    final boolean replaceAccessToken) throws ApiException {
+                                    final boolean replaceAccessToken) throws HttpException {
         return this.retryTemplate.execute(null, new Callback() {
 
             @Override
@@ -81,7 +81,7 @@ public class RetryWeixinApiService implements WeixinApiService {
 
     @Override
     public Result<JSONObject> doPost(final String apiUrl, final String postParams, final boolean replaceAccessToken)
-                                                                                                                    throws ApiException {
+                                                                                                                    throws HttpException {
 
         return this.retryTemplate.execute(null, new Callback() {
 
@@ -93,7 +93,7 @@ public class RetryWeixinApiService implements WeixinApiService {
     }
 
     @Override
-    public Result<JSONObject> doPost(final String apiUrl, final String postParams) throws ApiException {
+    public Result<JSONObject> doPost(final String apiUrl, final String postParams) throws HttpException {
         return this.retryTemplate.execute(null, new Callback() {
 
             @Override
@@ -105,7 +105,7 @@ public class RetryWeixinApiService implements WeixinApiService {
 
     @Override
     public Result<JSONObject> doPost(final String appId, final String apiUrl, final String postParams)
-                                                                                                      throws ApiException {
+                                                                                                      throws HttpException {
         return this.retryTemplate.execute(null, new Callback() {
 
             @Override

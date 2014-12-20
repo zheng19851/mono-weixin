@@ -101,7 +101,6 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 
     public void setDefaultCharset(String charset) {
         this.defaultCharset = Charset.forName(charset);
-        ;
     }
 
 }

@@ -19,18 +19,18 @@ public interface WeixinApiService {
      * 
      * @param apiUrl
      * @return
-     * @throws ApiException
+     * @throws HttpException
      */
-    Result<JSONObject> doGet(String apiUrl) throws ApiException;
+    Result<JSONObject> doGet(String apiUrl) throws HttpException;
 
     /**
      * 发起get请求，返回结果为JSONObject
      * 
      * @param apiUrl
      * @return
-     * @throws ApiException
+     * @throws HttpException
      */
-    Result<JSONObject> doGet(String apiUrl, boolean replaceAccessToken) throws ApiException;
+    Result<JSONObject> doGet(String apiUrl, boolean replaceAccessToken) throws HttpException;
 
     /**
      * 发起get请求，返回结果为JSONObject
@@ -40,7 +40,7 @@ public interface WeixinApiService {
      * @return
      */
     Result<JSONObject> doGet(String apiUrl, Map<String, String> getParams, boolean replaceAccessToken)
-                                                                                                     throws ApiException;
+                                                                                                     throws HttpException;
 
     /**
      * 发起post请求，返回结果为JSONObject
@@ -49,7 +49,7 @@ public interface WeixinApiService {
      * @param postParams post参数
      * @return
      */
-    Result<JSONObject> doPost(String apiUrl, String postParams, boolean replaceAccessToken) throws ApiException;
+    Result<JSONObject> doPost(String apiUrl, String postParams, boolean replaceAccessToken) throws HttpException;
 
     /**
      * 发起post请求，默认会加上access_token，返回结果为JSONObject
@@ -58,7 +58,7 @@ public interface WeixinApiService {
      * @param postParams post参数
      * @return
      */
-    Result<JSONObject> doPost(String apiUrl, String postParams) throws ApiException;
+    Result<JSONObject> doPost(String apiUrl, String postParams) throws HttpException;
 
     /**
      * 发起post请求，默认会加上access_token，返回结果为JSONObject
@@ -68,7 +68,7 @@ public interface WeixinApiService {
      * @param postParams post参数
      * @return
      */
-    Result<JSONObject> doPost(String appId, String apiUrl, String postParams) throws ApiException;
+    Result<JSONObject> doPost(String appId, String apiUrl, String postParams) throws HttpException;
 
     /**
      * 发起get请求，默认加上access_token，返回结果为JSONObject

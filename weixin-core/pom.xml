@@ -203,6 +203,5 @@
 			<artifactId>jackson-mapper-lgpl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-
 	</dependencies>
 </project>

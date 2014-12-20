@@ -12,7 +12,7 @@ import com.runssnail.monolith.weixin.client.refund.IRefundService;
 import com.runssnail.monolith.weixin.client.refund.RefundApply;
 import com.runssnail.monolith.weixin.client.refund.RefundInfo;
 import com.runssnail.monolith.weixin.client.refund.RefundQuery;
-import com.runssnail.monolith.weixin.core.base.service.ApiService;
+import com.runssnail.monolith.weixin.core.base.service.HttpClientService;
 import com.runssnail.monolith.weixin.pay.common.WeixinPaymentHelper;
 
 /**
@@ -37,7 +37,7 @@ public class DefaultRefundService implements IRefundService {
     private WeixinPaymentHelper weixinPaymentHelper;
 
     @Autowired
-    private ApiService          apiService;
+    private HttpClientService          apiService;
 
     @Override
     public Result<RefundInfo> refund(RefundApply refundInfo) {

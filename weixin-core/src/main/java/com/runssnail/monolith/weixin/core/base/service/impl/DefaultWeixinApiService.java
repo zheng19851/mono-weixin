@@ -11,8 +11,8 @@ import org.springframework.util.PropertyPlaceholderHelper.PlaceholderResolver;
 
 import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.weixin.core.base.service.AccessTokenService;
-import com.runssnail.monolith.weixin.core.base.service.ApiException;
-import com.runssnail.monolith.weixin.core.base.service.ApiService;
+import com.runssnail.monolith.weixin.core.base.service.HttpException;
+import com.runssnail.monolith.weixin.core.base.service.HttpClientService;
 import com.runssnail.monolith.weixin.core.base.service.WeixinApiService;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 
@@ -33,7 +33,7 @@ public class DefaultWeixinApiService implements WeixinApiService {
     private String                    accessTokenKey = "access_token";
 
     @Autowired
-    private ApiService                apiService;
+    private HttpClientService                apiService;
 
     /**
      * 替换变量名用
@@ -48,32 +48,32 @@ public class DefaultWeixinApiService implements WeixinApiService {
     private PublicNoInfoService       publicNoInfoService;
 
     @Override
-    public Result<JSONObject> doGet(String apiUrl, boolean replaceAccessToken) throws ApiException {
+    public Result<JSONObject> doGet(String apiUrl, boolean replaceAccessToken) throws HttpException {
         return this.doGet(apiUrl, null, replaceAccessToken);
     }
 
     @Override
     public Result<JSONObject> doGet(String apiUrl, final Map<String, String> getParams, boolean appendAccessToken)
-                                                                                                                  throws ApiException {
+                                                                                                                  throws HttpException {
         return this.doGet(publicNoInfoService.getDefaultAppId(), apiUrl, getParams, appendAccessToken);
 
     }
 
     @Override
     public Result<JSONObject> doPost(String apiUrl, final String postParams, boolean replaceAccessToken)
-                                                                                                        throws ApiException {
+                                                                                                        throws HttpException {
 
         return this.doPost(this.publicNoInfoService.getDefaultAppId(), apiUrl, postParams, replaceAccessToken);
 
     }
 
     @Override
-    public Result<JSONObject> doGet(String apiUrl) throws ApiException {
+    public Result<JSONObject> doGet(String apiUrl) throws HttpException {
         return this.doGet(apiUrl, true);
     }
 
     @Override
-    public Result<JSONObject> doPost(String apiUrl, String postParams) throws ApiException {
+    public Result<JSONObject> doPost(String apiUrl, String postParams) throws HttpException {
         return doPost(apiUrl, postParams, true);
     }
 
@@ -99,7 +99,7 @@ public class DefaultWeixinApiService implements WeixinApiService {
     }
 
     @Override
-    public Result<JSONObject> doPost(String appId, String apiUrl, String postParams) throws ApiException {
+    public Result<JSONObject> doPost(String appId, String apiUrl, String postParams) throws HttpException {
         return doPost(appId, apiUrl, postParams, true);
     }
 
@@ -140,11 +140,11 @@ public class DefaultWeixinApiService implements WeixinApiService {
         this.accessTokenKey = accessTokenKey;
     }
 
-    public ApiService getApiService() {
+    public HttpClientService getApiService() {
         return apiService;
     }
 
-    public void setApiService(ApiService apiService) {
+    public void setApiService(HttpClientService apiService) {
         this.apiService = apiService;
     }
 

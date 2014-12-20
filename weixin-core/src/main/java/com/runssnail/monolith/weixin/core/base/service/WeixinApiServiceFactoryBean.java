@@ -33,7 +33,7 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
     private String                    accessTokenKey = "access_token";
 
     @Autowired
-    private ApiService                apiService;
+    private HttpClientService                apiService;
 
     /**
      * 替换变量名用
@@ -98,11 +98,11 @@ public class WeixinApiServiceFactoryBean implements FactoryBean<WeixinApiService
         this.accessTokenKey = accessTokenKey;
     }
 
-    public ApiService getApiService() {
+    public HttpClientService getApiService() {
         return apiService;
     }
 
-    public void setApiService(ApiService apiService) {
+    public void setApiService(HttpClientService apiService) {
         this.apiService = apiService;
     }
 
