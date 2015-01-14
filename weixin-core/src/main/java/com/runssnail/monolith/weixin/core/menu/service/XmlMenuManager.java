@@ -53,8 +53,8 @@ public class XmlMenuManager implements MenuManager {
     /**
      * ÅäÖÃÎÄ¼şÄ¿Â¼
      */
-    // @Value("${weixin.menus.conf}")
-    @Value("${weixin.conf.rootDir}")
+    @Value("${weixin.menus.conf}")
+    //@Value("${weixin.conf.rootDir}")
     private String                                                       confFileDir;
 
     /**

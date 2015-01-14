@@ -1,2 +1,2 @@
 call mvn clean
-call mvn package -Dmaven.test.skip=true -Penv=production
+call mvn package -Dmaven.test.skip=true -Denv=production

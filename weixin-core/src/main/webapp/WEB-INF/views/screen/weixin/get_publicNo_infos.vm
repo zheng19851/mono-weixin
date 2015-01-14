@@ -1,0 +1,16 @@
+<table border="1">
+	<tr>
+        <td>Ãû³Æ</td><td>appid</td><td >×´Ì¬</td><td >²Ù×÷</td>
+    </tr>
+	#foreach($entry in ${publicNoInfos})
+		<tr>
+            <td>$!{entry.name}</td>
+			<td>$!{entry.appId}</td>
+			<td>$!{entry.status}</td>
+			<td>
+                <a href="$!{appServer}/refresh_access_token.htm?appId=$!{entry.appId}">Ë¢ÐÂ</a>
+            </td>
+        </tr>
+    	
+	#end	
+</table>

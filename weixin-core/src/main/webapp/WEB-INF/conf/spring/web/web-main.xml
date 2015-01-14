@@ -109,6 +109,11 @@
 		</property>
 	</bean>
 	 -->
+	 
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+ 		<property name="order" value="1" />
+ 		<property name="detectHandlersInAncestorContexts" value="true"></property>
+ 	</bean>
 	
 	<bean id="urlBrokerInterceptor" class="com.runssnail.monolith.weixin.core.web.url.URLBrokerLauncherInterceptor">
 		<property name="brokers">

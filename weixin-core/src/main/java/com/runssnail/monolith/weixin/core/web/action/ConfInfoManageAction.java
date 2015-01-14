@@ -1,5 +1,6 @@
 package com.runssnail.monolith.weixin.core.web.action;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,6 +16,8 @@ import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.base.service.AccessTokenService;
 import com.runssnail.monolith.weixin.core.menu.domain.MenusDO;
 import com.runssnail.monolith.weixin.core.menu.service.MenuManager;
+import com.runssnail.monolith.weixin.core.mp.domain.PublicNoInfoDO;
+import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 import com.runssnail.monolith.weixin.core.reply.domain.ReplysDO;
 import com.runssnail.monolith.weixin.core.reply.manager.SubscribeReplyManager;
 
@@ -35,6 +38,9 @@ public class ConfInfoManageAction {
 
     @Autowired
     private SubscribeReplyManager subscribeReplyManager;
+
+    @Autowired
+    private PublicNoInfoService   publicNoInfoService;
 
     /**
      * 查看当前access token
@@ -154,6 +160,14 @@ public class ConfInfoManageAction {
         subscribeReplyManager.refresh();
 
         return "success";
+    }
+
+    @RequestMapping("get_publicNo_infos.htm")
+    public String getPublicNoInfos(Model model) {
+        List<PublicNoInfoDO> publicNoInfos = this.publicNoInfoService.getPublicNoInfoList();
+        model.addAttribute("publicNoInfos", publicNoInfos);
+        
+        return "weixin/get_publicNo_infos";
     }
 
 }
