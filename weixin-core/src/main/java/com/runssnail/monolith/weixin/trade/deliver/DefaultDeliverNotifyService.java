@@ -14,8 +14,8 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.weixin.client.deliver.DeliverInfo;
 import com.runssnail.monolith.weixin.client.deliver.IDeliverNotifyService;
+import com.runssnail.monolith.weixin.client.trade.EnumSignType;
 import com.runssnail.monolith.weixin.core.base.service.WeixinApiService;
-import com.runssnail.monolith.weixin.trade.common.EnumSignType;
 import com.runssnail.monolith.weixin.trade.common.WeixinPaymentHelper;
 
 /**

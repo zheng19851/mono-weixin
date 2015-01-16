@@ -17,11 +17,6 @@ public class TradeDTO extends DomainBase {
     private static final long serialVersionUID = 4047901802674891486L;
 
     /**
-     * 商户号，非paternerId， 必填
-     */
-    private String            mchId;
-
-    /**
      * 商品描述，必填
      */
     private String            productDesc;
@@ -49,7 +44,7 @@ public class TradeDTO extends DomainBase {
     /**
      * JSAPI、NATIVE、APP，必填
      */
-    private String            tradeType;
+    private EnumTradeType     tradeType;
 
     /**
      * 用户在商户appid下的唯一标识，trade_type为JSAPI时，必传
@@ -92,12 +87,8 @@ public class TradeDTO extends DomainBase {
      */
     private String            goodsTag;
 
-    public String getTradeType() {
+    public EnumTradeType getTradeType() {
         return tradeType;
-    }
-
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
     }
 
     public String getOpenId() {
@@ -196,12 +187,8 @@ public class TradeDTO extends DomainBase {
         this.deviceInfo = deviceInfo;
     }
 
-    public String getMchId() {
-        return mchId;
-    }
-
-    public void setMchId(String mchId) {
-        this.mchId = mchId;
+    public void setTradeType(EnumTradeType type) {
+        this.tradeType = type;
     }
 
 }

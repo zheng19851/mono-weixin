@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.trade.common;
+package com.runssnail.monolith.weixin.client.trade;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * @author zhengwei
  */
 public enum EnumSignType {
-    SHA1("sha1"), MD5("md5"), RSA("rsa");
+    SHA1("SHA1"), MD5("MD5"), RSA("RSA");
 
     private String                                 val;
 

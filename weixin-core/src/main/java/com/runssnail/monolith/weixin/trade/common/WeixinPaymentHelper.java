@@ -2,6 +2,8 @@ package com.runssnail.monolith.weixin.trade.common;
 
 import java.util.SortedMap;
 
+import com.runssnail.monolith.weixin.client.trade.EnumSignType;
+
 /**
  * 微信支付js api请求中和native api回调中的package参数生成服务 以及在创建请求时，所用到的一些公用方法
  * 
@@ -27,23 +29,6 @@ public interface WeixinPaymentHelper {
     String buildNonceStr(String charset);
 
     /**
-     * 生成付款签名，默认sha1签名方式
-     * 
-     * @param paramMap
-     * @return
-     */
-    String buildPaySign(SortedMap<String, String> paramMap);
-
-    /**
-     * 生成付款签名
-     * 
-     * @param paramsMap
-     * @param signType
-     * @return
-     */
-    String buildPaySign(SortedMap<String, String> paramsMap, String signType);
-
-    /**
      * 生成退款申请时的签名
      * 
      * @param paramsMap
@@ -58,7 +43,7 @@ public interface WeixinPaymentHelper {
      * @return
      */
     String buildPackageSign(SortedMap<String, String> params, EnumSignType signType);
-    
+
     /**
      * 创建签名sign，默认md5
      * 

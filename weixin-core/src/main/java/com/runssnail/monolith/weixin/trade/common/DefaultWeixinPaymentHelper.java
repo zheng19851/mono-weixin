@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.runssnail.monolith.weixin.client.trade.EnumSignType;
 import com.runssnail.monolith.weixin.core.common.utils.MD5Util;
 import com.runssnail.monolith.weixin.core.conf.WeixinConfigService;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
@@ -85,34 +86,6 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         String encryptStr = paramsStr + "&key=" + paternerKey;
 
         String sign = DigestUtils.md5Hex(encryptStr).toUpperCase();
-
-        return sign;
-    }
-
-    @Override
-    public String buildPaySign(SortedMap<String, String> paramsMap) {
-        return this.buildPaySign(paramsMap, "sha1");
-    }
-
-    @Override
-    public String buildPaySign(SortedMap<String, String> paramsMap, String signType) {
-        if (log.isDebugEnabled()) {
-            log.debug("buildPaySign, paySign params=" + paramsMap);
-        }
-
-        if (!EnumSignType.isSHA1(signType)) {
-            throw new IllegalArgumentException("unsupport the signType, signType=" + signType + ", please use sha1.");
-        }
-
-        String params = this.buildUrlParamsStr(paramsMap, null);
-
-        // 生成支付签名，要采用URLENCODER的原始值进行SHA1算法！
-        String sign = DigestUtils.sha1Hex(params);
-
-        // System.out.println("paySign=" + sign);
-        if (log.isDebugEnabled()) {
-            log.debug("buildPaySign, paySign=" + sign);
-        }
 
         return sign;
     }
