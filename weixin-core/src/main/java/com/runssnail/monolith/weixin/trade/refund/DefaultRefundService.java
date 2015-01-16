@@ -13,7 +13,6 @@ import com.runssnail.monolith.weixin.client.refund.RefundApply;
 import com.runssnail.monolith.weixin.client.refund.RefundInfo;
 import com.runssnail.monolith.weixin.client.refund.RefundQuery;
 import com.runssnail.monolith.weixin.core.base.service.HttpClientService;
-import com.runssnail.monolith.weixin.trade.common.WeixinPaymentHelper;
 
 /**
  * 默认退款服务实现
@@ -33,8 +32,8 @@ public class DefaultRefundService implements IRefundService {
      */
     private String              queryRefundDetailApiUrl = "https://gw.tenpay.com/gateway/normalrefundquery.xml";
 
-    @Autowired
-    private WeixinPaymentHelper weixinPaymentHelper;
+//    @Autowired
+//    private WeixinPaymentHelper weixinPaymentHelper;
 
     @Autowired
     private HttpClientService          apiService;

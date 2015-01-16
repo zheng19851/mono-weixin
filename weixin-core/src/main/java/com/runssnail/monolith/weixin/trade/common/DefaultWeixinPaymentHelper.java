@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.runssnail.monolith.weixin.client.trade.EnumSignType;
-import com.runssnail.monolith.weixin.core.common.utils.MD5Util;
+import com.runssnail.monolith.weixin.client.utils.MD5Util;
 import com.runssnail.monolith.weixin.core.conf.WeixinConfigService;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 
@@ -23,6 +23,7 @@ import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
  * @author zhengwei
  */
 @Service("weixinPaymentHelper")
+@Deprecated
 public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
 
     private final Logger        log = Logger.getLogger(getClass());

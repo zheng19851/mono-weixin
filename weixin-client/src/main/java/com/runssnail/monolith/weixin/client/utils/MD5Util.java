@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.core.common.utils;
+package com.runssnail.monolith.weixin.client.utils;
 
 import java.security.MessageDigest;
 

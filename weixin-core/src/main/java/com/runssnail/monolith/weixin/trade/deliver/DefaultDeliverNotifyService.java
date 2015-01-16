@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import net.sf.json.JSONObject;
 
 import org.apache.velocity.app.VelocityEngine;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.runssnail.monolith.common.result.Result;
@@ -16,7 +15,6 @@ import com.runssnail.monolith.weixin.client.deliver.DeliverInfo;
 import com.runssnail.monolith.weixin.client.deliver.IDeliverNotifyService;
 import com.runssnail.monolith.weixin.client.trade.EnumSignType;
 import com.runssnail.monolith.weixin.core.base.service.WeixinApiService;
-import com.runssnail.monolith.weixin.trade.common.WeixinPaymentHelper;
 
 /**
  * @author zhengwei
@@ -30,8 +28,8 @@ public class DefaultDeliverNotifyService implements IDeliverNotifyService {
     @Resource(name = "weixinApiService")
     private WeixinApiService    weixinApiService;
 
-    @Autowired
-    private WeixinPaymentHelper weixinPaymentHelper;
+//    @Autowired
+//    private WeixinPaymentHelper weixinPaymentHelper;
 
     @Resource(name = "messageVelocityEngine")
     private VelocityEngine      velocityEngine;

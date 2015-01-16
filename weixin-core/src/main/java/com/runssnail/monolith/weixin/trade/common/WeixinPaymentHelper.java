@@ -9,6 +9,7 @@ import com.runssnail.monolith.weixin.client.trade.EnumSignType;
  * 
  * @author zhengwei
  */
+@Deprecated
 public interface WeixinPaymentHelper {
 
     /**

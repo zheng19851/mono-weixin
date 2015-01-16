@@ -19,14 +19,15 @@ import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.client.trade.EnumSignType;
 import com.runssnail.monolith.weixin.client.trade.EnumTradeType;
 import com.runssnail.monolith.weixin.client.trade.ITradeService;
+import com.runssnail.monolith.weixin.client.trade.PaymentHelper;
 import com.runssnail.monolith.weixin.client.trade.PrepareOrderDTO;
 import com.runssnail.monolith.weixin.client.trade.TradeDTO;
 import com.runssnail.monolith.weixin.core.base.service.HttpClientService;
 import com.runssnail.monolith.weixin.core.base.service.impl.DefaultHttpClientService;
 import com.runssnail.monolith.weixin.core.common.utils.XmlTool;
 import com.runssnail.monolith.weixin.core.conf.DefaultWeixinConfigService;
+import com.runssnail.monolith.weixin.core.conf.WeixinConfigService;
 import com.runssnail.monolith.weixin.trade.common.DefaultWeixinPaymentHelper;
-import com.runssnail.monolith.weixin.trade.common.WeixinPaymentHelper;
 
 /**
  * 默认微信交易实现
@@ -39,7 +40,7 @@ public class DefaultTradeService implements ITradeService {
     private final Logger        log                      = Logger.getLogger(getClass());
 
     @Autowired
-    private WeixinPaymentHelper weixinPaymentHelper;
+    private WeixinConfigService weixinConfigService;
 
     @Autowired
     private HttpClientService   httpClientService;
@@ -77,7 +78,7 @@ public class DefaultTradeService implements ITradeService {
         SortedMap<String, String> params = getParams(appId, merchantId, trade);
 
         // 创建sign
-        String sign = weixinPaymentHelper.buildPackageSign(params);
+        String sign = PaymentHelper.buildPackageSign(params, weixinConfigService.getPaySignkey(), EnumSignType.MD5);
         params.put("sign", sign);
 
         String prepareOrderParams = XmlTool.toXml(params);
@@ -133,7 +134,7 @@ public class DefaultTradeService implements ITradeService {
         if (StringUtil.isNotBlank(trade.getDeviceInfo())) {
             params.put("device_info", trade.getDeviceInfo()); // 设备号
         }
-        params.put("nonce_str", this.weixinPaymentHelper.buildNonceStr(defaultCharset));
+        params.put("nonce_str", PaymentHelper.buildNonce(defaultCharset));
         params.put("body", trade.getProductDesc()); // 商品描述
         if (StringUtil.isNotBlank(trade.getAttach())) {
             params.put("attach", trade.getAttach()); // 附加数据，原样返回
@@ -173,17 +174,17 @@ public class DefaultTradeService implements ITradeService {
         SortedMap<String, String> params = new TreeMap<String, String>();
         params.put("appId", appId);
         params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
-        params.put("nonceStr", weixinPaymentHelper.buildNonceStr(this.defaultCharset));
+        params.put("nonceStr", PaymentHelper.buildNonce(this.defaultCharset));
         params.put("package", "prepay_id=" + prepayId);
         params.put("signType", EnumSignType.MD5.getVal());
-        return this.weixinPaymentHelper.buildPackageSign(params, EnumSignType.MD5);
+        return PaymentHelper.buildPackageSign(params, this.weixinConfigService.getPaySignkey(), EnumSignType.MD5);
     }
 
     public static void main(String[] args) throws Exception {
 
-        // createPrepare();
+         createPrepare();
 
-        buildPaySign();
+//        buildPaySign();
 
     }
 
@@ -191,6 +192,7 @@ public class DefaultTradeService implements ITradeService {
         DefaultTradeService tradeService = new DefaultTradeService();
 
         DefaultWeixinConfigService configService = new DefaultWeixinConfigService();
+        tradeService.weixinConfigService = configService;
 
         configService.setPaySignkey("hfhaf97fj32kj32jk98f98a833fajfa9"); // 支付密钥
         configService.setPaternerKey("0c6f80694c277a64a50bc29870e9d058");
@@ -200,7 +202,6 @@ public class DefaultTradeService implements ITradeService {
 
         DefaultWeixinPaymentHelper helper = new DefaultWeixinPaymentHelper();
         helper.setWeixinConfigService(configService);
-        tradeService.weixinPaymentHelper = helper;
 
         DefaultHttpClientService httpClientService = new DefaultHttpClientService();
         tradeService.httpClientService = httpClientService;
@@ -215,7 +216,7 @@ public class DefaultTradeService implements ITradeService {
         DefaultTradeService tradeService = new DefaultTradeService();
 
         DefaultWeixinConfigService configService = new DefaultWeixinConfigService();
-
+        tradeService.weixinConfigService = configService;
         configService.setPaySignkey("hfhaf97fj32kj32jk98f98a833fajfa9"); // 支付密钥
         configService.setPaternerKey("0c6f80694c277a64a50bc29870e9d058");
         // configService.setPartnerId("1226202301");
@@ -224,7 +225,6 @@ public class DefaultTradeService implements ITradeService {
 
         DefaultWeixinPaymentHelper helper = new DefaultWeixinPaymentHelper();
         helper.setWeixinConfigService(configService);
-        tradeService.weixinPaymentHelper = helper;
 
         DefaultHttpClientService httpClientService = new DefaultHttpClientService();
         tradeService.httpClientService = httpClientService;
