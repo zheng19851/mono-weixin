@@ -49,4 +49,11 @@ public interface WeixinConfigService {
      * @return
      */
     String getEncodingAesKey();
+
+    /**
+     * ÷ß∏∂«©√˚√‹‘ø£¨∑«paternerKey
+     * 
+     * @return
+     */
+    String getPaySignkey();
 }

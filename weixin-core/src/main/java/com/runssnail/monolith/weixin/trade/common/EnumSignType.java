@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.pay.common;
+package com.runssnail.monolith.weixin.trade.common;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.pay.common;
+package com.runssnail.monolith.weixin.trade.common;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.runssnail.monolith.weixin.core.common.utils.MD5Util;
+import com.runssnail.monolith.weixin.core.conf.WeixinConfigService;
 import com.runssnail.monolith.weixin.core.mp.service.PublicNoInfoService;
 
 /**
@@ -25,8 +26,8 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
 
     private final Logger        log = Logger.getLogger(getClass());
 
-    // @Autowired
-    // private WeixinConfigService weixinConfigService;
+    @Autowired
+    private WeixinConfigService weixinConfigService;
 
     @Autowired
     private PublicNoInfoService publicNoInfoService;
@@ -38,10 +39,10 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
      * @param encodeValue 是否对value进行url encode
      * @return
      */
-    public String buildUrlParamsStr(SortedMap<String, Object> paramMap, String charset) {
+    public String buildUrlParamsStr(SortedMap<String, String> paramMap, String charset) {
         StringBuilder sb = new StringBuilder();
-        Set<Entry<String, Object>> es = paramMap.entrySet();
-        for (Entry<String, Object> entry : es) {
+        Set<Entry<String, String>> es = paramMap.entrySet();
+        for (Entry<String, String> entry : es) {
             String k = (String) entry.getKey();
             String v = (String) entry.getValue();
             if (isNotBlank(charset)) {
@@ -78,7 +79,7 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     }
 
     @Override
-    public String buildRefundSign(SortedMap<String, Object> paramsMap) {
+    public String buildRefundSign(SortedMap<String, String> paramsMap) {
         String paramsStr = this.buildUrlParamsStr(paramsMap, null);
         String paternerKey = publicNoInfoService.getDefaultPaternerKey();
         String encryptStr = paramsStr + "&key=" + paternerKey;
@@ -89,12 +90,12 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
     }
 
     @Override
-    public String buildPaySign(SortedMap<String, Object> paramsMap) {
+    public String buildPaySign(SortedMap<String, String> paramsMap) {
         return this.buildPaySign(paramsMap, "sha1");
     }
 
     @Override
-    public String buildPaySign(SortedMap<String, Object> paramsMap, String signType) {
+    public String buildPaySign(SortedMap<String, String> paramsMap, String signType) {
         if (log.isDebugEnabled()) {
             log.debug("buildPaySign, paySign params=" + paramsMap);
         }
@@ -116,6 +117,56 @@ public class DefaultWeixinPaymentHelper implements WeixinPaymentHelper {
         return sign;
     }
 
-    // ===========================
+    @Override
+    public String buildPackageSign(SortedMap<String, String> packageParams) {
+        return this.buildPackageSign(packageParams, EnumSignType.MD5);
+    }
+
+    @Override
+    public String buildPackageSign(SortedMap<String, String> packageParams, EnumSignType signType) {
+        if (log.isDebugEnabled()) {
+            log.debug("genPackageSign, packageParams=" + packageParams + ", signType=" + signType);
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        String params = buildUrlParamsStr(packageParams, null);
+        sb.append(params).append("&");
+        sb.append("key=" + weixinConfigService.getPaySignkey());
+        // System.out.println("genPackageSign params string=" + sb.toString());
+        // String sign = MD5Util.MD5Encode(sb.toString(), charset)
+        // .toUpperCase();
+        String sign = null;
+        if (signType.isMd5()) {
+            sign = DigestUtils.md5Hex(sb.toString()).toUpperCase();
+        } else if (signType.isSHA1()) {
+            sign = DigestUtils.sha1Hex(sb.toString()).toUpperCase();
+        } else if (signType.isRsa()) {
+            //
+            throw new UnsupportedOperationException("unsupport current sign type, signType=" + signType);
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("genPackageSign, packageSign=" + sign);
+        }
+
+        return sign;
+    }
+
+    public WeixinConfigService getWeixinConfigService() {
+        return weixinConfigService;
+    }
+
+    public void setWeixinConfigService(WeixinConfigService weixinConfigService) {
+        this.weixinConfigService = weixinConfigService;
+    }
+
+    public PublicNoInfoService getPublicNoInfoService() {
+        return publicNoInfoService;
+    }
+
+    public void setPublicNoInfoService(PublicNoInfoService publicNoInfoService) {
+        this.publicNoInfoService = publicNoInfoService;
+    }
 
 }

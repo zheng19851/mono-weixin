@@ -5,13 +5,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.core.common.utils.HttpRequestUtils;
-import com.runssnail.monolith.weixin.core.common.utils.XmlTools;
+import com.runssnail.monolith.weixin.core.common.utils.XmlTool;
 import com.runssnail.monolith.weixin.core.message.crypto.AesException;
 import com.runssnail.monolith.weixin.core.message.domain.DefaultMessage;
 import com.runssnail.monolith.weixin.core.message.domain.EnumEventType;
@@ -79,13 +78,7 @@ public class DefaultMessageBuilder implements MessageBuilder {
             return msg;
         }
 
-        Map<String, Object> params = null;
-        try {
-            params = XmlTools.toMap(decryptedMsg);
-        } catch (DocumentException e) {
-            log.error("xml datas convert to Map error, decryptedMsg=" + decryptedMsg, e);
-            return msg;
-        }
+        Map<String, Object> params = XmlTool.toMap(decryptedMsg);
 
         // 消息类型
         String msgType = (String) params.get("MsgType");

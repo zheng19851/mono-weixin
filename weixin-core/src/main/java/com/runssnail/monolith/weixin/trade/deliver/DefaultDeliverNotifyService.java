@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.pay.deliver;
+package com.runssnail.monolith.weixin.trade.deliver;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -15,8 +15,8 @@ import com.runssnail.monolith.common.result.Result;
 import com.runssnail.monolith.weixin.client.deliver.DeliverInfo;
 import com.runssnail.monolith.weixin.client.deliver.IDeliverNotifyService;
 import com.runssnail.monolith.weixin.core.base.service.WeixinApiService;
-import com.runssnail.monolith.weixin.pay.common.EnumSignType;
-import com.runssnail.monolith.weixin.pay.common.WeixinPaymentHelper;
+import com.runssnail.monolith.weixin.trade.common.EnumSignType;
+import com.runssnail.monolith.weixin.trade.common.WeixinPaymentHelper;
 
 /**
  * @author zhengwei
@@ -50,7 +50,7 @@ public class DefaultDeliverNotifyService implements IDeliverNotifyService {
         paramsMap.put("deliver_status", String.valueOf(deliverInfo.getDeliverStatus()));
         paramsMap.put("deliver_msg", deliverInfo.getDeliverMsg());
 
-        String sign = weixinPaymentHelper.buildPaySign(paramsMap);
+        String sign = null;//TODO azhengwei Ç©Ãû weixinPaymentHelper.buildPaySign(paramsMap);
         paramsMap.put("app_signature", sign);
         paramsMap.put("sign_method", EnumSignType.SHA1.getVal());
 

@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.pay.refund;
+package com.runssnail.monolith.weixin.trade.refund;
 
 import java.util.List;
 import java.util.SortedMap;
@@ -13,7 +13,7 @@ import com.runssnail.monolith.weixin.client.refund.RefundApply;
 import com.runssnail.monolith.weixin.client.refund.RefundInfo;
 import com.runssnail.monolith.weixin.client.refund.RefundQuery;
 import com.runssnail.monolith.weixin.core.base.service.HttpClientService;
-import com.runssnail.monolith.weixin.pay.common.WeixinPaymentHelper;
+import com.runssnail.monolith.weixin.trade.common.WeixinPaymentHelper;
 
 /**
  * 默认退款服务实现
@@ -45,7 +45,7 @@ public class DefaultRefundService implements IRefundService {
         Result<RefundInfo> result = new Result<RefundInfo>();
         SortedMap<String, Object> paramsMap = new TreeMap<String, Object>();
 
-        String sign = weixinPaymentHelper.buildRefundSign(paramsMap);
+        String sign = null; //TODO azhengwei 签名 weixinPaymentHelper.buildRefundSign(paramsMap);
 
         result.setSuccess(false);
         return result;

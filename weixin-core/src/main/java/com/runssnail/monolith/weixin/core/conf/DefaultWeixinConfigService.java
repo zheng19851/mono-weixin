@@ -41,6 +41,9 @@ public class DefaultWeixinConfigService implements WeixinConfigService {
     @Value("${weixin.encodingAesKey}")
     private String encodingAesKey;
 
+    @Value("${weixin.paySignkey}")
+    private String paySignkey;
+
     @PostConstruct
     public void init() {
 
@@ -82,6 +85,28 @@ public class DefaultWeixinConfigService implements WeixinConfigService {
     @Override
     public boolean isDefaultAppId(String appId) {
         return this.appId.equals(appId);
+    }
+
+    @Override
+    public String getPaySignkey() {
+        // ÷ß∏∂√‹‘ø
+        return paySignkey;
+    }
+
+    public void setPaySignkey(String paySignkey) {
+        this.paySignkey = paySignkey;
+    }
+
+    public void setPaternerKey(String paternerKey) {
+        this.paternerKey = paternerKey;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }

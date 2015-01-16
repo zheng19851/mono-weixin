@@ -4,4 +4,4 @@
  * 
  * @author zhengwei
  */
-package com.runssnail.monolith.weixin.pay;
+package com.runssnail.monolith.weixin.trade;

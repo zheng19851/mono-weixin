@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -20,9 +21,8 @@ import com.runssnail.monolith.lang.StringUtil;
  * @author zhengwei
  * @date 2014-2-17
  */
-public class XmlTools {
+public class XmlTool {
 
-    
     /**
      * ×ª³ÉMap
      * 
@@ -30,14 +30,19 @@ public class XmlTools {
      * @return
      * @throws DocumentException
      */
-    public static Map<String, Object> toMap(String xml) throws DocumentException {
+    public static Map<String, Object> toMap(String xml) {
         if (StringUtil.isBlank(xml)) {
             return null;
         }
 
         SAXReader reader = new SAXReader();
         StringReader sr = new StringReader(xml);
-        Document document = reader.read(sr);
+        Document document;
+        try {
+            document = reader.read(sr);
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        }
         OutputFormat format = OutputFormat.createPrettyPrint();
         format.setEncoding("UTF-8");
         Element root = document.getRootElement();
@@ -95,10 +100,25 @@ public class XmlTools {
         return map;
     }
 
+    public static String toXml(Map<String, String> map) {
+        StringBuilder sb = new StringBuilder("<xml>");
+
+        for (Entry<String, String> entry : map.entrySet()) {
+            if (StringUtil.isNotBlank(entry.getValue())) {
+                sb.append("<").append(entry.getKey()).append(">");
+                sb.append(entry.getValue());
+                sb.append("</").append(entry.getKey()).append(">");
+            }
+        }
+
+        sb.append("</xml>");
+        return sb.toString();
+    }
+
     public static void main(String[] args) throws DocumentException {
         String xml = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName> <CreateTime>1348831860</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[this is a test]]></Content><MsgId>1234567890123456</MsgId></xml>";
 
-        Map<String, Object> map = XmlTools.toMap(xml);
+        Map<String, Object> map = XmlTool.toMap(xml);
         System.out.println(map);
 
     }

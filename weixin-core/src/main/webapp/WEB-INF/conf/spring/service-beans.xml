@@ -14,7 +14,7 @@
 	<context:component-scan base-package="com.runssnail.monolith.weixin.core.reply,com.runssnail.monolith.weixin.core.user" />
 	<context:component-scan base-package="com.runssnail.monolith.weixin.core.support,com.runssnail.monolith.weixin.core.message.service" />
 	<context:component-scan base-package="com.runssnail.monolith.weixin.core.conf,com.runssnail.monolith.weixin.core.template" />
-	<context:component-scan base-package="com.runssnail.monolith.weixin.core.mp" />
+	<context:component-scan base-package="com.runssnail.monolith.weixin.core.mp,com.runssnail.monolith.weixin.trade" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

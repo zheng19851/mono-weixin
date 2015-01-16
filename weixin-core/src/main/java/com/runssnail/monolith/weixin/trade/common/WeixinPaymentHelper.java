@@ -1,4 +1,4 @@
-package com.runssnail.monolith.weixin.pay.common;
+package com.runssnail.monolith.weixin.trade.common;
 
 import java.util.SortedMap;
 
@@ -16,7 +16,7 @@ public interface WeixinPaymentHelper {
      * @param charset 字符集，需要对value进行url encode，那么设置
      * @return
      */
-    String buildUrlParamsStr(SortedMap<String, Object> paramsMap, String charset);
+    String buildUrlParamsStr(SortedMap<String, String> paramsMap, String charset);
 
     /**
      * 生成随机字符串
@@ -32,7 +32,7 @@ public interface WeixinPaymentHelper {
      * @param paramMap
      * @return
      */
-    String buildPaySign(SortedMap<String, Object> paramMap);
+    String buildPaySign(SortedMap<String, String> paramMap);
 
     /**
      * 生成付款签名
@@ -41,7 +41,7 @@ public interface WeixinPaymentHelper {
      * @param signType
      * @return
      */
-    String buildPaySign(SortedMap<String, Object> paramsMap, String signType);
+    String buildPaySign(SortedMap<String, String> paramsMap, String signType);
 
     /**
      * 生成退款申请时的签名
@@ -49,5 +49,21 @@ public interface WeixinPaymentHelper {
      * @param paramsMap
      * @return
      */
-    String buildRefundSign(SortedMap<String, Object> paramsMap);
+    String buildRefundSign(SortedMap<String, String> paramsMap);
+
+    /**
+     * 创建签名sign
+     * 
+     * @param params
+     * @return
+     */
+    String buildPackageSign(SortedMap<String, String> params, EnumSignType signType);
+    
+    /**
+     * 创建签名sign，默认md5
+     * 
+     * @param params
+     * @return
+     */
+    String buildPackageSign(SortedMap<String, String> params);
 }
