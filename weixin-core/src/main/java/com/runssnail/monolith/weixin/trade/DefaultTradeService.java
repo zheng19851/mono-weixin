@@ -182,7 +182,7 @@ public class DefaultTradeService implements ITradeService {
 
     public static void main(String[] args) throws Exception {
 
-        // createPrepare();
+//         createPrepare();
 
         buildPaySign();
 
@@ -208,7 +208,7 @@ public class DefaultTradeService implements ITradeService {
         // =======================
 
         Result<JsApiPayReq> paySign = tradeService.buildJsApiReq("wxc829b42548f53840",
-                                                                "wx2015011716235809787c49fd0791678717");
+                                                                 "wx201501172230160fac627ed60289318330");
         System.out.println(paySign);
 
     }
@@ -233,11 +233,11 @@ public class DefaultTradeService implements ITradeService {
 
         TradeDTO trade = new TradeDTO();
         // trade.setMchId("10065789");
-        trade.setProductDesc("ÍâÌ×");
-        trade.setOrderId("21719912988");
+        trade.setProductDesc("³ÄÉÀ123");
+        trade.setOrderId("11208328988");
         trade.setTotalFee(1L);
         trade.setIp("127.0.0.1");
-        trade.setNotifyUrl("http://121.40.54.19:8090/spark/cgi/weixin/receive_pay_notify.htm"); // http://121.40.54.19:8090/spark/
+        trade.setNotifyUrl("http://121.40.54.19:8090/spark/cgi/weixin/receive_pay_notify.htm"); //
         trade.setTradeType(EnumTradeType.JSAPI);
         trade.setOpenId("ovcPajq3X8K03aW-PBwtvfweuV44");
         Result<PrepareOrderDTO> result = tradeService.createPrepareOrder(configService.getAppId(), trade);

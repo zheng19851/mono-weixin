@@ -21,7 +21,9 @@ import com.runssnail.monolith.weixin.client.utils.MD5Util;
  */
 public abstract class PaymentHelper {
 
-    private static final Logger log = Logger.getLogger(PaymentHelper.class);
+    private static final Logger log             = Logger.getLogger(PaymentHelper.class);
+
+    public static final String  DEFAULT_CHARSET = "UTF-8";
 
     /**
      * 生成js api 支付请求参数
@@ -33,8 +35,8 @@ public abstract class PaymentHelper {
      */
     public static JsApiPayReq buildJsApiPayReq(String appId, String prepayId, String paySignKey) {
         JsApiPayReq req = new JsApiPayReq();
-        String nonceStr = buildNonce("UTF-8");
-        long timeStamp = System.currentTimeMillis();
+        String nonceStr = buildNonce(DEFAULT_CHARSET);
+        long timeStamp = System.currentTimeMillis() / 1000;
         String paySgin = buildPaySign(appId, prepayId, paySignKey, nonceStr, timeStamp);
 
         req.setAppId(appId);
@@ -57,7 +59,7 @@ public abstract class PaymentHelper {
      */
     public static String buildPaySign(String appId, String prepayId, String paySignKey) {
 
-        return buildPaySign(appId, prepayId, paySignKey, buildNonce("UTF-8"), System.currentTimeMillis());
+        return buildPaySign(appId, prepayId, paySignKey, buildNonce(DEFAULT_CHARSET), System.currentTimeMillis() / 1000);
     }
 
     /**
@@ -66,8 +68,8 @@ public abstract class PaymentHelper {
      * @param appId 微信公众号id，必填
      * @param prepayId 微信预支付单id，必填
      * @param paySignKey 支付密钥，必填
-     * @param nonceStr 随机字符串，必填
-     * @param timeStamp 时间戳，必填
+     * @param nonceStr 随机字符串，不超过32个字符，必填
+     * @param timeStamp 时间戳，精确到秒，必填
      * @return
      */
     public static String buildPaySign(String appId, String prepayId, String paySignKey, String nonceStr, long timeStamp) {
@@ -96,12 +98,12 @@ public abstract class PaymentHelper {
      * 生成sign
      * 
      * @param packageParams 参数
-     * @param paySignKey 支付密钥
+     * @param key 签名密钥
      * @return
      */
-    public static String buildPackageSign(SortedMap<String, String> packageParams, String paySignKey) {
+    public static String buildPackageSign(SortedMap<String, String> packageParams, String key) {
 
-        return buildPackageSign(packageParams, paySignKey, EnumSignType.MD5);
+        return buildPackageSign(packageParams, key, EnumSignType.MD5);
 
     }
 
@@ -109,12 +111,11 @@ public abstract class PaymentHelper {
      * 生成签名sign
      * 
      * @param packageParams 参数
-     * @param paySignKey 支付密钥
+     * @param key 签名密钥
      * @param signType 签名方式
      * @return
      */
-    public static String buildPackageSign(SortedMap<String, String> packageParams, String paySignKey,
-                                          EnumSignType signType) {
+    public static String buildPackageSign(SortedMap<String, String> packageParams, String key, EnumSignType signType) {
         if (log.isDebugEnabled()) {
             log.debug("genPackageSign, packageParams=" + packageParams + ", signType=" + signType);
         }
@@ -123,7 +124,7 @@ public abstract class PaymentHelper {
 
         String params = buildUrlParamsStr(packageParams, null);
         sb.append(params).append("&");
-        sb.append("key=" + paySignKey);
+        sb.append("key=" + key);
         // System.out.println("genPackageSign params string=" + sb.toString());
         // String sign = MD5Util.MD5Encode(sb.toString(), charset)
         // .toUpperCase();
