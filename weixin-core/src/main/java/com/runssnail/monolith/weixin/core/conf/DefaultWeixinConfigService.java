@@ -44,6 +44,12 @@ public class DefaultWeixinConfigService implements WeixinConfigService {
     @Value("${weixin.paySignkey}")
     private String paySignkey;
 
+    /**
+     * …Ãªß∫≈£¨∑«partnerId
+     */
+    @Value("${weixin.merchantId}")
+    private String merchantId;
+
     @PostConstruct
     public void init() {
 
@@ -107,6 +113,15 @@ public class DefaultWeixinConfigService implements WeixinConfigService {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public String getMerchantId() {
+        return this.merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
     }
 
 }

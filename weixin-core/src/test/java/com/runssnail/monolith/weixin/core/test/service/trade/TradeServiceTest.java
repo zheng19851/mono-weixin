@@ -27,7 +27,7 @@ public class TradeServiceTest extends TestBase {
         trade.setNotifyUrl("http://weixin.qq.com");
         trade.setTradeType(EnumTradeType.JSAPI);
         trade.setOpenId("ovcPajq3X8K03aW-PBwtvfweuV44");
-        Result<PrepareOrderDTO> result = tradeService.createPrepareOrder("wxc829b42548f53840", "10065789", trade);
+        Result<PrepareOrderDTO> result = tradeService.createPrepareOrder("wxc829b42548f53840", trade);
         System.out.println(result);
     }
 }

@@ -19,6 +19,7 @@ import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.client.trade.EnumSignType;
 import com.runssnail.monolith.weixin.client.trade.EnumTradeType;
 import com.runssnail.monolith.weixin.client.trade.ITradeService;
+import com.runssnail.monolith.weixin.client.trade.JsApiPayReq;
 import com.runssnail.monolith.weixin.client.trade.PaymentHelper;
 import com.runssnail.monolith.weixin.client.trade.PrepareOrderDTO;
 import com.runssnail.monolith.weixin.client.trade.TradeDTO;
@@ -34,7 +35,7 @@ import com.runssnail.monolith.weixin.trade.common.DefaultWeixinPaymentHelper;
  * 
  * @author zhengwei
  */
-@Service
+@Service("tradeService")
 public class DefaultTradeService implements ITradeService {
 
     private final Logger        log                      = Logger.getLogger(getClass());
@@ -50,14 +51,13 @@ public class DefaultTradeService implements ITradeService {
     private String              defaultCharset           = "UTF-8";
 
     @Override
-    public Result<PrepareOrderDTO> createPrepareOrder(String appId, String merchantId, TradeDTO trade) {
+    public Result<PrepareOrderDTO> createPrepareOrder(String appId, TradeDTO trade) {
         if (log.isDebugEnabled()) {
             log.debug("createPrepareOrder, appId=" + appId + ", trade=" + trade);
         }
 
         // 校验参数
         Assert.notNull(appId, "appId is required");
-        Assert.notNull(merchantId, "merchantId is required");
         Assert.notNull(trade, "trade is required");
 
         Assert.notNull(trade.getProductDesc(), "productDesc is required");
@@ -75,7 +75,7 @@ public class DefaultTradeService implements ITradeService {
 
         Result<PrepareOrderDTO> result = new Result<PrepareOrderDTO>();
 
-        SortedMap<String, String> params = getParams(appId, merchantId, trade);
+        SortedMap<String, String> params = getParams(appId, this.weixinConfigService.getMerchantId(), trade);
 
         // 创建sign
         String sign = PaymentHelper.buildPackageSign(params, weixinConfigService.getPaySignkey(), EnumSignType.MD5);
@@ -166,25 +166,25 @@ public class DefaultTradeService implements ITradeService {
     }
 
     @Override
-    public String buildPaySign(String appId, String prepayId) {
+    public Result<JsApiPayReq> buildJsApiReq(String appId, String prepayId) {
 
         Assert.notNull(appId, "appId is required");
         Assert.notNull(prepayId, "prepayId is required");
 
-        SortedMap<String, String> params = new TreeMap<String, String>();
-        params.put("appId", appId);
-        params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
-        params.put("nonceStr", PaymentHelper.buildNonce(this.defaultCharset));
-        params.put("package", "prepay_id=" + prepayId);
-        params.put("signType", EnumSignType.MD5.getVal());
-        return PaymentHelper.buildPackageSign(params, this.weixinConfigService.getPaySignkey(), EnumSignType.MD5);
+        Result<JsApiPayReq> result = new Result<JsApiPayReq>();
+
+        JsApiPayReq req = PaymentHelper.buildJsApiPayReq(appId, prepayId, this.weixinConfigService.getPaySignkey());
+
+        result.setSuccess(true);
+        result.setResult(req);
+        return result;
     }
 
     public static void main(String[] args) throws Exception {
 
-         createPrepare();
+        // createPrepare();
 
-//        buildPaySign();
+        buildPaySign();
 
     }
 
@@ -207,7 +207,8 @@ public class DefaultTradeService implements ITradeService {
         tradeService.httpClientService = httpClientService;
         // =======================
 
-        String paySign = tradeService.buildPaySign("wxc829b42548f53840", "wx20150116220707c04e031fa20204223168");
+        Result<JsApiPayReq> paySign = tradeService.buildJsApiReq("wxc829b42548f53840",
+                                                                "wx2015011716235809787c49fd0791678717");
         System.out.println(paySign);
 
     }
@@ -222,6 +223,7 @@ public class DefaultTradeService implements ITradeService {
         // configService.setPartnerId("1226202301");
         // configService.setNotifyUrl("http://weixin.qq.com");
         configService.setAppId("wxc829b42548f53840");
+        configService.setMerchantId("10065789"); // 商户号
 
         DefaultWeixinPaymentHelper helper = new DefaultWeixinPaymentHelper();
         helper.setWeixinConfigService(configService);
@@ -232,13 +234,13 @@ public class DefaultTradeService implements ITradeService {
         TradeDTO trade = new TradeDTO();
         // trade.setMchId("10065789");
         trade.setProductDesc("外套");
-        trade.setOrderId("21719919122");
+        trade.setOrderId("21719912988");
         trade.setTotalFee(1L);
         trade.setIp("127.0.0.1");
-        trade.setNotifyUrl("http://weixin.qq.com");
+        trade.setNotifyUrl("http://121.40.54.19:8090/spark/cgi/weixin/receive_pay_notify.htm"); // http://121.40.54.19:8090/spark/
         trade.setTradeType(EnumTradeType.JSAPI);
         trade.setOpenId("ovcPajq3X8K03aW-PBwtvfweuV44");
-        Result<PrepareOrderDTO> result = tradeService.createPrepareOrder(configService.getAppId(), "10065789", trade);
+        Result<PrepareOrderDTO> result = tradeService.createPrepareOrder(configService.getAppId(), trade);
         System.out.println(result);
 
     }

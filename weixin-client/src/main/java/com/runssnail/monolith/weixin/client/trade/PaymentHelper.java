@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
-import org.springframework.util.Assert;
 
 import com.runssnail.monolith.lang.StringUtil;
 import com.runssnail.monolith.weixin.client.utils.MD5Util;
@@ -24,20 +23,70 @@ public abstract class PaymentHelper {
 
     private static final Logger log = Logger.getLogger(PaymentHelper.class);
 
+    /**
+     * 生成js api 支付请求参数
+     * 
+     * @param appId
+     * @param prepayId 微信预支付单id
+     * @param paySignKey 微信支付密钥
+     * @return 支付签名，随机字符串，时间戳
+     */
+    public static JsApiPayReq buildJsApiPayReq(String appId, String prepayId, String paySignKey) {
+        JsApiPayReq req = new JsApiPayReq();
+        String nonceStr = buildNonce("UTF-8");
+        long timeStamp = System.currentTimeMillis();
+        String paySgin = buildPaySign(appId, prepayId, paySignKey, nonceStr, timeStamp);
+
+        req.setAppId(appId);
+        req.setNonceStr(nonceStr);
+        req.setTimeStamp(timeStamp);
+        req.setPaySgin(paySgin);
+        req.setPaySignKey(paySignKey);
+        req.setPrepayId(prepayId);
+
+        return req;
+    }
+
+    /**
+     * 生成支付签名
+     * 
+     * @param appId 微信公众号id，必填
+     * @param prepayId 微信预支付单id，必填
+     * @param paySignKey 支付密钥，必填
+     * @return
+     */
     public static String buildPaySign(String appId, String prepayId, String paySignKey) {
 
-        Assert.notNull(appId, "appId is required");
-        Assert.notNull(prepayId, "prepayId is required");
+        return buildPaySign(appId, prepayId, paySignKey, buildNonce("UTF-8"), System.currentTimeMillis());
+    }
+
+    /**
+     * 生成支付签名
+     * 
+     * @param appId 微信公众号id，必填
+     * @param prepayId 微信预支付单id，必填
+     * @param paySignKey 支付密钥，必填
+     * @param nonceStr 随机字符串，必填
+     * @param timeStamp 时间戳，必填
+     * @return
+     */
+    public static String buildPaySign(String appId, String prepayId, String paySignKey, String nonceStr, long timeStamp) {
 
         SortedMap<String, String> params = new TreeMap<String, String>();
         params.put("appId", appId);
-        params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
-        params.put("nonceStr", buildNonce("UTF-8"));
+        params.put("timeStamp", String.valueOf(timeStamp));
+        params.put("nonceStr", nonceStr);
         params.put("package", "prepay_id=" + prepayId);
         params.put("signType", EnumSignType.MD5.getVal());
         return buildPackageSign(params, paySignKey, EnumSignType.MD5);
     }
 
+    /**
+     * 生成随机字符串
+     * 
+     * @param charset
+     * @return
+     */
     public static String buildNonce(String charset) {
         Random random = new Random();
         return MD5Util.MD5Encode(String.valueOf(random.nextInt(10000)), charset); // "UTF-8"

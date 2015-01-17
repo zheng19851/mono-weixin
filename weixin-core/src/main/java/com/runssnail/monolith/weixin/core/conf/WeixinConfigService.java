@@ -56,4 +56,11 @@ public interface WeixinConfigService {
      * @return
      */
     String getPaySignkey();
+    
+    /**
+     * …Ãªß∫≈
+     * 
+     * @return
+     */
+    String getMerchantId();
 }

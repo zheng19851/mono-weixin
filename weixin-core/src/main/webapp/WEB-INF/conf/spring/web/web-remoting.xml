@@ -33,4 +33,6 @@
 	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.user.IUserService" serviceRef="userService"/>
 	
 	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.custom.ICustomMessageSendService" serviceRef="customMessageSendService"/>
+	
+	<momo:exporter serviceInterface="com.runssnail.monolith.weixin.client.trade.ITradeService" serviceRef="tradeService"/>
 </beans>
