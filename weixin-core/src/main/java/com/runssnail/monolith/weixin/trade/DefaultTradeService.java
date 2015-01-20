@@ -78,7 +78,7 @@ public class DefaultTradeService implements ITradeService {
         SortedMap<String, String> params = getParams(appId, this.weixinConfigService.getMerchantId(), trade);
 
         // ´´½¨sign
-        String sign = PaymentHelper.buildPackageSign(params, weixinConfigService.getPaySignkey(), EnumSignType.MD5);
+        String sign = PaymentHelper.buildSign(params, weixinConfigService.getPaySignkey(), EnumSignType.MD5);
         params.put("sign", sign);
 
         String prepareOrderParams = XmlTool.toXml(params);

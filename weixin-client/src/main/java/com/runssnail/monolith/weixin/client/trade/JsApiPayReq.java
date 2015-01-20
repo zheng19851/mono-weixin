@@ -25,11 +25,6 @@ public class JsApiPayReq extends DomainBase {
     private String            prepayId;
 
     /**
-     * Î¢ÐÅÖ§¸¶ÃÜÔ¿
-     */
-    private String            paySignKey;
-
-    /**
      * Ëæ»ú×Ö·û´®
      */
     private String            nonceStr;
@@ -42,7 +37,7 @@ public class JsApiPayReq extends DomainBase {
     /**
      * Ö§¸¶Ç©Ãû
      */
-    private String            paySgin;
+    private String            paySign;
 
     public String getAppId() {
         return appId;
@@ -58,14 +53,6 @@ public class JsApiPayReq extends DomainBase {
 
     public void setPrepayId(String prepayId) {
         this.prepayId = prepayId;
-    }
-
-    public String getPaySignKey() {
-        return paySignKey;
-    }
-
-    public void setPaySignKey(String paySignKey) {
-        this.paySignKey = paySignKey;
     }
 
     public String getNonceStr() {
@@ -84,12 +71,12 @@ public class JsApiPayReq extends DomainBase {
         this.timeStamp = timeStamp;
     }
 
-    public String getPaySgin() {
-        return paySgin;
+    public String getPaySign() {
+        return paySign;
     }
 
-    public void setPaySgin(String paySgin) {
-        this.paySgin = paySgin;
+    public void setPaySign(String paySign) {
+        this.paySign = paySign;
     }
 
 }
