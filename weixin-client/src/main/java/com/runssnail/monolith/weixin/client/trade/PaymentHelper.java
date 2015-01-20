@@ -37,13 +37,12 @@ public abstract class PaymentHelper {
         JsApiPayReq req = new JsApiPayReq();
         String nonceStr = buildNonce(DEFAULT_CHARSET);
         long timeStamp = System.currentTimeMillis() / 1000;
-        String paySgin = buildPaySign(appId, prepayId, paySignKey, nonceStr, timeStamp);
+        String paySign = buildPaySign(appId, prepayId, paySignKey, nonceStr, timeStamp);
 
         req.setAppId(appId);
         req.setNonceStr(nonceStr);
         req.setTimeStamp(timeStamp);
-        req.setPaySgin(paySgin);
-        req.setPaySignKey(paySignKey);
+        req.setPaySign(paySign);
         req.setPrepayId(prepayId);
 
         return req;
@@ -80,7 +79,7 @@ public abstract class PaymentHelper {
         params.put("nonceStr", nonceStr);
         params.put("package", "prepay_id=" + prepayId);
         params.put("signType", EnumSignType.MD5.getVal());
-        return buildPackageSign(params, paySignKey, EnumSignType.MD5);
+        return buildSign(params, paySignKey, EnumSignType.MD5);
     }
 
     /**
@@ -97,33 +96,33 @@ public abstract class PaymentHelper {
     /**
      * 生成sign
      * 
-     * @param packageParams 参数
+     * @param params 参数
      * @param key 签名密钥
      * @return
      */
-    public static String buildPackageSign(SortedMap<String, String> packageParams, String key) {
+    public static String buildSign(SortedMap<String, String> params, String key) {
 
-        return buildPackageSign(packageParams, key, EnumSignType.MD5);
+        return buildSign(params, key, EnumSignType.MD5);
 
     }
 
     /**
      * 生成签名sign
      * 
-     * @param packageParams 参数
+     * @param params 参数
      * @param key 签名密钥
      * @param signType 签名方式
      * @return
      */
-    public static String buildPackageSign(SortedMap<String, String> packageParams, String key, EnumSignType signType) {
+    public static String buildSign(SortedMap<String, String> params, String key, EnumSignType signType) {
         if (log.isDebugEnabled()) {
-            log.debug("genPackageSign, packageParams=" + packageParams + ", signType=" + signType);
+            log.debug("genSign, params=" + params + ", signType=" + signType);
         }
 
         StringBuilder sb = new StringBuilder();
 
-        String params = buildUrlParamsStr(packageParams, null);
-        sb.append(params).append("&");
+        String paramsStr = buildUrlParamsStr(params, null);
+        sb.append(paramsStr).append("&");
         sb.append("key=" + key);
         // System.out.println("genPackageSign params string=" + sb.toString());
         // String sign = MD5Util.MD5Encode(sb.toString(), charset)
@@ -139,7 +138,7 @@ public abstract class PaymentHelper {
         }
 
         if (log.isDebugEnabled()) {
-            log.debug("genPackageSign, packageSign=" + sign);
+            log.debug("genSign, sign=" + sign);
         }
 
         return sign;
